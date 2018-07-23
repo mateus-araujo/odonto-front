@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 
+import './styles.css';
+
 const Footer = (props) => {
   return (
     <div className="App-footer">

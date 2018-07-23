@@ -1,0 +1,12 @@
+.Login-form {
+  text-align: justify;
+  align-self: center;
+  max-width: 35%;
+  padding: 30px;
+  border-style: double;
+  border-color: #ccc;
+  border-width: 2px;
+  border-radius: 6px;
+  margin: 0 auto;
+  margin-top: 40px;
+}

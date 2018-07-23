@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Col, Button, Form, FormGroup, Label, Input, Row } from 'reactstrap';
+import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 class SignUpForm extends Component {
   render() {
     return (
-      <div class="Login-form">
+      <div className="Login-form">
         <Form>
           <FormGroup>
             <Label for="exampleEmail">Digite seu email</Label>

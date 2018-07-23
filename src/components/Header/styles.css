@@ -1,0 +1,21 @@
+.App-logo {
+  /* animation: App-logo-spin infinite 20s linear; */
+  height: 80px;
+}
+
+.App-header {
+  margin: 0;
+  background-color: #93C47D;
+  height: auto;
+  padding: 10px;
+  color: white;
+}
+
+.Logout-link {
+  position: absolute;
+  top: 5%;
+  right: 3%;
+  text-decoration: rgb(0, 50, 61);
+  font-size: large;
+  font-weight: bolder;
+}

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Link } from 'react-router-dom';
+
+import './styles.css';
 
 class LoginForm extends Component {
   render() {
     return (
-      <div class="Login-form">
+      <div className="Login-form">
         <Form>
           <FormGroup>
             <Label for="exampleEmail">Digite seu email</Label>
@@ -14,12 +17,14 @@ class LoginForm extends Component {
             <Label for="examplePassword">Digite sua senha</Label>
             <Input type="password" name="password" id="examplePassword" placeholder="sua senha" />
           </FormGroup>
-          <FormGroup row style={{ marginTop: 60 }}>
+          <FormGroup row style={{ marginTop: 50 }}>
             <Col xs="8" sm={8}>
               <Button color="link">Esqueceu a senha?</Button>
             </Col>
             <Col xs="4" sm={4}>
-              <Button>Entrar</Button>
+              <Link to="/app">
+                <Button color="primary">Entrar</Button>
+              </Link>
             </Col>
           </FormGroup>
         </Form>

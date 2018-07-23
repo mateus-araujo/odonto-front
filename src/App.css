@@ -2,70 +2,17 @@
   text-align: center;
 }
 
-.App-logo {
-  /* animation: App-logo-spin infinite 20s linear; */
-  height: 80px;
-}
-
-.App-header {
-  margin: 0;
-  background-color: #93C47D;
-  height: auto;
-  padding: 10px;
-  color: white;
-}
-
-.App-footer {
-  margin: 0;
-  margin-left: 57%;
-  position: absolute;
-  bottom: 10px;
-}
-
-.Footer-link {
-  padding: 5px;
-}
-
-.Logout-link {
-  margin-left: 50%;
-  text-decoration: rgb(0, 50, 61);
-  font-size: large;
-  font-weight: bolder;
-}
-
-/* .App-title {
-  font-size: 1.5em;
-} */
-
-.App-intro {
-  font-size: large;
-}
-
-/* @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-} */
-
-.Login-form {
-  text-align: justify;
-  align-self: center;
-  max-width: 35%;
-  padding: 30px;
-  border-style: double;
-  border-color: #ccc;
-  border-width: 2px;
-  border-radius: 6px;
-  margin: 0 auto;
-  margin-top: 40px;
-}
-
 @media screen and (max-width: 800px) {
   .Login-form {
     max-width: 90%;
   }
 
+  .App-logo {
+    margin-left: -20%;
+  }
+
   .Logout-link {
-    margin-left: 30%;
+    margin-left: -10%;
   }
 
   .App-footer {
@@ -73,6 +20,19 @@
   }
 
   .Footer-link {
-    font-size: 74%;
+    font-size: 67%;
   }
 }
+
+/* .App-title {
+  font-size: 1.5em;
+} */
+
+/* .App-intro {
+  font-size: large;
+}
+ */
+/* @keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+} */
