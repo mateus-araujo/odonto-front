@@ -1,23 +1,29 @@
-import React from 'react';
-import { Button } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import React, { Component} from 'react'
+import { Button } from 'reactstrap'
+import { connect } from 'react-redux'
+import { logoutUser } from '../../store/actions'
 
-import logo from './logo.png';
+import logo from './logo.png'
 import './styles.css'
 
-const Header = (props) => {
-  return (
-    <div className="App-header">
-      <div>
-        <img src={logo} className="App-logo" alt="logo" />
+class Header extends Component {
+  onLogout = () => {
+    this.props.logoutUser()
+  }
+  render () {
+    return (
+      <div className="App-header">
+        <div>
+          <img src={logo} className="App-logo" alt="logo" />
+        </div>
+        <div>
+          <Button onClick={this.onLogout} color="link" className="Logout-link">
+            Sair
+          </Button>
+        </div>
       </div>
-      <div>
-        <Button color="link" className="Logout-link">
-          <Link to="/">Sair</Link>
-        </Button>
-      </div>
-    </div>
-  );
+    )
+  }
 }
 
-export default Header;
+export default connect(null, { logoutUser })(Header)

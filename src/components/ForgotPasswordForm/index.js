@@ -1,24 +1,19 @@
 import React, { Component } from 'react'
 import { Alert, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { emailChanged, passwordChanged, loginUser } from '../../store/actions'
+import { emailChanged, forgotPassword } from '../../store/actions'
 
 import './styles.css'
 
-class LoginForm extends Component {
+class ForgotPasswordForm extends Component {
   onEmailChange(text) {
     this.props.emailChanged(text)
   }
 
-  onPasswordChange(text) {
-    this.props.passwordChanged(text)
-  }
-
   onButtonPress() {
-    const { email, password } = this.props
+    const { email } = this.props
 
-    this.props.loginUser({ email, password })
+    this.props.forgotPassword({ email })
   }
 
   render() {
@@ -33,37 +28,22 @@ class LoginForm extends Component {
               value={this.props.email}
             />
           </FormGroup>
-          <FormGroup>
-            <Label for="examplePassword">Digite sua senha</Label>
-            <Input
-              type="password" id="examplePassword" placeholder="sua senha"
-              onChange={e => this.onPasswordChange(e.target.value)}
-              value={this.props.password}
-            />
-          </FormGroup>
 
           <FormGroup>
             {this.props.error ? (
               <Alert color="danger">
-                {this.props.error}
+                { this.props.error }
               </Alert>
-            ) : null}
+            ): null }
           </FormGroup>
 
           <FormGroup row style={{ marginTop: 50 }}>
-            <Col xs="8" sm={8}>
-              <Link to="/forgot_password">
-                <Button color="link">
-                  Esqueceu a senha?
-                </Button>
-              </Link>
-            </Col>
             <Col xs="4" sm={4}>
               <Button
                 onClick={this.onButtonPress.bind(this)}
                 color="primary"
               >
-                Entrar
+                Enviar
               </Button>
             </Col>
           </FormGroup>
@@ -80,5 +60,5 @@ const mapStateToProps = ({ auth }) => {
 }
 
 export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, loginUser
-})(LoginForm)
+  emailChanged, forgotPassword
+})(ForgotPasswordForm)

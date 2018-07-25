@@ -1,38 +1,38 @@
 .App {
-  text-align: center;
+  text-align: center 
 }
 
 @media screen and (max-width: 800px) {
   .Login-form {
-    max-width: 90%;
+    max-width: 90% 
   }
 
   .App-logo {
-    margin-left: -20%;
+    margin-left: -20% 
   }
 
   .Logout-link {
-    margin-left: -10%;
+    margin-left: -10% 
   }
 
   .App-footer {
-    margin: 0 auto;
+    margin: 0 auto 
   }
 
   .Footer-link {
-    font-size: 67%;
+    font-size: 68% 
   }
 }
 
 /* .App-title {
-  font-size: 1.5em;
+  font-size: 1.5em 
 } */
 
 /* .App-intro {
-  font-size: large;
+  font-size: large 
 }
  */
 /* @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from { transform: rotate(0deg)  }
+  to { transform: rotate(360deg)  }
 } */

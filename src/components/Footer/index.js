@@ -1,7 +1,7 @@
-import React from 'react';
-import { Button } from 'reactstrap';
+import React from 'react'
+import { Button } from 'reactstrap'
 
-import './styles.css';
+import './styles.css'
 
 const Footer = (props) => {
   return (
@@ -10,7 +10,7 @@ const Footer = (props) => {
       |
       <Button color="link" className="Footer-link">Contato: protmastersoftware@gmail.com</Button>
     </div>
-  );
+  ) 
 }
 
-export default Footer;
+export default Footer

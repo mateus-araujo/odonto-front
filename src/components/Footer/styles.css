@@ -1,10 +1,10 @@
 .App-footer {
-  margin: 0;
+  position: relative;
   position: absolute;
-  bottom: 1%;
-  right: 1%;
+  bottom: 0.5%;
+  right: 0.5%;
 }
 
 .Footer-link {
-  padding: 10px;
+  padding: 5px; 
 }
