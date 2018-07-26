@@ -1,9 +1,11 @@
 import React from 'react'
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+
 import Home from '../components/Home'
 import LoginForm from '../components/LoginForm'
 import ForgotPasswordForm from '../components/ForgotPasswordForm'
+import ResetPasswordForm from '../components/ResetPasswordForm'
 import NotFound from '../components/NotFound'
 
 const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => {
@@ -13,7 +15,7 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => {
       isAuthenticated ? (
         <Component {...props} />
       ) : (
-          <LoginForm />
+          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
         )
     }
     />
@@ -22,14 +24,12 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => {
 
 const Routes = (props) => (
   <Switch>
-    <Route exact path="/" render={() => (
-      !props.isAuthenticated ? (
-        <LoginForm />
-      ) : (
-          <Home />
-        )
-    )} />
+    <Route exact path="/" component={() => <LoginForm /> } />
     <Route path="/forgot_password" component={() => <ForgotPasswordForm />} />
+    <Route 
+      path="/reset_password/:email/:token" 
+      component={(props) => <ResetPasswordForm { ...props } />} 
+    />
     <PrivateRoute path="/home" component={() => <Home />} isAuthenticated={props.isAuthenticated} />
     <Route component={() => <NotFound />} />
   </Switch>

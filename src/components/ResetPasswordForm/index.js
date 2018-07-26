@@ -2,32 +2,51 @@ import React, { Component } from 'react'
 import { Alert, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { emailChanged, forgotPassword } from '../../store/actions'
+import { emailChanged, passwordChanged, resetPassword } from '../../store/actions'
 
 import './styles.css'
 
-class ForgotPasswordForm extends Component {
+class ResetPasswordForm extends Component {
+  state = {
+    r_password: ''
+  }
+
   onEmailChange(text) {
     this.props.emailChanged(text)
   }
 
-  onButtonPress() {
-    const { email } = this.props
+  onPasswordChange(text) {
+    this.props.passwordChanged(text)
+  }
 
-    this.props.forgotPassword({ email })
+  onButtonPress() {
+    const { email, token } = this.props.match.params
+    const { password } = this.props
+    const { r_password } = this.state;
+
+    this.props.resetPassword({ email, password, r_password, token })
   }
 
   render() {
     return (
-      <div className="Forgot-password-form">
-        <h3>Recuperação de senha</h3>
+      <div className="Reset-password-form">
+        <h3>Insira uma nova de senha</h3>
         <Form style={{ marginTop: 30 }}>
           <FormGroup>
-            <Label for="exampleEmail">Digite seu email</Label>
+            <Label for="examplePassword">Digite sua senha</Label>
             <Input
-              type="email" id="exampleEmail" placeholder="usuario@email.com"
-              onChange={e => this.onEmailChange(e.target.value)}
-              value={this.props.email}
+              type="password" id="examplePassword" placeholder="sua senha"
+              onChange={e => this.onPasswordChange(e.target.value)}
+              value={this.props.password}
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <Label for="examplePassword2">Repita sua senha</Label>
+            <Input
+              type="password" id="examplePassword2" placeholder="repita sua senha"
+              onChange={e => this.setState({ r_password: e.target.value })}
+              value={this.state.r_password}
             />
           </FormGroup>
 
@@ -41,13 +60,13 @@ class ForgotPasswordForm extends Component {
 
           <FormGroup row style={{ marginTop: 30 }}>
             <Col xs="7" sm={7}></Col>
-
             <Col xs="2" sm={2} style={{ marginRight: 10 }}>
               <Link to="/">
-                <Button color="secondary">Voltar</Button>
+                <Button color="secondary">
+                  Voltar
+                </Button>
               </Link>
             </Col>
-
             <Col xs="2" sm={2}>
               <Button
                 onClick={this.onButtonPress.bind(this)}
@@ -70,5 +89,5 @@ const mapStateToProps = ({ auth }) => {
 }
 
 export default connect(mapStateToProps, {
-  emailChanged, forgotPassword
-})(ForgotPasswordForm)
+  emailChanged, passwordChanged, resetPassword
+})(ResetPasswordForm)

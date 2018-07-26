@@ -24,7 +24,8 @@ class LoginForm extends Component {
   render() {
     return (
       <div className="Login-form">
-        <Form>
+        <h3>Login</h3>
+        <Form style={{ marginTop: 30 }}>
           <FormGroup>
             <Label for="exampleEmail">Digite seu email</Label>
             <Input
@@ -33,6 +34,7 @@ class LoginForm extends Component {
               value={this.props.email}
             />
           </FormGroup>
+
           <FormGroup>
             <Label for="examplePassword">Digite sua senha</Label>
             <Input
@@ -58,6 +60,7 @@ class LoginForm extends Component {
                 </Button>
               </Link>
             </Col>
+            
             <Col xs="4" sm={4}>
               <Button
                 onClick={this.onButtonPress.bind(this)}

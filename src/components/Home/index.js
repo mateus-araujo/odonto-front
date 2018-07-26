@@ -2,7 +2,7 @@ import React from 'react'
 
 const Home = () => {
   return (
-    <div className="App">
+    <div>
       <h1>Você está logado!</h1>
     </div>
   )
