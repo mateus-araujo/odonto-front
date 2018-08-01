@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
-import { Alert, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap'
-import { Link } from 'react-router-dom'
+import {
+  Alert, Col, Button, Form, FormGroup, Label, Input
+} from 'reactstrap'
+import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { emailChanged, forgotPassword } from '../../store/actions'
+import Loader from '../Loader'
+import CommonModal from '../CommonModal'
+import { emailChanged, forgotPassword, userClean } from '../../store/actions'
 
 import './styles.css'
 
@@ -15,6 +19,12 @@ class ForgotPasswordForm extends Component {
     const { email } = this.props
 
     this.props.forgotPassword({ email })
+  }
+
+  toggleModal() {
+    this.props.userClean()
+
+    this.props.history.push('/')
   }
 
   render() {
@@ -32,7 +42,11 @@ class ForgotPasswordForm extends Component {
           </FormGroup>
 
           <FormGroup>
-            {this.props.error ? (
+            {this.props.loading ? (
+              <Loader />
+            ) : null}
+
+            {this.props.hasError ? (
               <Alert color="danger">
                 {this.props.error}
               </Alert>
@@ -40,15 +54,15 @@ class ForgotPasswordForm extends Component {
           </FormGroup>
 
           <FormGroup row style={{ marginTop: 30 }}>
-            <Col xs="7" sm={7}></Col>
+            <Col xs="7" sm="7"></Col>
 
-            <Col xs="2" sm={2} style={{ marginRight: 10 }}>
+            <Col xs="2" sm="2" style={{ marginRight: 10 }}>
               <Link to="/">
                 <Button color="secondary">Voltar</Button>
               </Link>
             </Col>
 
-            <Col xs="2" sm={2}>
+            <Col xs="2" sm="2">
               <Button
                 onClick={this.onButtonPress.bind(this)}
                 color="primary"
@@ -58,17 +72,25 @@ class ForgotPasswordForm extends Component {
             </Col>
           </FormGroup>
         </Form>
+        
+        <CommonModal 
+          isOpen={this.props.hasMessage}
+          toggle={this.toggleModal.bind(this)}
+          message={this.props.message}
+          modalTitle="Recuperação de senha requisitada"
+          primaryTitle="Ok"
+        />
       </div>
     )
   }
 }
 
 const mapStateToProps = ({ auth }) => {
-  const { email, password, error, loading } = auth
+  const { email, password, hasError, error, hasMessage, message, loading } = auth
 
-  return { email, password, error, loading }
+  return { email, password, hasError, error, hasMessage, message, loading }
 }
 
-export default connect(mapStateToProps, {
-  emailChanged, forgotPassword
-})(ForgotPasswordForm)
+export default withRouter(connect(mapStateToProps, {
+  emailChanged, forgotPassword, userClean
+})(ForgotPasswordForm))

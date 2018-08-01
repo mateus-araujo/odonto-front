@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Alert, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap'
-import { Link } from 'react-router-dom'
+import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { emailChanged, passwordChanged, resetPassword } from '../../store/actions'
+import Loader from '../Loader'
+import CommonModal from '../CommonModal'
+import { emailChanged, passwordChanged, resetPassword, userClean } from '../../store/actions'
 
 import './styles.css'
 
@@ -25,6 +27,18 @@ class ResetPasswordForm extends Component {
     const { r_password } = this.state;
 
     this.props.resetPassword({ email, password, r_password, token })
+  }
+
+  toggleModalSucess() {
+    this.setState({ r_password: '' })
+    this.props.userClean()
+
+    this.props.history.push('/')
+  }
+
+  toggleModalError() {
+    this.setState({ r_password: '' })
+    this.props.userClean()
   }
 
   render() {
@@ -51,10 +65,8 @@ class ResetPasswordForm extends Component {
           </FormGroup>
 
           <FormGroup>
-            {this.props.error ? (
-              <Alert color="danger">
-                {this.props.error}
-              </Alert>
+            {this.props.loading ? (
+              <Loader />
             ) : null}
           </FormGroup>
 
@@ -77,17 +89,33 @@ class ResetPasswordForm extends Component {
             </Col>
           </FormGroup>
         </Form>
+
+        <CommonModal 
+          isOpen={this.props.hasMessage}
+          toggle={this.toggleModalSucess.bind(this)}
+          message={this.props.message}
+          modalTitle="Sucesso"
+          primaryTitle="Ok"
+        />
+
+        <CommonModal 
+          isOpen={this.props.hasError}
+          toggle={this.toggleModalError.bind(this)}
+          message={this.props.error}
+          modalTitle="Erro ao mudar senha"
+          primaryTitle="Ok"
+        />
       </div>
     )
   }
 }
 
 const mapStateToProps = ({ auth }) => {
-  const { email, password, error, loading } = auth
+  const { email, password, hasError, error, hasMessage, message, loading } = auth
 
-  return { email, password, error, loading }
+  return { email, password, hasError, error, hasMessage, message, loading }
 }
 
-export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, resetPassword
-})(ResetPasswordForm)
+export default withRouter(connect(mapStateToProps, {
+  emailChanged, passwordChanged, resetPassword, userClean
+})(ResetPasswordForm))

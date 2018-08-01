@@ -13,6 +13,7 @@ import {
   RESET_PASSWORD,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAIL,
+  USER_CLEAN,
   LOGOUT_USER
 } from './types'
 
@@ -80,6 +81,8 @@ export const forgotPassword = ({ email }) => {
 
         if (error === 'User not found')
           error = 'Usuário não encontrado'
+        else if (error === 'Cannot send forgot password email')
+          error = 'Não foi possível enviar o email, tente novamente mais tarde'
         else
           error = 'Erro no servidor'
 
@@ -96,6 +99,8 @@ export const resetPassword = ({ email, password, r_password, token }) => {
       const error = 'Senhas diferentes'
 
       resetPasswordFail(dispatch, error)
+
+      return
     }
 
     api.post('/auth/reset_password', {
@@ -113,10 +118,10 @@ export const resetPassword = ({ email, password, r_password, token }) => {
 
         if (error === 'User not found')
           error = 'Endereço inválido'
-        if (error === 'Token invalid')
+        else if (error === 'Token invalid')
           error = 'Endereço inválido'
-        if (error === 'Token expired, generate a new one')
-          error = 'Sessão expirada, favor tentar novamente'
+        else if (error === 'Token expired, generate a new one')
+          error = 'Sessão expirada, favor requisitar a repuração de senha novamente'
         else
           error = 'Erro no servidor'
 
@@ -148,10 +153,10 @@ const loginTokenSuccess = (dispatch, token) => {
 }
 
 const forgotPasswordSuccess = (dispatch, message) => {
-  dispatch({ 
+  dispatch({
     type: FORGOT_PASSWORD_SUCCESS,
     payload: message
-   })
+  })
 }
 
 const forgotPasswordFail = (dispatch, error) => {
@@ -162,7 +167,7 @@ const forgotPasswordFail = (dispatch, error) => {
 }
 
 const resetPasswordSuccess = (dispatch, message) => {
-  dispatch({ 
+  dispatch({
     type: RESET_PASSWORD_SUCCESS,
     payload: message
   })
@@ -173,6 +178,12 @@ const resetPasswordFail = (dispatch, error) => {
     type: RESET_PASSWORD_FAIL,
     payload: error
   })
+}
+
+export const userClean = () => {
+  return (dispatch) => {
+    dispatch({ type: USER_CLEAN })
+  }
 }
 
 export const logoutUser = () => {

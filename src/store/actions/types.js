@@ -10,6 +10,7 @@ export const FORGOT_PASSWORD_FAIL = 'forgot_password_fail'
 export const RESET_PASSWORD = 'reset_password'
 export const RESET_PASSWORD_SUCCESS = 'reset_password_success'
 export const RESET_PASSWORD_FAIL = 'reset_password_fail'
+export const USER_CLEAN = 'user_clean'
 export const LOGOUT_USER = 'logout_user'
 
 export const EMPLOYEE_CLEAN = 'employee_clean'

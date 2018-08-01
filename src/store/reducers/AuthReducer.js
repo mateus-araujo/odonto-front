@@ -11,16 +11,19 @@ import {
   RESET_PASSWORD,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAIL,
+  USER_CLEAN,
   LOGOUT_USER
 } from '../actions/types'
 
 export const INITIAL_STATE = {
   email: '',
   password: '',
-  user: null,
-  token: null,
-  message: null,
-  error: null,
+  user: '',
+  token: '',
+  hasMessage: false,
+  message: '',
+  hasError: false,
+  error: '',
   loading: false,
   isAuthenticated: false
 }
@@ -46,17 +49,19 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
     case FORGOT_PASSWORD:
       return { ...state, loading: true, error: '' }
     case FORGOT_PASSWORD_SUCCESS:
-      return { ...state, ...INITIAL_STATE, message: action.payload }
+      return { ...state, ...INITIAL_STATE, message: action.payload, hasMessage: true }
     case FORGOT_PASSWORD_FAIL:
-      return { ...state, ...INITIAL_STATE, error: action.payload }
+      return { ...state, ...INITIAL_STATE, error: action.payload, hasError: true }
 
     case RESET_PASSWORD:
       return { ...state, loading: true, error: '' }
     case RESET_PASSWORD_SUCCESS:
-      return { ...state, ...INITIAL_STATE, message: action.payload }
+      return { ...state, ...INITIAL_STATE, message: action.payload, hasMessage: true }
     case RESET_PASSWORD_FAIL:
-      return { ...state, ...INITIAL_STATE, error: action.payload }
+      return { ...state, ...INITIAL_STATE, error: action.payload, hasError: true }
 
+    case USER_CLEAN:
+      return { ...state, hasError: false, error: '', hasMessage: false, message: '' }
     case LOGOUT_USER:
       return { ...state, ...INITIAL_STATE }
     default:

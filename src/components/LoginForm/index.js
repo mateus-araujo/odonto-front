@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Alert, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Loader from '../Loader'
 import { emailChanged, passwordChanged, loginUser } from '../../store/actions'
 
 import './styles.css'
@@ -45,6 +46,10 @@ class LoginForm extends Component {
           </FormGroup>
 
           <FormGroup>
+            {this.props.loading ? (
+              <Loader />
+            ) : null}
+
             {this.props.error ? (
               <Alert color="danger">
                 {this.props.error}
@@ -53,15 +58,15 @@ class LoginForm extends Component {
           </FormGroup>
 
           <FormGroup row style={{ marginTop: 50 }}>
-            <Col xs="8" sm={8}>
+            <Col xs="8" sm="8">
               <Link to="/forgot_password">
                 <Button color="link">
                   Esqueceu a senha?
                 </Button>
               </Link>
             </Col>
-            
-            <Col xs="4" sm={4}>
+
+            <Col xs="4" sm="4">
               <Button
                 onClick={this.onButtonPress.bind(this)}
                 color="primary"
