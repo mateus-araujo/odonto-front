@@ -1,0 +1,39 @@
+.Option {
+  text-align: justify;
+  margin-top: 10%;
+  padding: 5%;
+  border-style: double;
+  border-color: #ccc;
+  border-width: 2px;
+  border-radius: 6px;
+  font-size: 11pt;
+}
+
+.Title {
+  font-weight: bold;
+}
+
+.TitleSelected {
+  border-bottom-style: solid;
+  border-color: #999;
+  border-width: 2px;
+}
+
+.Title:hover {
+  font-style: oblique;
+  cursor: pointer;
+}
+
+.Icon {
+  position: absolute;
+  left: 82%;
+}
+
+.Items {
+  margin: 5%;
+}
+
+.Item:hover {
+  font-weight: bold;
+  cursor: pointer;
+}

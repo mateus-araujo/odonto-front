@@ -13,6 +13,13 @@ export const RESET_PASSWORD_FAIL = 'reset_password_fail'
 export const USER_CLEAN = 'user_clean'
 export const LOGOUT_USER = 'logout_user'
 
+export const OPEN_MESSAGES_INBOX = 'open_messages_inbox'
+export const OPEN_MESSAGES_SENT = 'open_messages_sent'
+export const OPEN_MESSAGES_ARCHIVED = 'open_messages_archived'
+export const OPEN_TASKS_INBOX = 'open_tasks_inbox'
+export const OPEN_TASKS_ARCHIVED = 'open_tasks_archived'
+export const OPEN_TRAININGS = 'open_trainings'
+
 export const EMPLOYEE_CLEAN = 'employee_clean'
 
 export const EMPLOYEE_UPDATE = 'employee_update'

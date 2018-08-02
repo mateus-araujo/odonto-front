@@ -9,7 +9,6 @@ import ResetPasswordForm from '../components/ResetPasswordForm'
 import NotFound from '../components/NotFound'
 
 const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => {
-  console.log(isAuthenticated)
   return (
     <Route 
       {...rest} 

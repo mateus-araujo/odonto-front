@@ -4,6 +4,7 @@ import { persistReducer } from 'redux-persist'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
 import AuthReducer from './AuthReducer'
+import HomeReducer from './HomeReducer'
 // import EmployeeFormReducer from './EmployeeFormReducer'
 // import EmployeeReducer from './EmployeeReducer'
 
@@ -20,7 +21,8 @@ const authPersistConfig = {
 }
 
 const rootReducer =  combineReducers({
-  auth: persistReducer(authPersistConfig, AuthReducer)
+  auth: persistReducer(authPersistConfig, AuthReducer),
+  home: HomeReducer
   // employeeForm: EmployeeFormReducer,
   // employees: EmployeeReducer
 })
