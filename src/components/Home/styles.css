@@ -15,3 +15,26 @@
   border-radius: 6px;
   height: 500px;
 }
+
+.Message-Item {
+  margin: 0.5%;
+  border-style: double;
+  border-color: #ccc;
+  border-width: 2px;
+  border-radius: 3px;
+  font-size: 11pt;
+}
+
+.Message-Item-NotRead {
+  font-weight: bold;
+}
+
+.Message-Item:hover {
+  cursor: pointer;
+}
+
+.Labels {
+  color: #009E0F;
+  text-align: center;
+  font-size: 11pt;
+}

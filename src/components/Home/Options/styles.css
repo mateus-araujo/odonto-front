@@ -37,3 +37,7 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+.ItemSelected {
+  font-weight: bold;
+}

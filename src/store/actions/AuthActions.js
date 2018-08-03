@@ -49,7 +49,7 @@ export const loginUser = ({ email, password }) => {
         loginUserSuccess(dispatch, user)
         loginTokenSuccess(dispatch, token)
 
-        dispatch(push('/home'))
+        dispatch(push('/'))
       })
       .catch(({ response }) => {
         let { error } = response.data
@@ -190,6 +190,6 @@ export const logoutUser = () => {
   return (dispatch) => {
     dispatch({ type: LOGOUT_USER })
 
-    dispatch(push('/'))
+    dispatch(push('/login'))
   }
 }

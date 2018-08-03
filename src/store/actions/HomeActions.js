@@ -12,7 +12,7 @@ export const openMessagesInbox = () => {
   return (dispatch) => {
     dispatch({ type: OPEN_MESSAGES_INBOX })
 
-    dispatch(push('/home/messages'))
+    dispatch(push('/'))
   }
 }
 
@@ -20,7 +20,7 @@ export const openMessagesSent = () => {
   return (dispatch) => {
     dispatch({ type: OPEN_MESSAGES_SENT })
 
-    dispatch(push('/'))
+    dispatch(push('/messages/sent'))
   }
 }
 
@@ -28,7 +28,7 @@ export const openMessagesArchived = () => {
   return (dispatch) => {
     dispatch({ type: OPEN_MESSAGES_ARCHIVED })
 
-    dispatch(push('/home'))
+    dispatch(push('/messages/archived'))
   }
 }
 
@@ -36,7 +36,7 @@ export const openTasksInbox = () => {
   return (dispatch) => {
     dispatch({ type: OPEN_TASKS_INBOX })
 
-    dispatch(push('/home/tasks'))
+    dispatch(push('/tasks'))
   }
 }
 
@@ -44,7 +44,7 @@ export const openTasksArchived = () => {
   return (dispatch) => {
     dispatch({ type: OPEN_TASKS_ARCHIVED })
 
-    dispatch(push('/home'))
+    dispatch(push('/tasks/archived'))
   }
 }
 
@@ -52,6 +52,6 @@ export const openTrainings = () => {
   return (dispatch) => {
     dispatch({ type: OPEN_TRAININGS })
 
-    dispatch(push('/home'))
+    dispatch(push('/trainings'))
   }
 }

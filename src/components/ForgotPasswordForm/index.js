@@ -24,7 +24,7 @@ class ForgotPasswordForm extends Component {
   toggleModal() {
     this.props.userClean()
 
-    this.props.history.push('/')
+    this.props.history.push('/login')
   }
 
   render() {

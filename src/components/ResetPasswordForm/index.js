@@ -33,7 +33,7 @@ class ResetPasswordForm extends Component {
     this.setState({ r_password: '' })
     this.props.userClean()
 
-    this.props.history.push('/')
+    this.props.history.push('/login')
   }
 
   toggleModalError() {

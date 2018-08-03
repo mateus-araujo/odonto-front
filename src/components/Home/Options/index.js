@@ -28,6 +28,36 @@ class Options extends Component {
       'TitleSelected': this.state.tasksOpen
     })
 
+    const MessagesInbox = classNames({
+      'Item': true,
+      'ItemSelected': this.props.messagesInbox
+    })
+
+    const MessagesSent = classNames({
+      'Item': true,
+      'ItemSelected': this.props.messagesSent
+    })
+
+    const MessagesArchived = classNames({
+      'Item': true,
+      'ItemSelected': this.props.messagesArchived
+    })
+
+    const TasksInbox = classNames({
+      'Item': true,
+      'ItemSelected': this.props.tasksInbox
+    })
+
+    const TasksArchived = classNames({
+      'Item': true,
+      'ItemSelected': this.props.tasksArchived
+    })
+
+    const Trainings = classNames({
+      'Item': true,
+      'ItemSelected': this.props.trainings
+    })
+
     return (
       <div className="Options">
         <Button color="secondary" size="sm" block>Escrever mensagem</Button>
@@ -45,14 +75,14 @@ class Options extends Component {
 
           {this.state.messagesOpen ?
             <div className="Items">
-              <div className="Item" onClick={() => this.props.openMessagesInbox()}>
+              <div className={MessagesInbox} onClick={() => this.props.openMessagesInbox()}>
                 <span>Caixa de entrada</span>
                 <Badge color="light">(2)</Badge>
               </div>
-              <div className="Item" onClick={() => this.props.openMessagesSent()}>
+              <div className={MessagesSent} onClick={() => this.props.openMessagesSent()}>
                 Enviadas
               </div>
-              <div className="Item" onClick={() => this.props.openMessagesArchived()}>
+              <div className={MessagesArchived} onClick={() => this.props.openMessagesArchived()}>
                 Arquivadas
               </div>
             </div>
@@ -73,11 +103,11 @@ class Options extends Component {
 
           {this.state.tasksOpen ?
             <div className="Items">
-              <div className="Item" onClick={() => this.props.openTasksInbox()}>
+              <div className={TasksInbox} onClick={() => this.props.openTasksInbox()}>
                 <span>Caixa de entrada</span>
                 <Badge color="light">(2)</Badge>
               </div>
-              <div className="Item" onClick={() => this.props.openTasksArchived()}>
+              <div className={TasksArchived} onClick={() => this.props.openTasksArchived()}>
                 Arquivadas
               </div>
             </div>
@@ -86,7 +116,7 @@ class Options extends Component {
         </div>
 
         <div className="Option">
-          <div className="Item" onClick={() => this.props.openTrainings()}>
+          <div className={Trainings} onClick={() => this.props.openTrainings()}>
             <span>Treinamentos</span>
           </div>
         </div>
@@ -95,7 +125,13 @@ class Options extends Component {
   }
 }
 
-export default withRouter(connect(null, {
+const mapStateToProps = ({ home }) => {
+  const { messagesInbox, messagesSent, messagesArchived, tasksInbox, tasksArchived, trainings } = home
+
+  return { messagesInbox, messagesSent, messagesArchived, tasksInbox, tasksArchived, trainings }
+}
+
+export default withRouter(connect(mapStateToProps, {
   openMessagesInbox, openMessagesSent, openMessagesArchived,
   openTasksInbox, openTasksArchived, openTrainings
 })(Options))

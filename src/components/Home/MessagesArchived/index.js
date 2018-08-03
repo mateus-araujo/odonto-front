@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import { Col, Row } from 'reactstrap'
-import { FaFileArchive } from 'react-icons/fa'
+import { Container, Col, Row } from 'reactstrap'
+import { FaRecycle } from 'react-icons/fa'
 import classNames from 'classnames/bind';
 // import { Link, withRouter } from 'react-router-dom'
 // import { connect } from 'react-redux'
 
-import './styles.css'
+// import './styles.css'
 
-class MessagesList extends Component {
+class MessagesInbox extends Component {
   state = {
     list: [
       { id: '1', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos', data: '12 de Junho', hora: '21:21', lida: true },
@@ -20,13 +20,13 @@ class MessagesList extends Component {
   render() {
     const { list } = this.state
     return (
-      <div className="List">
+      <Container className="List">
         <Row className="Labels">
           <Col sm="3">Remetente</Col>
           <Col sm="4">Assunto</Col>
           <Col sm="2">Data</Col>
           <Col sm="1">Hora</Col>
-          <Col sm="2">Arquivar</Col>
+          <Col sm="2">Restaurar</Col>
         </Row>
         {list.map(message => {
           const className = classNames({
@@ -41,16 +41,16 @@ class MessagesList extends Component {
                 <Col sm="4">{message.assunto}</Col>
                 <Col sm="2">{message.data}</Col>
                 <Col sm="2">{message.hora}</Col>
-                <Col sm="1"><FaFileArchive color="green" /></Col>
+                <Col sm="1"><FaRecycle color="green" /></Col>
               </Row>
             </div>
           )
         }
         )}
-      </div>
+      </Container>
     )
   }
 }
 
 // export default withRouter(connect(mapStateToProps, {})(MessagesList))
-export default MessagesList
+export default MessagesInbox

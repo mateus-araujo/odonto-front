@@ -7,7 +7,7 @@ import React, { Component } from 'react'
 
 // import './styles.css'
 
-class TasksInbox extends Component {
+class TasksArchived extends Component {
   state = {
     list: [
       { id: '1', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos', data: '12 de Junho', hora: '21:21', lida: true },
@@ -21,11 +21,11 @@ class TasksInbox extends Component {
     // const { list } = this.state
     return (
       <div className="List">
-        Taskslist
+        TasksArchived
       </div>
     )
   }
 }
 
 // export default withRouter(connect(mapStateToProps, {})(MessagesList))
-export default TasksInbox
+export default TasksArchived
