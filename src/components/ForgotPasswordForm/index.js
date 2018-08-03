@@ -76,6 +76,7 @@ class ForgotPasswordForm extends Component {
         <CommonModal 
           isOpen={this.props.hasMessage}
           toggle={this.toggleModal.bind(this)}
+          centered
           message={this.props.message}
           modalTitle="Recuperação de senha requisitada"
           primaryTitle="Ok"

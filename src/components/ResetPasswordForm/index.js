@@ -93,6 +93,7 @@ class ResetPasswordForm extends Component {
         <CommonModal 
           isOpen={this.props.hasMessage}
           toggle={this.toggleModalSucess.bind(this)}
+          centered
           message={this.props.message}
           modalTitle="Sucesso"
           primaryTitle="Ok"
@@ -101,6 +102,7 @@ class ResetPasswordForm extends Component {
         <CommonModal 
           isOpen={this.props.hasError}
           toggle={this.toggleModalError.bind(this)}
+          centered
           message={this.props.error}
           modalTitle="Erro ao mudar senha"
           primaryTitle="Ok"
