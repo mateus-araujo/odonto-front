@@ -15,7 +15,7 @@ import {
   LOGOUT_USER
 } from '../actions/types'
 
-export const INITIAL_STATE = {
+const INITIAL_STATE = {
   email: '',
   password: '',
   user: '',
@@ -29,7 +29,7 @@ export const INITIAL_STATE = {
 }
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
-  console.log(action)
+  console.log(state)
 
   switch (action.type) {
     case EMAIL_CHANGED:
@@ -42,7 +42,7 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
     case LOGIN_USER_SUCCESS:
       return { ...state, ...INITIAL_STATE, user: action.payload, isAuthenticated: true }
     case LOGIN_TOKEN_SUCCESS:
-      return { ...state, ...INITIAL_STATE, token: action.payload, isAuthenticated: true }
+      return { ...state, token: action.payload, isAuthenticated: true }
     case LOGIN_USER_FAIL:
       return { ...state, ...INITIAL_STATE, error: action.payload }
 

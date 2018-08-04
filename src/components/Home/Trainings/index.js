@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import { Col, Row } from 'reactstrap'
+import { Button, Table } from 'reactstrap'
 // import { FaFileArchive } from 'react-icons/fa'
 // import classNames from 'classnames/bind';
 // import { Link, withRouter } from 'react-router-dom'
@@ -10,10 +10,11 @@ import React, { Component } from 'react'
 class Trainings extends Component {
   state = {
     list: [
-      { id: '1', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos', data: '12 de Junho', hora: '21:21', lida: true },
-      { id: '2', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00', lida: true },
-      { id: '3', remetente: 'Mariah Maclachian', assunto: 'Cursos', data: '09 de Junho', hora: '17:00', lida: false },
-      { id: '4', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', lida: false },
+      { id: '1', titulo: 'Treinamento 1', nota_situacao: null, open: true },
+      { id: '2', titulo: 'Treinamento 2', nota_situacao: '9.0', open: false },
+      { id: '3', titulo: 'Treinamento 3', nota_situacao: '8.0', open: false },
+      { id: '4', titulo: 'Treinamento 4', nota_situacao: 'Reprovado', open: false },
+      { id: '5', titulo: 'Treinamento 5', nota_situacao: '7.5', open: false },
     ]
   }
 
@@ -21,7 +22,35 @@ class Trainings extends Component {
     // const { list } = this.state
     return (
       <div className="List">
-        Trainings
+        <Table size="sm" striped bordered responsive>
+          <thead>
+            <tr>
+              <th>Treinamentos</th>
+              <th className="Col-Button"></th>
+              <th className="Col-Button"></th>
+              <th className="Col-Note">Nota/Situação</th>
+            </tr>
+          </thead>
+          <tbody className="Scrollable-Table">
+            {this.state.list.map(training =>
+              <tr key={training.id}>
+                <td>{training.titulo}</td>
+                <td className="Col-Button">
+                  <Button size="sm" color="info" disabled={!training.open}>Assistir aula</Button>
+                </td>
+                <td className="Col-Button">
+                  <Button size="sm" color="success" disabled={!training.open}>Fazer a prova</Button>
+                </td>
+                <td className="Col-Note">
+                  {
+                    training.nota_situacao ?
+                      training.nota_situacao
+                      : '-'
+                  }</td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
       </div>
     )
   }

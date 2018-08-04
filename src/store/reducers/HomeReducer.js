@@ -7,7 +7,7 @@ import {
   OPEN_TRAININGS
 } from '../actions/types'
 
-export const INITIAL_STATE = {
+const INITIAL_STATE = {
   title: '',
   messagesInbox: false,
   messagesSent: false,
@@ -22,17 +22,17 @@ const HomeReducer = (state = INITIAL_STATE, action) => {
 
   switch (action.type) {
     case OPEN_MESSAGES_INBOX:
-      return { ...state, ...INITIAL_STATE, messagesInbox: true, title: 'Caixa de entrada' }
+      return { ...INITIAL_STATE, messagesInbox: true, title: 'Caixa de entrada' }
     case OPEN_MESSAGES_SENT:
-      return { ...state, ...INITIAL_STATE, messagesSent: true, title: 'Mensagens enviadas' }
+      return { ...INITIAL_STATE, messagesSent: true, title: 'Mensagens enviadas' }
     case OPEN_MESSAGES_ARCHIVED:
-      return { ...state, ...INITIAL_STATE, messagesArchived: true, title: 'Mensagens arquivadas' }
+      return { ...INITIAL_STATE, messagesArchived: true, title: 'Mensagens arquivadas' }
     case OPEN_TASKS_INBOX:
-      return { ...state, ...INITIAL_STATE, tasksInbox: true, title: 'Tarefas - Caixa de entrada' }
+      return { ...INITIAL_STATE, tasksInbox: true, title: 'Tarefas - Caixa de entrada' }
     case OPEN_TASKS_ARCHIVED:
-      return { ...state, ...INITIAL_STATE, tasksArchived: true, title: 'Tarefas - Arquivadas' }
+      return { ...INITIAL_STATE, tasksArchived: true, title: 'Tarefas - Arquivadas' }
     case OPEN_TRAININGS:
-      return { ...state, ...INITIAL_STATE, trainings: true, title: 'Treinamentos' }
+      return { ...INITIAL_STATE, trainings: true, title: 'Treinamentos' }
     default:
       return state
   }

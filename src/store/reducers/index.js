@@ -5,8 +5,6 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
 import AuthReducer from './AuthReducer'
 import HomeReducer from './HomeReducer'
-// import EmployeeFormReducer from './EmployeeFormReducer'
-// import EmployeeReducer from './EmployeeReducer'
 
 const rootPersistConfig = {
   key: 'root',
@@ -17,14 +15,17 @@ const rootPersistConfig = {
 const authPersistConfig = {
   key: 'auth',
   storage: storage,
-  whitelist: ['email', 'user', 'token', 'isAuthenticated']
+  whitelist: ['email', 'user', 'userName', 'token', 'isAuthenticated']
+}
+
+const homePersistConfig = {
+  key: 'auth',
+  storage: storage
 }
 
 const rootReducer =  combineReducers({
   auth: persistReducer(authPersistConfig, AuthReducer),
-  home: HomeReducer
-  // employeeForm: EmployeeFormReducer,
-  // employees: EmployeeReducer
+  home: persistReducer(homePersistConfig, HomeReducer),
 })
 
 export default persistReducer(rootPersistConfig, rootReducer)

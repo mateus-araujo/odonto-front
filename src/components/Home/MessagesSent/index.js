@@ -19,126 +19,126 @@ class MessagesSent extends Component {
       {
         id: '3', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00',
         vizualizado: [
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '1', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '2', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '3', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '4', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '5', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '6', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '7', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '8', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '9', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '10', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '11', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '12', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '13', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '14', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '15', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '16', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
         ]
       },
       { id: '4', remetente: 'Mariah Maclachian', assunto: 'Cursos', data: '09 de Junho', hora: '17:00', vizualizado: 'Não lido' },
       { id: '5', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', vizualizado: 'Não lido' },
-      { id: '1', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos', data: '12 de Junho', hora: '21:21', vizualizado: 'Lido' },
-      { id: '2', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00', vizualizado: 'Lido' },
+      { id: '6', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos', data: '12 de Junho', hora: '21:21', vizualizado: 'Lido' },
+      { id: '7', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00', vizualizado: 'Lido' },
       {
-        id: '3', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00',
+        id: '8', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00',
         vizualizado: [
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '1', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '2', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '3', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '4', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '5', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '6', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '7', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '8', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '9', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '10', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '11', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '12', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '13', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '14', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '15', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '16', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
         ]
       },
-      { id: '4', remetente: 'Mariah Maclachian', assunto: 'Cursos', data: '09 de Junho', hora: '17:00', vizualizado: 'Não lido' },
-      { id: '5', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', vizualizado: 'Não lido' },
-      { id: '1', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos', data: '12 de Junho', hora: '21:21', vizualizado: 'Lido' },
-      { id: '2', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00', vizualizado: 'Lido' },
+      { id: '9', remetente: 'Mariah Maclachian', assunto: 'Cursos', data: '09 de Junho', hora: '17:00', vizualizado: 'Não lido' },
+      { id: '10', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', vizualizado: 'Não lido' },
+      { id: '11', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos', data: '12 de Junho', hora: '21:21', vizualizado: 'Lido' },
+      { id: '12', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00', vizualizado: 'Lido' },
       {
-        id: '3', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00',
+        id: '13', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00',
         vizualizado: [
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '1', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '2', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '3', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '4', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '5', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '6', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '7', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '8', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '9', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '10', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '11', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '12', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '13', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '14', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '15', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '16', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
         ]
       },
-      { id: '4', remetente: 'Mariah Maclachian', assunto: 'Cursos', data: '09 de Junho', hora: '17:00', vizualizado: 'Não lido' },
-      { id: '5', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', vizualizado: 'Não lido' },
-      { id: '1', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos', data: '12 de Junho', hora: '21:21', vizualizado: 'Lido' },
-      { id: '2', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00', vizualizado: 'Lido' },
+      { id: '14', remetente: 'Mariah Maclachian', assunto: 'Cursos', data: '09 de Junho', hora: '17:00', vizualizado: 'Não lido' },
+      { id: '15', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', vizualizado: 'Não lido' },
+      { id: '16', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos', data: '12 de Junho', hora: '21:21', vizualizado: 'Lido' },
+      { id: '17', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00', vizualizado: 'Lido' },
       {
-        id: '3', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00',
+        id: '18', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00',
         vizualizado: [
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '1', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '2', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '3', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '4', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '5', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '6', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '7', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '8', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '9', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '10', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '11', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '12', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '13', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '14', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '15', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '16', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
         ]
       },
-      { id: '4', remetente: 'Mariah Maclachian', assunto: 'Cursos', data: '09 de Junho', hora: '17:00', vizualizado: 'Não lido' },
-      { id: '5', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', vizualizado: 'Não lido' },
-      { id: '1', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos', data: '12 de Junho', hora: '21:21', vizualizado: 'Lido' },
-      { id: '2', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00', vizualizado: 'Lido' },
+      { id: '19', remetente: 'Mariah Maclachian', assunto: 'Cursos', data: '09 de Junho', hora: '17:00', vizualizado: 'Não lido' },
+      { id: '20', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', vizualizado: 'Não lido' },
+      { id: '21', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos', data: '12 de Junho', hora: '21:21', vizualizado: 'Lido' },
+      { id: '22', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00', vizualizado: 'Lido' },
       {
-        id: '3', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00',
+        id: '23', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00',
         vizualizado: [
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
-          { nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
-          { nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
-          { nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
-          { nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '1', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '2', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '3', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '4', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '5', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '6', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '7', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '8', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '9', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '10', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '11', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '12', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
+          { id: '13', nome: 'Rafael Lemos', funcao: 'Vigia Noturno', vizualizado: 'Lido' },
+          { id: '14', nome: 'Tadeu', funcao: 'Administrador', vizualizado: 'Lido' },
+          { id: '15', nome: 'Mariah Clara', funcao: 'Dentista', vizualizado: 'Não lido' },
+          { id: '16', nome: 'Ederson Betiol', funcao: 'RH', vizualizado: 'Não lido' },
         ]
       },
-      { id: '4', remetente: 'Mariah Maclachian', assunto: 'Cursos', data: '09 de Junho', hora: '17:00', vizualizado: 'Não lido' },
-      { id: '5', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', vizualizado: 'Não lido' }
+      { id: '24', remetente: 'Mariah Maclachian', assunto: 'Cursos', data: '09 de Junho', hora: '17:00', vizualizado: 'Não lido' },
+      { id: '25', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', vizualizado: 'Não lido' }
     ]
   }
 
@@ -182,31 +182,29 @@ class MessagesSent extends Component {
               })
 
               return (
-                <div>
-                  <Row key={message.id} className={className}>
-                    <Col sm="3">{message.remetente}</Col>
-                    <Col sm="4">{message.assunto}</Col>
-                    <Col sm="2">{message.data}</Col>
-                    <Col sm="2">
-                      {typeof message.vizualizado === "object" ?
-                        <Button
-                          style={{ padding: 0 }}
-                          size="sm"
-                          color="link"
-                          onClick={() => this.modalVizualizado(message)}
-                        >
-                          ver
+                <Row key={message.id} className={className}>
+                  <Col sm="3">{message.remetente}</Col>
+                  <Col sm="4">{message.assunto}</Col>
+                  <Col sm="2">{message.data}</Col>
+                  <Col sm="2">
+                    {typeof message.vizualizado === "object" ?
+                      <Button
+                        style={{ padding: 0 }}
+                        size="sm"
+                        color="link"
+                        onClick={() => this.modalVizualizado(message)}
+                      >
+                        ver
                         </Button>
-                        : message.vizualizado
-                      }
-                    </Col>
-                    <Col sm="1"
-                      onClick={this.toggleModal.bind(this)}
-                    >
-                      <FaFileArchive color="green" />
-                    </Col>
-                  </Row>
-                </div>
+                      : message.vizualizado
+                    }
+                  </Col>
+                  <Col sm="1"
+                    onClick={this.toggleModal.bind(this)}
+                  >
+                    <FaFileArchive color="green" />
+                  </Col>
+                </Row>
               )
             }
             )}
@@ -240,7 +238,7 @@ class MessagesSent extends Component {
             </thead>
             <tbody className="Scrollable-Modal">
               {this.state.viewedList.map(user =>
-                <tr>
+                <tr key={user.id}>
                   <td>{user.nome}</td>
                   <td>{user.funcao}</td>
                   <td>{user.vizualizado}</td>

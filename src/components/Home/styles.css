@@ -23,6 +23,7 @@
   border-width: 2px;
   border-radius: 3px;
   font-size: 11pt;
+  align-items: center;
 }
 
 .Message-Item-NotRead {
@@ -31,6 +32,26 @@
 
 .Message-Item:hover {
   cursor: pointer;
+}
+
+.Task-Item {
+  margin: 0.5%;
+  border-style: double;
+  border-color: #ccc;
+  border-width: 2px;
+  border-radius: 3px;
+  font-size: 11pt;
+  align-items: center;
+}
+
+.Task-Item:hover {
+  cursor: pointer;
+}
+
+.No-Wrap-Ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .Labels {
@@ -46,8 +67,27 @@
   padding-right: 2.5%;
 }
 
-.Scrollable-Modal {
+.Scrollable-Table {
+  display: block;
+  height: 400px;
   overflow-y: auto;
+  text-align: justify;
+}
+
+.Col-Button {
+  width: 17%;
+  text-align: center;
+}
+
+.Col-Note {
+  width: 16%;
+  text-align: center;
+}
+
+thead, tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 
 /* width */
