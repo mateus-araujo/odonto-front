@@ -17,6 +17,7 @@ export const OPEN_MESSAGES_INBOX = 'open_messages_inbox'
 export const OPEN_MESSAGES_SENT = 'open_messages_sent'
 export const OPEN_MESSAGES_ARCHIVED = 'open_messages_archived'
 export const OPEN_TASKS_INBOX = 'open_tasks_inbox'
+export const OPEN_TASKS_SENT = 'open_tasks_sent'
 export const OPEN_TASKS_ARCHIVED = 'open_tasks_archived'
 export const OPEN_TRAININGS = 'open_trainings'
 

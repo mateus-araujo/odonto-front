@@ -4,7 +4,8 @@ import { FaAngleRight, FaAngleDown } from 'react-icons/fa'
 import classNames from 'classnames/bind';
 import {
   openMessagesInbox, openMessagesSent, openMessagesArchived,
-  openTasksInbox, openTasksArchived, openTrainings
+  openTasksInbox, openTasksSent, openTasksArchived, 
+  openTrainings
 } from '../../../store/actions'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -48,6 +49,11 @@ class Options extends Component {
       'ItemSelected': this.props.tasksInbox
     })
 
+    const TasksSent = classNames({
+      'Item': true,
+      'ItemSelected': this.props.tasksSent
+    })
+
     const TasksArchived = classNames({
       'Item': true,
       'ItemSelected': this.props.tasksArchived
@@ -79,9 +85,11 @@ class Options extends Component {
                 <span>Caixa de entrada</span>
                 <Badge color="light">(2)</Badge>
               </div>
+
               <div className={MessagesSent} onClick={() => this.props.openMessagesSent()}>
                 Enviadas
               </div>
+
               <div className={MessagesArchived} onClick={() => this.props.openMessagesArchived()}>
                 Arquivadas
               </div>
@@ -107,6 +115,12 @@ class Options extends Component {
                 <span>Caixa de entrada</span>
                 <Badge color="light">(2)</Badge>
               </div>
+
+              <div className={TasksSent} onClick={() => this.props.openTasksSent()}>
+                <span>Enviadas</span>
+                <Badge color="light">(2)</Badge>
+              </div>
+
               <div className={TasksArchived} onClick={() => this.props.openTasksArchived()}>
                 Arquivadas
               </div>
@@ -133,5 +147,5 @@ const mapStateToProps = ({ home }) => {
 
 export default withRouter(connect(mapStateToProps, {
   openMessagesInbox, openMessagesSent, openMessagesArchived,
-  openTasksInbox, openTasksArchived, openTrainings
+  openTasksInbox, openTasksSent, openTasksArchived, openTrainings
 })(Options))

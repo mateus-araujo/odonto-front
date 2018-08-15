@@ -3,6 +3,7 @@ import {
   OPEN_MESSAGES_SENT,
   OPEN_MESSAGES_ARCHIVED,
   OPEN_TASKS_INBOX,
+  OPEN_TASKS_SENT,
   OPEN_TASKS_ARCHIVED,
   OPEN_TRAININGS
 } from '../actions/types'
@@ -13,6 +14,7 @@ const INITIAL_STATE = {
   messagesSent: false,
   messagesArchived: false,
   tasksInbox: false,
+  tasksSent: false,
   tasksArchived: false,
   trainings: false
 }
@@ -29,6 +31,8 @@ const HomeReducer = (state = INITIAL_STATE, action) => {
       return { ...INITIAL_STATE, messagesArchived: true, title: 'Mensagens arquivadas' }
     case OPEN_TASKS_INBOX:
       return { ...INITIAL_STATE, tasksInbox: true, title: 'Tarefas - Caixa de entrada' }
+    case OPEN_TASKS_SENT:
+      return { ...INITIAL_STATE, tasksSent: true, title: 'Tarefas - Enviadas' }
     case OPEN_TASKS_ARCHIVED:
       return { ...INITIAL_STATE, tasksArchived: true, title: 'Tarefas - Arquivadas' }
     case OPEN_TRAININGS:

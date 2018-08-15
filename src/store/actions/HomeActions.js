@@ -4,6 +4,7 @@ import {
   OPEN_MESSAGES_SENT,
   OPEN_MESSAGES_ARCHIVED,
   OPEN_TASKS_INBOX,
+  OPEN_TASKS_SENT,
   OPEN_TASKS_ARCHIVED,
   OPEN_TRAININGS
 } from './types'
@@ -37,6 +38,14 @@ export const openTasksInbox = () => {
     dispatch({ type: OPEN_TASKS_INBOX })
 
     dispatch(push('/tasks'))
+  }
+}
+
+export const openTasksSent = () => {
+  return (dispatch) => {
+    dispatch({ type: OPEN_TASKS_SENT })
+
+    dispatch(push('/tasks/sent'))
   }
 }
 
