@@ -1,19 +1,20 @@
 import React, { Component } from 'react'
-import { Button, Col, Row } from 'reactstrap'
+import { Col, Row } from 'reactstrap'
 import { FaRecycle } from 'react-icons/fa'
-import CommonModal from '../../CommonModal'
+import classNames from 'classnames/bind';
+import CommonModal from '../../../CommonModal'
 // import { Link, withRouter } from 'react-router-dom'
 // import { connect } from 'react-redux'
 
 // import './styles.css'
 
-class TasksArchived extends Component {
+class MessagesInbox extends Component {
   state = {
     list: [
-      { id: '1', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos', data: '12 de Junho', hora: '21:21', status: 'Arquivada' },
-      { id: '2', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00', status: 'Arquivada' },
-      { id: '3', remetente: 'Mariah Maclachian', assunto: 'Cursos', data: '09 de Junho', hora: '17:00', status: 'Arquivada' },
-      { id: '4', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', status: 'Arquivada' },
+      { id: '1', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos', data: '12 de Junho', hora: '21:21', lida: true },
+      { id: '2', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00', lida: true },
+      { id: '3', remetente: 'Mariah Maclachian', assunto: 'Cursos', data: '09 de Junho', hora: '17:00', lida: false },
+      { id: '4', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', lida: false },
     ]
   }
 
@@ -33,17 +34,18 @@ class TasksArchived extends Component {
           </Row>
 
           <div className="Scrollable">
-            {list.map(task => {
+            {list.map(message => {
+              const className = classNames({
+                'Message-Item': true,
+                'Message-Item-NotRead': message.lida
+              })
+
               return (
-                <Row key={task.id} className="Task-Item">
-                  <Col sm="3">{task.remetente}</Col>
-                  <Col sm="4">{task.assunto}</Col>
-                  <Col sm="2">{task.data}</Col>
-                  <Col sm="2">
-                    <Button style={{ margin: 5 }} size="sm" color="info">
-                      Ver tarefa
-                    </Button>
-                  </Col>
+                <Row key={message.id} className={className}>
+                  <Col sm="3">{message.remetente}</Col>
+                  <Col sm="4">{message.assunto}</Col>
+                  <Col sm="2">{message.data}</Col>
+                  <Col sm="2">{message.hora}</Col>
                   <Col sm="1"
                     onClick={this.toggleModal.bind(this)}
                   >
@@ -60,8 +62,8 @@ class TasksArchived extends Component {
           isOpen={this.state.modal}
           toggle={this.toggleModal.bind(this)}
           centered
-          message="Deseja mesmo restaurar a tarefa para a caixa de entrada?"
-          modalTitle="Restaurar tarefa"
+          message="Deseja mesmo restaurar a mensagem para a caixa de entrada?"
+          modalTitle="Restaurar mensagem"
           primaryTitle="Sim"
           secondaryTitle="Cancelar"
           toggleSecondary={this.toggleModal.bind(this)}
@@ -72,4 +74,4 @@ class TasksArchived extends Component {
 }
 
 // export default withRouter(connect(mapStateToProps, {})(MessagesList))
-export default TasksArchived
+export default MessagesInbox

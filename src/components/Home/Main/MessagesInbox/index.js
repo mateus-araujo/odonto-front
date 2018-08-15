@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Col, Row } from 'reactstrap'
-import { FaRecycle } from 'react-icons/fa'
+import { FaFileArchive } from 'react-icons/fa'
+import CommonModal from '../../../CommonModal'
 import classNames from 'classnames/bind';
-import CommonModal from '../../CommonModal'
 // import { Link, withRouter } from 'react-router-dom'
 // import { connect } from 'react-redux'
 
@@ -10,6 +10,7 @@ import CommonModal from '../../CommonModal'
 
 class MessagesInbox extends Component {
   state = {
+    modal: false,
     list: [
       { id: '1', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos', data: '12 de Junho', hora: '21:21', lida: true },
       { id: '2', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00', lida: true },
@@ -30,7 +31,7 @@ class MessagesInbox extends Component {
           <Row className="Labels">
             <Col sm="3">Remetente</Col>
             <Col sm="4">Assunto</Col>
-            <Col sm={{ size: '2', offset: '3' }}>Restaurar</Col>
+            <Col sm={{ size: '2', offset: '3' }}>Arquivar</Col>
           </Row>
 
           <div className="Scrollable">
@@ -49,7 +50,7 @@ class MessagesInbox extends Component {
                   <Col sm="1"
                     onClick={this.toggleModal.bind(this)}
                   >
-                    <FaRecycle color="green" />
+                    <FaFileArchive color="green" />
                   </Col>
                 </Row>
               )
@@ -62,8 +63,8 @@ class MessagesInbox extends Component {
           isOpen={this.state.modal}
           toggle={this.toggleModal.bind(this)}
           centered
-          message="Deseja mesmo restaurar a mensagem para a caixa de entrada?"
-          modalTitle="Restaurar mensagem"
+          message="Deseja mesmo arquivar a mensagem?"
+          modalTitle="Arquivar mensagem"
           primaryTitle="Sim"
           secondaryTitle="Cancelar"
           toggleSecondary={this.toggleModal.bind(this)}

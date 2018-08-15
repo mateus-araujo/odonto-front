@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Col, Row, Table } from 'reactstrap'
 import { FaFileArchive } from 'react-icons/fa'
-import CommonModal from '../../CommonModal'
+import CommonModal from '../../../CommonModal'
 import classNames from 'classnames/bind';
 // import { Link, withRouter } from 'react-router-dom'
 // import { connect } from 'react-redux'

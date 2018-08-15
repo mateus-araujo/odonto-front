@@ -1,18 +1,15 @@
 import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
 
-import MessagesInbox from '../MessagesInbox'
-import MessagesSent from '../MessagesSent'
-import MessagesArchived from '../MessagesArchived'
+import MessagesInbox from './MessagesInbox'
+import MessagesSent from './MessagesSent'
+import MessagesArchived from './MessagesArchived'
 
-import TasksInbox from '../TasksInbox'
-import TasksSent from '../TasksSent';
-import TasksArchived from '../TasksArchived'
+import TasksInbox from './TasksInbox'
+import TasksSent from './TasksSent';
+import TasksArchived from './TasksArchived'
 
-import Trainings from '../Trainings'
-
-import { openMessagesInbox } from '../../../store/actions'
+import Trainings from './Trainings'
 
 class Main extends Component {
   render() {
@@ -36,4 +33,4 @@ class Main extends Component {
   }
 }
 
-export default withRouter(connect(null, { openMessagesInbox })(Main))
+export default withRouter(Main)
