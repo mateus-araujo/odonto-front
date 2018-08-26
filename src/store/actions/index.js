@@ -1,3 +1,3 @@
 export * from './AuthActions'
-export * from './HomeActions'
+export * from './MainActions'
 // export * from './EmployeeActions'

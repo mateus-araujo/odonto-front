@@ -21,6 +21,11 @@ export const OPEN_TASKS_SENT = 'open_tasks_sent'
 export const OPEN_TASKS_ARCHIVED = 'open_tasks_archived'
 export const OPEN_TRAININGS = 'open_trainings'
 
+export const OPEN_MANAGE_TRAININGS = 'open_manage_trainings'
+export const OPEN_MANAGE_GROUPS = 'open_manage_groups'
+export const OPEN_MANAGE_EMPLOYEES = 'open_manage_employees'
+export const OPEN_MANAGE_ROLES = 'open_manage_roles'
+
 export const EMPLOYEE_CLEAN = 'employee_clean'
 
 export const EMPLOYEE_UPDATE = 'employee_update'

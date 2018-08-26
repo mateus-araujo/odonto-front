@@ -4,7 +4,7 @@ import { persistReducer } from 'redux-persist'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
 import AuthReducer from './AuthReducer'
-import HomeReducer from './HomeReducer'
+import MainReducer from './MainReducer'
 
 const rootPersistConfig = {
   key: 'root',
@@ -18,14 +18,14 @@ const authPersistConfig = {
   whitelist: ['email', 'user', 'userName', 'token', 'isAuthenticated']
 }
 
-const homePersistConfig = {
-  key: 'auth',
+const mainPersistConfig = {
+  key: 'main',
   storage: storage
 }
 
 const rootReducer =  combineReducers({
   auth: persistReducer(authPersistConfig, AuthReducer),
-  home: persistReducer(homePersistConfig, HomeReducer),
+  main: persistReducer(mainPersistConfig, MainReducer),
 })
 
 export default persistReducer(rootPersistConfig, rootReducer)

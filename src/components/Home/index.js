@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Col, Row } from 'reactstrap'
+import {Col, Row } from 'reactstrap'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Options from './Options'
 import Main from './Main'
+import Management from './Management'
 // import { Link, withRouter } from 'react-router-dom'
 // import { connect } from 'react-redux'
 
@@ -18,15 +19,18 @@ class Home extends Component {
             <h3>{this.props.title}</h3>
           </Col>
         </Row>
-        
+
         <Row>
           <Col sm="2" className="Section">
             <Options />
           </Col>
+
           <Col className="Section">
             <Main />
           </Col>
+
           <Col sm="2" className="Section">
+            <Management />
           </Col>
         </Row>
       </div>
@@ -34,10 +38,10 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = ({ home }) => {
-  const { title } = home
+const mapStateToProps = ({ main }) => {
+  const { title } = main
 
   return { title }
 }
 
-export default withRouter(connect(mapStateToProps, { })(Home))
+export default withRouter(connect(mapStateToProps, {})(Home))

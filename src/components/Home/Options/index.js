@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { Button, Badge } from 'reactstrap'
 import { FaAngleRight, FaAngleDown } from 'react-icons/fa'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import classNames from 'classnames/bind';
 import {
   openMessagesInbox, openMessagesSent, openMessagesArchived,
   openTasksInbox, openTasksSent, openTasksArchived, 
   openTrainings
 } from '../../../store/actions'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
 
 import './styles.css'
 
@@ -139,8 +139,8 @@ class Options extends Component {
   }
 }
 
-const mapStateToProps = ({ home }) => {
-  const { messagesInbox, messagesSent, messagesArchived, tasksInbox, tasksArchived, trainings } = home
+const mapStateToProps = ({ main }) => {
+  const { messagesInbox, messagesSent, messagesArchived, tasksInbox, tasksArchived, trainings } = main
 
   return { messagesInbox, messagesSent, messagesArchived, tasksInbox, tasksArchived, trainings }
 }

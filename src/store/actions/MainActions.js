@@ -6,7 +6,12 @@ import {
   OPEN_TASKS_INBOX,
   OPEN_TASKS_SENT,
   OPEN_TASKS_ARCHIVED,
-  OPEN_TRAININGS
+  OPEN_TRAININGS,
+
+  OPEN_MANAGE_TRAININGS,
+  OPEN_MANAGE_GROUPS,
+  OPEN_MANAGE_EMPLOYEES,
+  OPEN_MANAGE_ROLES
 } from './types'
 
 export const openMessagesInbox = () => {
@@ -62,5 +67,39 @@ export const openTrainings = () => {
     dispatch({ type: OPEN_TRAININGS })
 
     dispatch(push('/trainings'))
+  }
+}
+
+/* MANAGEMENT  */
+
+export const openManageTranings = () => {
+  return (dispatch) => {
+    dispatch({ type: OPEN_MANAGE_TRAININGS })
+
+    dispatch(push('/management/trainings'))
+  }
+}
+
+export const openManageGroups = () => {
+  return (dispatch) => {
+    dispatch({ type: OPEN_MANAGE_GROUPS })
+
+    dispatch(push('/management/groups'))
+  }
+}
+
+export const openManageEmployees = () => {
+  return (dispatch) => {
+    dispatch({ type: OPEN_MANAGE_EMPLOYEES })
+
+    dispatch(push('/management/employees'))
+  }
+}
+
+export const openManageRoles = () => {
+  return (dispatch) => {
+    dispatch({ type: OPEN_MANAGE_ROLES })
+
+    dispatch(push('/management/roles'))
   }
 }

@@ -5,7 +5,11 @@ import {
   OPEN_TASKS_INBOX,
   OPEN_TASKS_SENT,
   OPEN_TASKS_ARCHIVED,
-  OPEN_TRAININGS
+  OPEN_TRAININGS,
+  OPEN_MANAGE_TRAININGS,
+  OPEN_MANAGE_GROUPS,
+  OPEN_MANAGE_EMPLOYEES,
+  OPEN_MANAGE_ROLES
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -19,7 +23,7 @@ const INITIAL_STATE = {
   trainings: false
 }
 
-const HomeReducer = (state = INITIAL_STATE, action) => {
+const MainReducer = (state = INITIAL_STATE, action) => {
   console.log(action)
 
   switch (action.type) {
@@ -37,9 +41,18 @@ const HomeReducer = (state = INITIAL_STATE, action) => {
       return { ...INITIAL_STATE, tasksArchived: true, title: 'Tarefas - Arquivadas' }
     case OPEN_TRAININGS:
       return { ...INITIAL_STATE, trainings: true, title: 'Treinamentos' }
+
+    case OPEN_MANAGE_TRAININGS:
+      return { ...INITIAL_STATE, title: 'Gerenciar treinamentos' }
+    case OPEN_MANAGE_GROUPS:
+      return { ...INITIAL_STATE, title: 'Gerenciar grupos' }
+    case OPEN_MANAGE_EMPLOYEES:
+      return { ...INITIAL_STATE, title: 'Gerenciar funcionários' }
+    case OPEN_MANAGE_ROLES:
+      return { ...INITIAL_STATE, title: 'Gerenciar cargos' }
     default:
       return state
   }
 }
 
-export default HomeReducer
+export default MainReducer
