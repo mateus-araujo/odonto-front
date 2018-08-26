@@ -18,11 +18,12 @@ class Home extends Component {
             <h3>{this.props.title}</h3>
           </Col>
         </Row>
+        
         <Row>
           <Col sm="2" className="Section">
             <Options />
           </Col>
-          <Col sm="7" className="Section">
+          <Col className="Section">
             <Main />
           </Col>
           <Col sm="2" className="Section">
