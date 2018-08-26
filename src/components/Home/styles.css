@@ -81,6 +81,11 @@
   text-align: center;
 }
 
+.Col-Deadline {
+  width: 13%;
+  text-align: center;
+}
+
 .Col-Note {
   width: 16%;
   text-align: center;
