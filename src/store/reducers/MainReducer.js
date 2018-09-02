@@ -6,10 +6,14 @@ import {
   OPEN_TASKS_SENT,
   OPEN_TASKS_ARCHIVED,
   OPEN_TRAININGS,
+
   OPEN_MANAGE_TRAININGS,
   OPEN_MANAGE_GROUPS,
   OPEN_MANAGE_EMPLOYEES,
-  OPEN_MANAGE_ROLES
+  OPEN_MANAGE_ROLES,
+
+  OPEN_CREATE_ROLE,
+  OPEN_CREATE_EMPLOYEE
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -24,8 +28,6 @@ const INITIAL_STATE = {
 }
 
 const MainReducer = (state = INITIAL_STATE, action) => {
-  console.log(action)
-
   switch (action.type) {
     case OPEN_MESSAGES_INBOX:
       return { ...INITIAL_STATE, messagesInbox: true, title: 'Caixa de entrada' }
@@ -50,6 +52,11 @@ const MainReducer = (state = INITIAL_STATE, action) => {
       return { ...INITIAL_STATE, title: 'Gerenciar funcionários' }
     case OPEN_MANAGE_ROLES:
       return { ...INITIAL_STATE, title: 'Gerenciar cargos' }
+
+    case OPEN_CREATE_ROLE:
+      return { ...INITIAL_STATE, title: 'Adicionar cargo' }
+    case OPEN_CREATE_EMPLOYEE:
+      return { ...INITIAL_STATE, title: 'Adicionar funcionário' }
     default:
       return state
   }

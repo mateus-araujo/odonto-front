@@ -71,13 +71,28 @@
 
 .Scrollable-Table {
   display: block;
-  height: 400px;
+  height: 350px;
   overflow-y: auto;
   text-align: justify;
 }
 
+.Col-Medium {
+  width: 25%;
+  text-align: justify;
+}
+
+.Col-Large {
+  width: 30%;
+  text-align: justify;
+}
+
 .Col-Button {
-  width: 17%;
+  width: 14%;
+  text-align: center;
+}
+
+.Col-Icon {
+  width: 5%;
   text-align: center;
 }
 
@@ -89,6 +104,16 @@
 .Col-Note {
   width: 16%;
   text-align: center;
+}
+
+.Create-Button {
+  position: absolute;
+  right: 3%;
+  bottom: 5%;
+}
+
+.Create-Button:hover {
+  cursor: pointer;
 }
 
 thead, tbody tr {

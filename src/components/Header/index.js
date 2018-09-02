@@ -13,8 +13,9 @@ class Header extends Component {
   }
 
   render() {
-    const { name } = this.props.user
-    console.log(name)
+    const { name } = this.props.user !== null ? 
+      this.props.user 
+      : false
     return (
       <div className="App-header">
         <div>

@@ -11,7 +11,10 @@ import {
   OPEN_MANAGE_TRAININGS,
   OPEN_MANAGE_GROUPS,
   OPEN_MANAGE_EMPLOYEES,
-  OPEN_MANAGE_ROLES
+  OPEN_MANAGE_ROLES,
+
+  OPEN_CREATE_ROLE,
+  OPEN_CREATE_EMPLOYEE
 } from './types'
 
 export const openMessagesInbox = () => {
@@ -101,5 +104,23 @@ export const openManageRoles = () => {
     dispatch({ type: OPEN_MANAGE_ROLES })
 
     dispatch(push('/management/roles'))
+  }
+}
+
+/* MANAGEMENT */
+
+export const openCreateRole = () => {
+  return (dispatch) => {
+    dispatch({ type: OPEN_CREATE_ROLE })
+
+    dispatch(push('/management/roles/create'))
+  }
+}
+
+export const openCreateEmployee = () => {
+  return (dispatch) => {
+    dispatch({ type: OPEN_CREATE_EMPLOYEE })
+
+    dispatch(push('/management/employees/create'))
   }
 }

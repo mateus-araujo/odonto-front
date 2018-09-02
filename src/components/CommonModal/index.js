@@ -1,14 +1,14 @@
 import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
-const CommonModal = ({ children, isOpen, toggle, toggleSecondary, className, centered, message, modalTitle, primaryTitle, secondaryTitle }) => (
+const CommonModal = ({ children, isOpen, toggle, togglePrimary, toggleSecondary, className, centered, message, modalTitle, primaryTitle, secondaryTitle }) => (
   <Modal isOpen={isOpen } toggle={toggle || null} className={className || null} centered={centered || null}>
     {modalTitle ? <ModalHeader toggle={toggle || null}>{modalTitle}</ModalHeader> : null}
     <ModalBody>
       {message || children || null }
     </ModalBody>
     <ModalFooter>
-      {primaryTitle ? <Button color="primary" onClick={toggle || null}>{primaryTitle}</Button> : null}
+      {primaryTitle ? <Button color="primary" onClick={togglePrimary || toggle || null}>{primaryTitle}</Button> : null}
       {secondaryTitle ? <Button color="secondary" onClick={toggleSecondary || null}>{secondaryTitle}</Button> : null}
     </ModalFooter>
   </Modal>

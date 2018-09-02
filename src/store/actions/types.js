@@ -26,6 +26,9 @@ export const OPEN_MANAGE_GROUPS = 'open_manage_groups'
 export const OPEN_MANAGE_EMPLOYEES = 'open_manage_employees'
 export const OPEN_MANAGE_ROLES = 'open_manage_roles'
 
+export const OPEN_CREATE_ROLE = 'open_create_role'
+export const OPEN_CREATE_EMPLOYEE = 'open_create_employee'
+
 export const EMPLOYEE_CLEAN = 'employee_clean'
 
 export const EMPLOYEE_UPDATE = 'employee_update'

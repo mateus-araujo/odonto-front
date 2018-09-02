@@ -29,8 +29,6 @@ const INITIAL_STATE = {
 }
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
-  console.log(state)
-
   switch (action.type) {
     case EMAIL_CHANGED:
       return { ...state, email: action.payload }

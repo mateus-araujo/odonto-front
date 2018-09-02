@@ -15,6 +15,9 @@ import ManageGroups from '../Management/ManageGroups'
 import ManageEmployees from '../Management/ManageEmployees'
 import ManageRoles from '../Management/ManageRoles'
 
+import CreateRole from '../Management/ManageRoles/CreateRole'
+import CreateEmployee from '../Management/ManageEmployees/CreateEmployee';
+
 class Main extends Component {
   render() {
     return (
@@ -32,8 +35,12 @@ class Main extends Component {
 
           <Route path="/management/trainings" component={() => <ManageTrainings />} />
           <Route path="/management/groups" component={() => <ManageGroups />} />
-          <Route path="/management/employees" component={() => <ManageEmployees />} />
-          <Route path="/management/roles" component={() => <ManageRoles />} />
+
+          <Route exact path="/management/employees" component={() => <ManageEmployees />} />
+          <Route path="/management/employees/create" component={() => <CreateEmployee />} />
+          
+          <Route exact path="/management/roles" component={() => <ManageRoles />} />
+          <Route path="/management/roles/create" component={() => <CreateRole />} />
           
           {/* <Route path={`${this.props.match.path}/tasks`} component={() => <TasksInbox />} />  */}
         </Switch>
