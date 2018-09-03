@@ -1,13 +1,13 @@
 import React from 'react'
-import { RingLoader } from 'react-spinners'
+import { ClipLoader } from 'react-spinners'
 
 import './styles.css'
 
-const Loader = () => {
+const Loader = ({ color }) => {
   return (
     <div className="Loading">
-      <RingLoader
-        color={'#007BFF'}
+      <ClipLoader
+        color={color || '#007BFF'}
         loading={true}
         size={30}
       />

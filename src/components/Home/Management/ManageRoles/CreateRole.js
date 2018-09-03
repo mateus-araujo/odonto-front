@@ -95,7 +95,7 @@ class CreateRole extends Component {
                 onClick={() => this.createRole()}
               >
                 {this.state.loading ? 
-                  <Loader />
+                  <Loader color="#FFF" />
                 : <div>Adicionar</div> }
               </Button>
             </Col>

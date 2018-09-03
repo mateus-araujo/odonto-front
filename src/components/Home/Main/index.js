@@ -37,10 +37,10 @@ class Main extends Component {
           <Route path="/management/groups" component={() => <ManageGroups />} />
 
           <Route exact path="/management/employees" component={() => <ManageEmployees />} />
-          <Route path="/management/employees/create" component={() => <CreateEmployee />} />
+          <Route exact path="/management/employees/create" component={() => <CreateEmployee />} />
           
           <Route exact path="/management/roles" component={() => <ManageRoles />} />
-          <Route path="/management/roles/create" component={() => <CreateRole />} />
+          <Route exact path="/management/roles/create" component={() => <CreateRole />} />
           
           {/* <Route path={`${this.props.match.path}/tasks`} component={() => <TasksInbox />} />  */}
         </Switch>

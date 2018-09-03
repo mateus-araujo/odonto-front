@@ -3,12 +3,12 @@ import {
   Col, Button, CustomInput, Dropdown, DropdownToggle, DropdownMenu, DropdownItem,
   Form, FormFeedback, FormGroup, Label, Input
 } from 'reactstrap'
-import InputMask from 'react-input-mask';
-import validator from 'validator';
-import classNames from 'classnames/bind';
+import InputMask from 'react-input-mask'
+import validator from 'validator'
+import classNames from 'classnames/bind'
+
 import CommonModal from '../../../CommonModal'
 import Loader from '../../../Loader'
-
 import api from '../../../../services/api'
 
 class CreateEmployee extends Component {
@@ -25,8 +25,8 @@ class CreateEmployee extends Component {
     cpfError: '',
     email: '',
     emailError: '',
-    senha: '',
-    senhaError: '',
+    password: '',
+    passwordError: '',
     data_nascimento: '',
     data_nascimentoError: '',
     selectedCargo: [],
@@ -93,14 +93,9 @@ class CreateEmployee extends Component {
       this.setState({ emailError: "Email não pode estar vazio" })
     }
 
-    if (validator.isEmail(this.state.email)) {
+    if (validator.isEmpty(this.state.password)) {
       isError = true
-      this.setState({ emailError: "Este campo precisa ser um email" })
-    }
-
-    if (validator.isEmpty(this.state.senha)) {
-      isError = true
-      this.setState({ senhaError: "Senha não pode estar vazia" })
+      this.setState({ passwordError: "Senha não pode estar vazia" })
     }
 
     if (validator.isEmpty(this.state.clinica)) {
@@ -118,7 +113,8 @@ class CreateEmployee extends Component {
       this.setState({ loading: true })
 
       const { nome, cpf, email, password, data_nascimento, selectedCargo, clinica, acesso_sistema } = this.state
-      const cargos = selectedCargo.id
+      const cargos = []
+      cargos.push(selectedCargo.id)
 
       await api.post('/funcionarios', {
         nome,
@@ -138,10 +134,8 @@ class CreateEmployee extends Component {
 
           const { error } = response.data
 
-          if (error === "Funcionário já existe")
+          if (error)
             this.setState({ modal: true, message: error })
-          else
-            this.setState({ modal: true, message: "Erro ao inserir funcionário, tente novamente" })
         })
     }
   }
@@ -201,7 +195,7 @@ class CreateEmployee extends Component {
                 className={FormControlData}
                 mask="99/99/9999"
                 placeholder="Digite a data de nascimento do funcionário"
-                onChange={e => this.setState({ data_nascimento: e.target.value })}
+                onChange={e => this.setState({ data_nascimento: e.target.value, data_nascimentoError: '' })}
                 value={this.state.data_nascimento}
               />
               <div class="invalid-feedback">
@@ -227,14 +221,14 @@ class CreateEmployee extends Component {
             <Label sm="1" size="sm">Senha</Label>
             <Col sm="5">
               <Input
-                invalid={this.state.senhaError}
+                invalid={this.state.passwordError}
                 bsSize="sm"
                 type="password"
                 placeholder="Digite o senha do funcionário"
-                onChange={e => this.setState({ password: e.target.value, senhaError: '' })}
+                onChange={e => this.setState({ password: e.target.value, passwordError: '' })}
                 value={this.state.password}
               />
-              <FormFeedback>{this.state.senhaError}</FormFeedback>
+              <FormFeedback>{this.state.passwordError}</FormFeedback>
             </Col>
           </FormGroup>
 
@@ -290,7 +284,7 @@ class CreateEmployee extends Component {
                 onClick={() => this.createEmployee()}
               >
                 {this.state.loading ?
-                  <Loader />
+                  <Loader color="#FFF" />
                   : <div>Adicionar</div>}
               </Button>
             </Col>
