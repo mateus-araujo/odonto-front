@@ -7,7 +7,10 @@ import { FaTrashAlt, FaPencilAlt, FaPlusCircle } from 'react-icons/fa'
 import classNames from 'classnames/bind'
 import InputMask from 'react-input-mask'
 import { Link } from 'react-router-dom'
+import validator from 'validator'
+import moment from 'moment'
 import { connect } from 'react-redux'
+
 import { openCreateEmployee, openCreateRole } from '../../../../store/actions'
 import CommonModal from '../../../CommonModal'
 import Loader from '../../../Loader'
@@ -24,8 +27,8 @@ class ManageEmployees extends Component {
     modalSuccess: false,
     idFuncionario: 0,
     cargos: [],
-    nome: '',
-    nomeError: '',
+    name: '',
+    nameError: '',
     cpf: '',
     cpfError: '',
     email: '',
@@ -60,36 +63,110 @@ class ManageEmployees extends Component {
     this.setState({ loading: false })
   }
 
+  validaCPF(c) {
+    if ((c = c.replace(/[^\d]/g, "")).length !== 11)
+      return false;
+
+    if (c === "00000000000")
+      return false;
+
+    var r;
+    var s = 0;
+
+    for (let i = 1; i <= 9; i++)
+      s = s + parseInt(c[i - 1], 10) * (11 - i);
+
+    r = (s * 10) % 11;
+
+    if ((r === 10) || (r === 11))
+      r = 0;
+
+    if (r !== parseInt(c[9], 10))
+      return false;
+
+    s = 0;
+
+    for (let i = 1; i <= 10; i++)
+      s = s + parseInt(c[i - 1], 10) * (12 - i);
+
+    r = (s * 10) % 11;
+
+    if ((r === 10) || (r === 11))
+      r = 0;
+
+    if (r !== parseInt(c[10], 10))
+      return false;
+
+    return true;
+  }
+
+  validate = () => {
+    let isError = false
+
+    if (validator.isEmpty(this.state.name)) {
+      isError = true
+      this.setState({ nameError: "Nome não pode estar vazio" })
+    }
+
+    if (!this.validaCPF(this.state.cpf)) {
+      isError = true
+      this.setState({ cpfError: "CPF precisa ser válido" })
+    }
+
+    const data_nascimento = moment(this.state.data_nascimento, 'DD/MM/YYYY').format('MM/DD/YYYY')
+
+    if (!validator.toDate(data_nascimento)) {
+      isError = true
+      this.setState({ data_nascimentoError: "Data de nascimento precisa ser válida" })
+    }
+
+    if (!validator.isEmail(this.state.email)) {
+      isError = true
+      this.setState({ emailError: "Email precisa ser válido" })
+    }
+
+    if (validator.isEmpty(this.state.clinica)) {
+      isError = true
+      this.setState({ clinicaError: "Clínica não pode estar vazia" })
+    }
+
+    return isError
+  }
+
   async editfuncionario() {
-    this.setState({ loading: true })
+    const error = this.validate()
 
-    const { nome, cpf, email, password, data_nascimento, selectedCargo, clinica, acesso_sistema, idFuncionario } = this.state
-    const cargos = []
-    cargos.push(selectedCargo.id)
+    if (!error) {
+      this.setState({ loading: true })
 
-    await api.put(`/funcionarios/${idFuncionario}`, {
-      nome,
-      cpf,
-      email,
-      password,
-      data_nascimento,
-      cargos,
-      clinica,
-      acesso_sistema
-    })
-      .then(() => {
-        this.setState({ modalSuccess: true, message: "Funcionario editado com sucesso" })
-        this.getFuncionarios()
+      const { name, cpf, email, password, data_nascimento, selectedCargo, clinica, acesso_sistema, idFuncionario } = this.state
+      const cargos = []
+      cargos.push(selectedCargo.id)
+
+      await api.put(`/funcionarios/${idFuncionario}`, {
+        name,
+        cpf,
+        email,
+        password,
+        data_nascimento,
+        cargos,
+        clinica,
+        acesso_sistema
       })
-      .catch(({ response }) => {
-        console.log(response)
+        .then(() => {
+          this.setState({ modalSuccess: true, message: "Funcionário editado com sucesso" })
+          this.getFuncionarios()
+        })
+        .catch(({ response }) => {
+          console.log(response)
 
-        const { error } = response.data
+          const { error } = response.data
 
-        this.setState({ modalError: true, message: error })
-      })
+          this.setState({ modalError: true, message: error })
+        })
 
-    this.setState({ loading: false })
+      this.setState({ loading: false })
+    }
   }
 
   async deletefuncionario() {
@@ -189,7 +266,7 @@ class ManageEmployees extends Component {
                 <tbody className="Scrollable-Table">
                   {this.state.funcionarios.map(funcionario =>
                     <tr key={funcionario.id}>
-                      <td>{funcionario.nome}</td>
+                      <td>{funcionario.User.name}</td>
                       <td className="Col-Large">{funcionario.User.email}</td>
                       <td className="Col-Medium">
                         {funcionario.cargos.map(cargo => <div>{cargo.nome}</div>)}
@@ -205,6 +282,7 @@ class ManageEmployees extends Component {
                             modalEdit: true,
                             idFuncionario: funcionario.id,
                             selectedCargo: funcionario.cargos[0],
+                            name: funcionario.User.name,
                             email: funcionario.User.email,
                             ...funcionario
                           })}
@@ -282,13 +360,13 @@ class ManageEmployees extends Component {
                 <Label sm="3" size="sm">Nome</Label>
                 <Col sm="6">
                   <Input
-                    invalid={this.state.nomeError}
+                    invalid={this.state.nameError}
                     bsSize="sm"
                     placeholder="Digite o nome do funcionário"
-                    onChange={e => this.setState({ nome: e.target.value, nomeError: '' })}
-                    value={this.state.nome}
+                    onChange={e => this.setState({ name: e.target.value, nameError: '' })}
+                    value={this.state.name}
                   />
-                  <FormFeedback>{this.state.nomeError}</FormFeedback>
+                  <FormFeedback>{this.state.nameError}</FormFeedback>
                 </Col>
               </FormGroup>
 
@@ -340,21 +418,6 @@ class ManageEmployees extends Component {
               </FormGroup>
 
               <FormGroup row>
-                <Label sm="3" size="sm">Senha</Label>
-                <Col sm="6">
-                  <Input
-                    invalid={this.state.passwordError}
-                    bsSize="sm"
-                    type="password"
-                    placeholder="Digite o senha do funcionário"
-                    onChange={e => this.setState({ password: e.target.value, passwordError: '' })}
-                    value={this.state.password}
-                  />
-                  <FormFeedback>{this.state.passwordError}</FormFeedback>
-                </Col>
-              </FormGroup>
-
-              <FormGroup row>
                 <Label sm="3" size="sm">Cargo</Label>
                 <Col sm="6">
                   <Dropdown isOpen={this.state.dropdown} toggle={this.toggleDropdown.bind(this)} size="sm">
@@ -396,6 +459,15 @@ class ManageEmployees extends Component {
                     type="checkbox" id="acesso_sistema" label="Acesso ao sistema"
                   />
                 </Col>
+              </FormGroup>
+
+              <FormGroup>
+                {this.state.loading ?
+                  <div className="Loading">
+                    <Loader />
+                  </div>
+                  : null
+                }
               </FormGroup>
             </Form>
           </CommonModal>

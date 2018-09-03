@@ -47,7 +47,9 @@ class LoginForm extends Component {
 
           <FormGroup>
             {this.props.loading ? (
-              <Loader />
+              <div className="Loading">
+                <Loader />
+              </div>
             ) : null}
 
             {this.props.error ? (

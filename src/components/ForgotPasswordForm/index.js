@@ -43,7 +43,9 @@ class ForgotPasswordForm extends Component {
 
           <FormGroup>
             {this.props.loading ? (
-              <Loader />
+              <div className="Loading">
+                <Loader />
+              </div>
             ) : null}
 
             {this.props.hasError ? (

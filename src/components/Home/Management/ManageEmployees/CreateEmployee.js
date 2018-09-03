@@ -5,8 +5,8 @@ import {
 } from 'reactstrap'
 import InputMask from 'react-input-mask'
 import validator from 'validator'
+import moment from 'moment'
 import classNames from 'classnames/bind'
-
 import CommonModal from '../../../CommonModal'
 import Loader from '../../../Loader'
 import api from '../../../../services/api'
@@ -19,8 +19,8 @@ class CreateEmployee extends Component {
 
   state = {
     cargos: [],
-    nome: '',
-    nomeError: '',
+    name: '',
+    nameError: '',
     cpf: '',
     cpfError: '',
     email: '',
@@ -70,27 +70,66 @@ class CreateEmployee extends Component {
     this.setState({ loading: false })
   }
 
+  validaCPF(c) {
+    if ((c = c.replace(/[^\d]/g, "")).length !== 11)
+      return false;
+
+    if (c === "00000000000")
+      return false;
+
+    var r;
+    var s = 0;
+
+    for (let i = 1; i <= 9; i++)
+      s = s + parseInt(c[i - 1], 10) * (11 - i);
+
+    r = (s * 10) % 11;
+
+    if ((r === 10) || (r === 11))
+      r = 0;
+
+    if (r !== parseInt(c[9], 10))
+      return false;
+
+    s = 0;
+
+    for (let i = 1; i <= 10; i++)
+      s = s + parseInt(c[i - 1], 10) * (12 - i);
+
+    r = (s * 10) % 11;
+
+    if ((r === 10) || (r === 11))
+      r = 0;
+
+    if (r !== parseInt(c[10], 10))
+      return false;
+
+    return true;
+  }
+
   validate = () => {
     let isError = false
 
-    if (validator.isEmpty(this.state.nome)) {
+    if (validator.isEmpty(this.state.name)) {
       isError = true
-      this.setState({ nomeError: "Nome não pode estar vazio" })
+      this.setState({ nameError: "Nome não pode estar vazio" })
     }
 
-    if (validator.isEmpty(this.state.cpf)) {
+    if (!this.validaCPF(this.state.cpf)) {
       isError = true
-      this.setState({ cpfError: "Cpf não pode estar vazio" })
+      this.setState({ cpfError: "CPF precisa ser válido" })
     }
 
-    if (validator.isEmpty(this.state.data_nascimento)) {
+    const data_nascimento = moment(this.state.data_nascimento, 'DD/MM/YYYY').format('MM/DD/YYYY')
+
+    if (!validator.toDate(data_nascimento)) {
       isError = true
-      this.setState({ data_nascimentoError: "Data de nascimento não pode estar vazia" })
+      this.setState({ data_nascimentoError: "Data de nascimento precisa ser válida" })
     }
 
-    if (validator.isEmpty(this.state.email)) {
+    if (!validator.isEmail(this.state.email)) {
       isError = true
-      this.setState({ emailError: "Email não pode estar vazio" })
+      this.setState({ emailError: "Email precisa ser válido" })
     }
 
     if (validator.isEmpty(this.state.password)) {
@@ -112,12 +151,12 @@ class CreateEmployee extends Component {
     if (!error) {
       this.setState({ loading: true })
 
-      const { nome, cpf, email, password, data_nascimento, selectedCargo, clinica, acesso_sistema } = this.state
+      const { name, cpf, email, password, data_nascimento, selectedCargo, clinica, acesso_sistema } = this.state
       const cargos = []
       cargos.push(selectedCargo.id)
 
       await api.post('/funcionarios', {
-        nome,
+        name,
         cpf,
         email,
         password,
@@ -164,13 +203,13 @@ class CreateEmployee extends Component {
             <Label sm="1" size="sm">Nome</Label>
             <Col sm="5">
               <Input
-                invalid={this.state.nomeError}
+                invalid={this.state.nameError}
                 bsSize="sm"
                 placeholder="Digite o nome do funcionário"
-                onChange={e => this.setState({ nome: e.target.value, nomeError: '' })}
-                value={this.state.nome}
+                onChange={e => this.setState({ name: e.target.value, nameError: '' })}
+                value={this.state.name}
               />
-              <FormFeedback>{this.state.nomeError}</FormFeedback>
+              <FormFeedback>{this.state.nameError}</FormFeedback>
             </Col>
           </FormGroup>
 
@@ -237,14 +276,14 @@ class CreateEmployee extends Component {
             <Col sm="4">
               <Dropdown isOpen={this.state.dropdown} toggle={this.toggleDropdown.bind(this)} size="sm">
                 <DropdownToggle caret style={{ inlineSize: 150 }}>
-                  {this.state.selectedCargo.nome}
+                  {this.state.selectedCargo.name}
                 </DropdownToggle>
                 <DropdownMenu>
                   {this.state.cargos.map(cargo =>
                     <DropdownItem
                       onClick={() => this.setState({ selectedCargo: cargo })}
                     >
-                      {cargo.nome}
+                      {cargo.name}
                     </DropdownItem>
                   )}
                 </DropdownMenu>

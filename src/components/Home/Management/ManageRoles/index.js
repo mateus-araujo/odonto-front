@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { Col, Form, FormGroup, Label, Input, Table } from 'reactstrap'
+import { Col, Form, FormFeedback, FormGroup, Label, Input, Table } from 'reactstrap'
 import { FaTrashAlt, FaPencilAlt, FaPlusCircle } from 'react-icons/fa'
+import validator from 'validator'
 import { connect } from 'react-redux'
+
 import { openCreateRole } from '../../../../store/actions'
 import CommonModal from '../../../CommonModal'
 import Loader from '../../../Loader'
@@ -18,33 +20,66 @@ class ManageRoles extends Component {
     modalSuccess: false,
     idCargo: 0,
     nome: '',
+    nomeError: '',
     salario: '',
-    descricao: ''
+    salarioError: '',
+    descricao: '',
+    descricaoError: ''
+  }
+
+  validate = () => {
+    let isError = false
+
+    if (validator.isEmpty(this.state.nome)) {
+      isError = true
+      this.setState({ nomeError: "Nome não pode estar vazio" })
+    }
+
+    if (validator.isEmpty(this.state.salario.toString())) {
+      isError = true
+      this.setState({ salarioError: "Salário não pode estar vazio" })
+    }
+
+    if (!validator.isFloat(this.state.salario.toString())) {
+      isError = true
+      this.setState({ salarioError: "Salário deve ser um valor numérico" })
+    }
+
+    if (validator.isEmpty(this.state.descricao)) {
+      isError = true
+      this.setState({ descricaoError: "Descrição não pode estar vazia" })
+    }
+
+    return isError
   }
 
   async editCargo() {
-    const { nome, salario, descricao, idCargo } = this.state
+    const error = this.validate()
 
-    this.setState({ loading: true })
+    if (!error) {
+      this.setState({ loading: true })
 
-    await api.put(`/cargos/${idCargo}`, {
-      nome,
-      salario,
-      descricao
-    })
-      .then(() => {
-        this.setState({ modalSuccess: true, message: "Cargo editado com sucesso" })
-        this.updateCargos()
+      const { nome, salario, descricao, idCargo } = this.state
+
+      await api.put(`/cargos/${idCargo}`, {
+        nome,
+        salario,
+        descricao
       })
-      .catch(({ response }) => {
-        console.log(response)
+        .then(() => {
+          this.setState({ modalSuccess: true, message: "Cargo editado com sucesso" })
+          this.updateCargos()
+        })
+        .catch(({ response }) => {
+          console.log(response)
 
-        const { error } = response.data
+          const { error } = response.data
 
-        this.setState({ modalError: true, message: error })
-      })
+          this.setState({ modalError: true, message: error })
+        })
 
-    this.setState({ loading: false })
+      this.setState({ loading: false })
+    }
   }
 
   async deleteCargo() {
@@ -104,6 +139,7 @@ class ManageRoles extends Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <div>
         {this.state.loading ?
@@ -198,36 +234,54 @@ class ManageRoles extends Component {
         >
           <Form style={{ marginTop: 30 }}>
             <FormGroup row>
-              <Label sm="2">Cargo</Label>
+              <Label sm="2" size="sm">Cargo</Label>
               <Col sm="6">
                 <Input
-                  placeholder="Digite o cargo"
-                  onChange={e => this.setState({ nome: e.target.value })}
+                  invalid={this.state.nomeError}
+                  bsSize="sm"
+                  placeholder="Digite o nome do cargo"
+                  onChange={e => this.setState({ nome: e.target.value, nomeError: '' })}
                   value={this.state.nome}
                 />
+                <FormFeedback>{this.state.nomeError}</FormFeedback>
               </Col>
             </FormGroup>
 
             <FormGroup row>
-              <Label sm="2">Salário</Label>
+              <Label sm="2" size="sm">Salário</Label>
               <Col sm="6">
                 <Input
+                  invalid={this.state.salarioError}
+                  bsSize="sm"
                   placeholder="Digite o salário do cargo"
-                  onChange={e => this.setState({ salario: e.target.value })}
+                  onChange={e => this.setState({ salario: e.target.value, salarioError: '' })}
                   value={this.state.salario}
                 />
+                <FormFeedback>{this.state.salarioError}</FormFeedback>
               </Col>
             </FormGroup>
 
             <FormGroup row>
-              <Label sm="2">Descrição</Label>
+              <Label sm="2" size="sm">Descrição</Label>
               <Col sm="6">
                 <Input
+                  invalid={this.state.descricaoError}
+                  bsSize="sm"
                   placeholder="Digite a descrição do cargo"
-                  onChange={e => this.setState({ descricao: e.target.value })}
+                  onChange={e => this.setState({ descricao: e.target.value, descricaoError: '' })}
                   value={this.state.descricao}
                 />
+                <FormFeedback>{this.state.descricaoError}</FormFeedback>
               </Col>
+            </FormGroup>
+
+            <FormGroup>
+              {this.state.loading ?
+                <div className="Loading">
+                  <Loader />
+                </div>
+                : null
+              }
             </FormGroup>
           </Form>
         </CommonModal>
