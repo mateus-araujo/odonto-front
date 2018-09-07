@@ -3,6 +3,7 @@ import {
   OPEN_MESSAGES_INBOX,
   OPEN_MESSAGES_SENT,
   OPEN_MESSAGES_ARCHIVED,
+  
   OPEN_TASKS_INBOX,
   OPEN_TASKS_SENT,
   OPEN_TASKS_ARCHIVED,
@@ -14,7 +15,8 @@ import {
   OPEN_MANAGE_ROLES,
 
   OPEN_CREATE_ROLE,
-  OPEN_CREATE_EMPLOYEE
+  OPEN_CREATE_EMPLOYEE,
+  OPEN_CREATE_GROUP
 } from './types'
 
 export const openMessagesInbox = () => {
@@ -122,5 +124,13 @@ export const openCreateEmployee = () => {
     dispatch({ type: OPEN_CREATE_EMPLOYEE })
 
     dispatch(push('/management/employees/create'))
+  }
+}
+
+export const openCreateGroup = () => {
+  return (dispatch) => {
+    dispatch({ type: OPEN_CREATE_GROUP })
+
+    dispatch(push('/management/groups/create'))
   }
 }

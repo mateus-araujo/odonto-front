@@ -13,7 +13,8 @@ import {
   OPEN_MANAGE_ROLES,
 
   OPEN_CREATE_ROLE,
-  OPEN_CREATE_EMPLOYEE
+  OPEN_CREATE_EMPLOYEE,
+  OPEN_CREATE_GROUP
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -35,6 +36,7 @@ const MainReducer = (state = INITIAL_STATE, action) => {
       return { ...INITIAL_STATE, messagesSent: true, title: 'Mensagens enviadas' }
     case OPEN_MESSAGES_ARCHIVED:
       return { ...INITIAL_STATE, messagesArchived: true, title: 'Mensagens arquivadas' }
+
     case OPEN_TASKS_INBOX:
       return { ...INITIAL_STATE, tasksInbox: true, title: 'Tarefas - Caixa de entrada' }
     case OPEN_TASKS_SENT:
@@ -57,6 +59,8 @@ const MainReducer = (state = INITIAL_STATE, action) => {
       return { ...INITIAL_STATE, title: 'Adicionar cargo' }
     case OPEN_CREATE_EMPLOYEE:
       return { ...INITIAL_STATE, title: 'Adicionar funcionário' }
+    case OPEN_CREATE_GROUP:
+      return { ...INITIAL_STATE, title: 'Adicionar grupo' }
     default:
       return state
   }

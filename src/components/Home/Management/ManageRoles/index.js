@@ -83,6 +83,8 @@ class ManageRoles extends Component {
   }
 
   async deleteCargo() {
+    this.setState({ loading: true })
+
     const { idCargo } = this.state
 
     await api.delete(`/cargos/${idCargo}`)
@@ -97,6 +99,8 @@ class ManageRoles extends Component {
 
         this.setState({ modalError: true, message: error })
       })
+
+    this.setState({ loading: false })
   }
 
   async updateCargos() {
@@ -139,11 +143,12 @@ class ManageRoles extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div>
         {this.state.loading ?
-          <Loader />
+          <div className="Loading">
+            <Loader />
+          </div>
           :
           <div>
             {this.state.cargos.length ?
@@ -198,11 +203,21 @@ class ManageRoles extends Component {
           togglePrimary={this.deleteCargo.bind(this)}
           toggleSecondary={() => this.setState({ modalDelete: false })}
           centered
-          message="Deseja mesmo excluir o cargo?"
           modalTitle="Remover cargo"
           primaryTitle="Sim"
           secondaryTitle="Não"
-        />
+        >
+          <div>
+            Deseja mesmo excluir o cargo?
+
+            {this.state.loading ?
+              <div className="Loading">
+                <Loader />
+              </div>
+              : null
+            }
+          </div>
+        </CommonModal>
 
         <CommonModal
           isOpen={this.state.modalError}

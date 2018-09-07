@@ -276,14 +276,14 @@ class CreateEmployee extends Component {
             <Col sm="4">
               <Dropdown isOpen={this.state.dropdown} toggle={this.toggleDropdown.bind(this)} size="sm">
                 <DropdownToggle caret style={{ inlineSize: 150 }}>
-                  {this.state.selectedCargo.name}
+                  {this.state.selectedCargo.nome}
                 </DropdownToggle>
                 <DropdownMenu>
                   {this.state.cargos.map(cargo =>
                     <DropdownItem
                       onClick={() => this.setState({ selectedCargo: cargo })}
                     >
-                      {cargo.name}
+                      {cargo.nome}
                     </DropdownItem>
                   )}
                 </DropdownMenu>

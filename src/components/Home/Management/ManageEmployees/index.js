@@ -133,7 +133,7 @@ class ManageEmployees extends Component {
     return isError
   }
 
-  async editfuncionario() {
+  async editFuncionario() {
     const error = this.validate()
 
     if (!error) {
@@ -169,7 +169,9 @@ class ManageEmployees extends Component {
     }
   }
 
-  async deletefuncionario() {
+  async deleteFuncionario() {
+    this.setState({ loading: true })
+
     const { idFuncionario } = this.state
 
     await api.delete(`/funcionarios/${idFuncionario}`)
@@ -184,6 +186,8 @@ class ManageEmployees extends Component {
 
         this.setState({ modalError: true, message: error })
       })
+
+    this.setState({ loading: false })
   }
 
   async getFuncionarios() {
@@ -246,7 +250,9 @@ class ManageEmployees extends Component {
     return (
       <div>
         {this.state.loading ?
-          <Loader />
+          <div className="Loading">
+            <Loader />
+          </div>
           :
           <div>
             {this.state.funcionarios.length ?
@@ -266,8 +272,8 @@ class ManageEmployees extends Component {
                 <tbody className="Scrollable-Table">
                   {this.state.funcionarios.map(funcionario =>
                     <tr key={funcionario.id}>
-                      <td>{funcionario.User.name}</td>
-                      <td className="Col-Large">{funcionario.User.email}</td>
+                      <td>{funcionario.usuario.name}</td>
+                      <td className="Col-Large">{funcionario.usuario.email}</td>
                       <td className="Col-Medium">
                         {funcionario.cargos.map(cargo => <div>{cargo.nome}</div>)}
                       </td>
@@ -282,8 +288,8 @@ class ManageEmployees extends Component {
                             modalEdit: true,
                             idFuncionario: funcionario.id,
                             selectedCargo: funcionario.cargos[0],
-                            name: funcionario.User.name,
-                            email: funcionario.User.email,
+                            name: funcionario.usuario.name,
+                            email: funcionario.usuario.email,
                             ...funcionario
                           })}
                           color="orange"
@@ -318,14 +324,24 @@ class ManageEmployees extends Component {
         <CommonModal
           isOpen={this.state.modalDelete}
           toggle={this.toggleModalDelete.bind(this)}
-          togglePrimary={this.deletefuncionario.bind(this)}
+          togglePrimary={this.deleteFuncionario.bind(this)}
           toggleSecondary={() => this.setState({ modalDelete: false })}
           centered
-          message="Deseja mesmo excluir o funcionário?"
           modalTitle="Remover funcionário"
           primaryTitle="Sim"
           secondaryTitle="Não"
-        />
+        >
+          <div>
+            Deseja mesmo excluir o funcionário?
+
+            {this.state.loading ?
+              <div className="Loading">
+                <Loader />
+              </div>
+              : null
+            }
+          </div>
+        </CommonModal>
 
         <CommonModal
           isOpen={this.state.modalError}
@@ -344,136 +360,137 @@ class ManageEmployees extends Component {
           modalTitle="Editar funcionário"
           primaryTitle="Ok"
         />
-        {this.state.cargos.length ?
-          <CommonModal
-            isOpen={this.state.modalEdit}
-            toggle={this.toggleModalEdit.bind(this)}
-            togglePrimary={this.editfuncionario.bind(this)}
-            toggleSecondary={this.toggleModalEdit.bind(this)}
-            centered
-            modalTitle="Editar funcionário"
-            primaryTitle="Salvar"
-            secondaryTitle="Cancelar"
-          >
-            <Form style={{ marginTop: 30 }}>
-              <FormGroup row>
-                <Label sm="3" size="sm">Nome</Label>
-                <Col sm="6">
-                  <Input
-                    invalid={this.state.nameError}
-                    bsSize="sm"
-                    placeholder="Digite o nome do funcionário"
-                    onChange={e => this.setState({ name: e.target.value, nameError: '' })}
-                    value={this.state.name}
-                  />
-                  <FormFeedback>{this.state.nameError}</FormFeedback>
-                </Col>
-              </FormGroup>
+        {
+          this.state.cargos.length ?
+            <CommonModal
+              isOpen={this.state.modalEdit}
+              toggle={this.toggleModalEdit.bind(this)}
+              togglePrimary={this.editFuncionario.bind(this)}
+              toggleSecondary={this.toggleModalEdit.bind(this)}
+              centered
+              modalTitle="Editar funcionário"
+              primaryTitle="Salvar"
+              secondaryTitle="Cancelar"
+            >
+              <Form style={{ marginTop: 30 }}>
+                <FormGroup row>
+                  <Label sm="3" size="sm">Nome</Label>
+                  <Col sm="6">
+                    <Input
+                      invalid={this.state.nameError}
+                      bsSize="sm"
+                      placeholder="Digite o nome do funcionário"
+                      onChange={e => this.setState({ name: e.target.value, nameError: '' })}
+                      value={this.state.name}
+                    />
+                    <FormFeedback>{this.state.nameError}</FormFeedback>
+                  </Col>
+                </FormGroup>
 
-              <FormGroup row>
-                <Label sm="3" size="sm">CPF</Label>
-                <Col sm="6">
-                  <InputMask
-                    required
-                    className={FormControlCpf}
-                    mask="999.999.999-99"
-                    bsSize="sm"
-                    placeholder="Digite o cpf do funcionário"
-                    onChange={e => this.setState({ cpf: e.target.value, cpfError: '' })}
-                    value={this.state.cpf}
-                  />
-                  <div class="invalid-feedback">{this.state.cpfError}</div>
-                </Col>
-              </FormGroup>
+                <FormGroup row>
+                  <Label sm="3" size="sm">CPF</Label>
+                  <Col sm="6">
+                    <InputMask
+                      required
+                      className={FormControlCpf}
+                      mask="999.999.999-99"
+                      bsSize="sm"
+                      placeholder="Digite o cpf do funcionário"
+                      onChange={e => this.setState({ cpf: e.target.value, cpfError: '' })}
+                      value={this.state.cpf}
+                    />
+                    <div class="invalid-feedback">{this.state.cpfError}</div>
+                  </Col>
+                </FormGroup>
 
-              <FormGroup row>
-                <Label sm="3" size="sm">Data de nasc.</Label>
-                <Col sm="6">
-                  <InputMask
-                    className={FormControlData}
-                    mask="99/99/9999"
-                    placeholder="Digite a data de nascimento do funcionário"
-                    onChange={e => this.setState({ data_nascimento: e.target.value, data_nascimentoError: '' })}
-                    value={this.state.data_nascimento}
-                  />
-                  <div class="invalid-feedback">
-                    {this.state.data_nascimentoError}
-                  </div>
-                </Col>
-              </FormGroup>
+                <FormGroup row>
+                  <Label sm="3" size="sm">Data de nasc.</Label>
+                  <Col sm="6">
+                    <InputMask
+                      className={FormControlData}
+                      mask="99/99/9999"
+                      placeholder="Digite a data de nascimento do funcionário"
+                      onChange={e => this.setState({ data_nascimento: e.target.value, data_nascimentoError: '' })}
+                      value={this.state.data_nascimento}
+                    />
+                    <div class="invalid-feedback">
+                      {this.state.data_nascimentoError}
+                    </div>
+                  </Col>
+                </FormGroup>
 
-              <FormGroup row>
-                <Label sm="3" size="sm">Email</Label>
-                <Col sm="6">
-                  <Input
-                    invalid={this.state.emailError}
-                    bsSize="sm"
-                    type="email"
-                    placeholder="Digite o email do funcionário"
-                    onChange={e => this.setState({ email: e.target.value, emailError: '' })}
-                    value={this.state.email}
-                  />
-                  <FormFeedback>{this.state.emailError}</FormFeedback>
-                </Col>
-              </FormGroup>
+                <FormGroup row>
+                  <Label sm="3" size="sm">Email</Label>
+                  <Col sm="6">
+                    <Input
+                      invalid={this.state.emailError}
+                      bsSize="sm"
+                      type="email"
+                      placeholder="Digite o email do funcionário"
+                      onChange={e => this.setState({ email: e.target.value, emailError: '' })}
+                      value={this.state.email}
+                    />
+                    <FormFeedback>{this.state.emailError}</FormFeedback>
+                  </Col>
+                </FormGroup>
 
-              <FormGroup row>
-                <Label sm="3" size="sm">Cargo</Label>
-                <Col sm="6">
-                  <Dropdown isOpen={this.state.dropdown} toggle={this.toggleDropdown.bind(this)} size="sm">
-                    <DropdownToggle caret style={{ inlineSize: 150 }}>
-                      {this.state.selectedCargo.nome}
-                    </DropdownToggle>
-                    <DropdownMenu>
-                      {this.state.cargos.map(cargo =>
-                        <DropdownItem
-                          onClick={() => this.setState({ selectedCargo: cargo })}
-                        >
-                          {cargo.nome}
-                        </DropdownItem>
-                      )}
-                    </DropdownMenu>
-                  </Dropdown>
-                </Col>
-              </FormGroup>
+                <FormGroup row>
+                  <Label sm="3" size="sm">Cargo</Label>
+                  <Col sm="6">
+                    <Dropdown isOpen={this.state.dropdown} toggle={this.toggleDropdown.bind(this)} size="sm">
+                      <DropdownToggle caret style={{ inlineSize: 150 }}>
+                        {this.state.selectedCargo.nome}
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        {this.state.cargos.map(cargo =>
+                          <DropdownItem
+                            onClick={() => this.setState({ selectedCargo: cargo })}
+                          >
+                            {cargo.nome}
+                          </DropdownItem>
+                        )}
+                      </DropdownMenu>
+                    </Dropdown>
+                  </Col>
+                </FormGroup>
 
-              <FormGroup row>
-                <Label sm="3" size="sm">Clínica</Label>
-                <Col sm="6">
-                  <Input
-                    invalid={this.state.clinicaError}
-                    bsSize="sm"
-                    placeholder="Digite o clínica do funcionário"
-                    onChange={e => this.setState({ clinica: e.target.value, clinicaError: '' })}
-                    value={this.state.clinica}
-                  />
-                  <FormFeedback>{this.state.clinicaError}</FormFeedback>
-                </Col>
-              </FormGroup>
+                <FormGroup row>
+                  <Label sm="3" size="sm">Clínica</Label>
+                  <Col sm="6">
+                    <Input
+                      invalid={this.state.clinicaError}
+                      bsSize="sm"
+                      placeholder="Digite o clínica do funcionário"
+                      onChange={e => this.setState({ clinica: e.target.value, clinicaError: '' })}
+                      value={this.state.clinica}
+                    />
+                    <FormFeedback>{this.state.clinicaError}</FormFeedback>
+                  </Col>
+                </FormGroup>
 
-              <FormGroup row>
-                <Col sm="6" style={{ fontSize: 14 }}>
-                  <CustomInput
-                    checked={this.state.acesso_sistema}
-                    onChange={e => this.setState({ acesso_sistema: e.target.checked })}
-                    type="checkbox" id="acesso_sistema" label="Acesso ao sistema"
-                  />
-                </Col>
-              </FormGroup>
+                <FormGroup row>
+                  <Col sm="6" style={{ fontSize: 14 }}>
+                    <CustomInput
+                      checked={this.state.acesso_sistema}
+                      onChange={e => this.setState({ acesso_sistema: e.target.checked })}
+                      type="checkbox" id="acesso_sistema" label="Acesso ao sistema"
+                    />
+                  </Col>
+                </FormGroup>
 
-              <FormGroup>
-                {this.state.loading ?
-                  <div className="Loading">
-                    <Loader />
-                  </div>
-                  : null
-                }
-              </FormGroup>
-            </Form>
-          </CommonModal>
-          : null
+                <FormGroup>
+                  {this.state.loading ?
+                    <div className="Loading">
+                      <Loader />
+                    </div>
+                    : null
+                  }
+                </FormGroup>
+              </Form>
+            </CommonModal>
+            : null
         }
-      </div>
+      </div >
     )
   }
 }
