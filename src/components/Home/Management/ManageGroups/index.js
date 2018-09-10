@@ -4,6 +4,7 @@ import {
 } from 'reactstrap'
 import { FaTrashAlt, FaPencilAlt, FaPlusCircle } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
 import validator from 'validator'
 import { connect } from 'react-redux'
 
@@ -20,7 +21,8 @@ class ManageGroups extends Component {
     tituloError: '',
     fundadorId: '',
     integrantes: [],
-    loading: false,
+    integrantesError: '',
+    loading: true,
     message: '',
     error: '',
     modalDelete: false,
@@ -29,12 +31,23 @@ class ManageGroups extends Component {
     modalSuccess: false,
   }
 
+  constructor(props) {
+    super(props)
+
+    this.componentDidMount = _.debounce(this.componentDidMount, 500)
+  }
+
   validate = () => {
     let isError = false
 
     if (validator.isEmpty(this.state.titulo)) {
       isError = true
-      this.setState({ titulo: "Nome não pode estar vazio" })
+      this.setState({ tituloError: "Nome do grupo não pode estar vazio" })
+    }
+
+    if (!this.state.integrantes.length) {
+      isError = true
+      this.setState({ integrantes: "O grupo precisa ter integrantes" })
     }
 
     return isError
@@ -46,7 +59,10 @@ class ManageGroups extends Component {
     if (!error) {
       this.setState({ loading: true })
 
-      const { titulo, fundadorId, integrantes, idGrupo } = this.state
+      const { titulo, fundadorId, idGrupo } = this.state
+
+      let integrantes = this.state.integrantes
+      integrantes = integrantes.map(integrante => integrante.id)
 
       await api.put(`/grupos/${idGrupo}`, {
         titulo,
@@ -64,8 +80,9 @@ class ManageGroups extends Component {
 
           this.setState({ modalError: true, message: error })
         })
-
-      this.setState({ loading: false })
+        .finally(() => {
+          this.setState({ loading: false })
+        })
     }
   }
 
@@ -86,8 +103,9 @@ class ManageGroups extends Component {
 
         this.setState({ modalError: true, message: error })
       })
-
-    this.setState({ loading: false })
+      .finally(() => {
+        this.setState({ loading: false })
+      })
   }
 
   async getFuncionarios() {
@@ -105,8 +123,9 @@ class ManageGroups extends Component {
         const { error } = response.data
         this.setState({ error })
       })
-
-    this.setState({ loading: false })
+      .finally(() => {
+        this.setState({ loading: false })
+      })
   }
 
   async getGrupos() {
@@ -124,8 +143,9 @@ class ManageGroups extends Component {
         const { error } = response.data
         this.setState({ error })
       })
-
-    this.setState({ loading: false })
+      .finally(() => {
+        this.setState({ loading: false })
+      })
   }
 
   componentDidMount() {
@@ -150,7 +170,6 @@ class ManageGroups extends Component {
   }
 
   render() {
-    console.log(this.state.integrantes)
     return (
       <div>
         {this.state.loading ?
@@ -175,7 +194,11 @@ class ManageGroups extends Component {
                     <tr key={grupo.id}>
                       <td>{grupo.titulo}</td>
                       <td>
-                        {grupo.integrantes.map(integrante => <div>{integrante.name}{' /'}</div>)}
+                        {grupo.integrantes.map(integrante =>
+                          <React.Fragment>
+                            {integrante.name}{' / '}
+                          </React.Fragment>
+                        )}
                       </td>
                       <td className="Col-Icon">
                         <FaPencilAlt
@@ -183,7 +206,6 @@ class ManageGroups extends Component {
                           onClick={() => this.setState({
                             modalEdit: true,
                             idGrupo: grupo.id,
-                            integrantes: grupo.integrantes,
                             ...grupo
                           })}
                           color="orange"
@@ -212,12 +234,15 @@ class ManageGroups extends Component {
               <FaPlusCircle color="green" size="1.8em" />
             </div>
             :
-            <Link
-              to="/management/employees"
-              onClick={() => this.props.openManageEmployees()}
-            >
-              Cadastre funcionários para criar grupos
+            !this.state.loading ?
+              <Link
+                to="/management/employees"
+                onClick={() => this.props.openManageEmployees()}
+              >
+                Cadastre funcionários para criar grupos
             </Link>
+              :
+              null
           }
         </div>
 

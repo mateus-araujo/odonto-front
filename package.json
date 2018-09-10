@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.0.3",
     "axios": "^0.18.0",
     "bootstrap": "^4.1.2",
     "classnames": "^2.2.6",
@@ -22,6 +23,7 @@
     "redux": "^3.6.0",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
+    "selectly": "^0.5.0",
     "validator": "^10.7.1"
   },
   "scripts": {
