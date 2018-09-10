@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Col, Form, FormFeedback, FormGroup, Label, Input, Table } from 'reactstrap'
 import { FaTrashAlt, FaPencilAlt, FaPlusCircle } from 'react-icons/fa'
+import _ from 'lodash'
 import validator from 'validator'
 import { connect } from 'react-redux'
 
@@ -13,7 +14,7 @@ class ManageRoles extends Component {
   state = {
     cargos: [],
     message: '',
-    loading: false,
+    loading: true,
     modalDelete: false,
     modalEdit: false,
     modalError: false,
@@ -25,6 +26,12 @@ class ManageRoles extends Component {
     salarioError: '',
     descricao: '',
     descricaoError: ''
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.componentDidMount = _.debounce(this.componentDidMount, 300)
   }
 
   validate = () => {
@@ -192,10 +199,13 @@ class ManageRoles extends Component {
           </div>
         }
 
-        <div className="Create-Button" onClick={() => this.props.openCreateRole()}>
-          Cadastrar{' '}
-          <FaPlusCircle color="green" size="1.8em" />
-        </div>
+        {!this.state.loading ?
+          <div className="Create-Button" onClick={() => this.props.openCreateRole()}>
+            Cadastrar{' '}
+            <FaPlusCircle color="green" size="1.8em" />
+          </div>
+          : null
+        }
 
         <CommonModal
           isOpen={this.state.modalDelete}
@@ -209,7 +219,7 @@ class ManageRoles extends Component {
         >
           <div>
             Deseja mesmo excluir o cargo?
-
+        
             {this.state.loading ?
               <div className="Loading">
                 <Loader />
@@ -300,7 +310,7 @@ class ManageRoles extends Component {
             </FormGroup>
           </Form>
         </CommonModal>
-      </div>
+      </div >
     )
   }
 }

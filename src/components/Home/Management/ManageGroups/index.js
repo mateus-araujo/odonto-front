@@ -34,7 +34,7 @@ class ManageGroups extends Component {
   constructor(props) {
     super(props)
 
-    this.componentDidMount = _.debounce(this.componentDidMount, 500)
+    this.componentDidMount = _.debounce(this.componentDidMount, 300)
   }
 
   validate = () => {
@@ -240,7 +240,7 @@ class ManageGroups extends Component {
                 onClick={() => this.props.openManageEmployees()}
               >
                 Cadastre funcionários para criar grupos
-            </Link>
+              </Link>
               :
               null
           }

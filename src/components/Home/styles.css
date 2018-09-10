@@ -71,7 +71,7 @@
 
 .Scrollable-Table {
   display: block;
-  height: 350px;
+  height: 330px;
   overflow-y: auto;
   text-align: justify;
 }

@@ -7,6 +7,7 @@ import { FaTrashAlt, FaPencilAlt, FaPlusCircle } from 'react-icons/fa'
 import classNames from 'classnames/bind'
 import InputMask from 'react-input-mask'
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
 import validator from 'validator'
 import moment from 'moment'
 import { connect } from 'react-redux'
@@ -20,7 +21,7 @@ class ManageEmployees extends Component {
   state = {
     funcionarios: [],
     message: '',
-    loading: false,
+    loading: true,
     modalDelete: false,
     modalEdit: false,
     modalError: false,
@@ -42,6 +43,12 @@ class ManageEmployees extends Component {
     clinica: '',
     clinicaError: '',
     acesso_sistema: false,
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.componentDidMount = _.debounce(this.componentDidMount, 300)
   }
 
   async getCargos() {
@@ -317,7 +324,15 @@ class ManageEmployees extends Component {
               Cadastrar{' '}
               <FaPlusCircle color="green" size="1.8em" />
             </div>
-            : <Link to="/management/roles/create" onClick={() => this.props.openCreateRole()}>Cadastre algum cargo para cadastrar funcionários</Link>
+            :
+            !this.state.loading ?
+              <Link
+                to="/management/roles/create"
+                onClick={() => this.props.openCreateRole()}>
+                Cadastre algum cargo para cadastrar funcionários
+              </Link>
+              :
+              null
           }
         </div>
 
