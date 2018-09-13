@@ -146,16 +146,15 @@ class ManageEmployees extends Component {
     if (!error) {
       this.setState({ loading: true })
 
-      const { name, cpf, email, password, data_nascimento, selectedCargo, clinica, acesso_sistema, idFuncionario } = this.state
+      const { name, cpf, email, data_nascimento, selectedCargo, clinica, acesso_sistema, idFuncionario } = this.state
       const cargos = []
       cargos.push(selectedCargo.id)
 
       await api.put(`/funcionarios/${idFuncionario}`, {
         name,
         cpf,
-        email,
-        password,
         data_nascimento,
+        email,
         cargos,
         clinica,
         acesso_sistema
