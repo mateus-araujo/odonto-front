@@ -14,7 +14,10 @@ import {
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAIL,
   USER_CLEAN,
-  LOGOUT_USER
+  MAIN_CLEAN,
+  LOGOUT_USER,
+
+  OPEN_MESSAGES_INBOX
 } from './types'
 
 const api = axios.create({
@@ -143,6 +146,8 @@ const loginUserSuccess = (dispatch, user) => {
     type: LOGIN_USER_SUCCESS,
     payload: user
   })
+
+  dispatch({ type: OPEN_MESSAGES_INBOX })
 }
 
 const loginTokenSuccess = (dispatch, token) => {
@@ -189,6 +194,7 @@ export const userClean = () => {
 export const logoutUser = () => {
   return (dispatch) => {
     dispatch({ type: LOGOUT_USER })
+    dispatch({ type: MAIN_CLEAN })
 
     dispatch(push('/login'))
   }

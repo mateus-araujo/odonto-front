@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 
+import CreateMessage from './CreateMessage'
 import MessagesInbox from './MessagesInbox'
 import MessagesSent from './MessagesSent'
 import MessagesArchived from './MessagesArchived'
@@ -24,6 +25,7 @@ class Main extends Component {
     return (
       <div>
         <Switch>
+          <Route path="/messages/create" component={() => <CreateMessage />} />
           <Route exact path="/" component={() => <MessagesInbox />} />
           <Route path="/messages/sent" component={() => <MessagesSent />} />
           <Route path="/messages/archived" component={() => <MessagesArchived />} />
@@ -35,16 +37,16 @@ class Main extends Component {
           <Route path="/trainings" component={() => <Trainings />} />
 
           <Route path="/management/trainings" component={() => <ManageTrainings />} />
-          
+
           <Route exact path="/management/groups" component={() => <ManageGroups />} />
           <Route path="/management/groups/create" component={() => <CreateGroup />} />
 
           <Route exact path="/management/employees" component={() => <ManageEmployees />} />
           <Route path="/management/employees/create" component={() => <CreateEmployee />} />
-          
+
           <Route exact path="/management/roles" component={() => <ManageRoles />} />
           <Route path="/management/roles/create" component={() => <CreateRole />} />
-          
+
           {/* <Route path={`${this.props.match.path}/tasks`} component={() => <TasksInbox />} />  */}
         </Switch>
       </div>

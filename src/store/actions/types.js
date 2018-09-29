@@ -13,6 +13,7 @@ export const RESET_PASSWORD_FAIL = 'reset_password_fail'
 export const USER_CLEAN = 'user_clean'
 export const LOGOUT_USER = 'logout_user'
 
+export const OPEN_CREATE_MESSAGE = 'open_create_message'
 export const OPEN_MESSAGES_INBOX = 'open_messages_inbox'
 export const OPEN_MESSAGES_SENT = 'open_messages_sent'
 export const OPEN_MESSAGES_ARCHIVED = 'open_messages_archived'
@@ -30,9 +31,4 @@ export const OPEN_CREATE_ROLE = 'open_create_role'
 export const OPEN_CREATE_EMPLOYEE = 'open_create_employee'
 export const OPEN_CREATE_GROUP = 'open_create_group'
 
-export const EMPLOYEE_CLEAN = 'employee_clean'
-
-export const EMPLOYEE_UPDATE = 'employee_update'
-export const EMPLOYEE_CREATE = 'employee_create'
-export const EMPLOYEES_FETCH_SUCCESS = 'employees_fetch_success'
-export const EMPLOYEE_SAVE_SUCCESS = 'employee_save_success'
+export const MAIN_CLEAN = 'main_clean'

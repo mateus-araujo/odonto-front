@@ -1,5 +1,6 @@
 import { push } from 'connected-react-router'
 import {
+  OPEN_CREATE_MESSAGE,
   OPEN_MESSAGES_INBOX,
   OPEN_MESSAGES_SENT,
   OPEN_MESSAGES_ARCHIVED,
@@ -18,6 +19,14 @@ import {
   OPEN_CREATE_EMPLOYEE,
   OPEN_CREATE_GROUP
 } from './types'
+
+export const openCreateMessage = () => {
+  return (dispatch) => {
+    dispatch({ type: OPEN_CREATE_MESSAGE })
+
+    dispatch(push('/messages/create'))
+  }
+}
 
 export const openMessagesInbox = () => {
   return (dispatch) => {

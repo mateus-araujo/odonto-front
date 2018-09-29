@@ -1,4 +1,5 @@
 import {
+  OPEN_CREATE_MESSAGE,
   OPEN_MESSAGES_INBOX,
   OPEN_MESSAGES_SENT,
   OPEN_MESSAGES_ARCHIVED,
@@ -14,7 +15,9 @@ import {
 
   OPEN_CREATE_ROLE,
   OPEN_CREATE_EMPLOYEE,
-  OPEN_CREATE_GROUP
+  OPEN_CREATE_GROUP,
+
+  MAIN_CLEAN
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -30,6 +33,8 @@ const INITIAL_STATE = {
 
 const MainReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case OPEN_CREATE_MESSAGE:
+      return { ...INITIAL_STATE, title: 'Escrever mensagem' }
     case OPEN_MESSAGES_INBOX:
       return { ...INITIAL_STATE, messagesInbox: true, title: 'Caixa de entrada' }
     case OPEN_MESSAGES_SENT:
@@ -61,6 +66,8 @@ const MainReducer = (state = INITIAL_STATE, action) => {
       return { ...INITIAL_STATE, title: 'Adicionar funcionário' }
     case OPEN_CREATE_GROUP:
       return { ...INITIAL_STATE, title: 'Adicionar grupo' }
+    case MAIN_CLEAN:
+      return { ...INITIAL_STATE }
     default:
       return state
   }
