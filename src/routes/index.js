@@ -30,7 +30,7 @@ const Routes = (props) => (
     />
     <Route path="/forgot_password" component={() => <ForgotPasswordForm />} />
     <Route 
-      path="/reset_password/:email/:token" 
+      path="/reset_password/:email/:token"
       component={(props) => <ResetPasswordForm { ...props } />} 
     />
     <PrivateRoute path="/" component={() => <Home />} isAuthenticated={props.isAuthenticated} />
