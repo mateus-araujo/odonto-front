@@ -52,11 +52,12 @@ class LoginForm extends Component {
               </div>
             ) : null}
 
-            {this.props.error ? (
+            {this.props.error.length > 0 ?
               <Alert color="danger">
                 {this.props.error}
               </Alert>
-            ) : null}
+              : null
+            }
           </FormGroup>
 
           <FormGroup row style={{ marginTop: 50 }}>
