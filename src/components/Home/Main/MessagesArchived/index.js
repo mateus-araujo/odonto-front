@@ -6,6 +6,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import { connect } from 'react-redux'
 
+import { openShowMessage } from '../../../../store/actions'
 import api from '../../../../services/api'
 import CommonModal from '../../../CommonModal'
 import Loader from '../../../Loader'
@@ -128,16 +129,33 @@ class MessagesArchived extends Component {
                       'Message-Item-NotRead': !mensagem.status[0].visualizada
                     })
 
+                    const message_id = mensagem.id
+
                     return (
                       <Row key={mensagem.id} className={className}>
-                        <Col sm="4" className="No-Wrap-Ellipsis">{mensagem.remetente.name}</Col>
-                          <Col sm="3" className="No-Wrap-Ellipsis">{mensagem.assunto}</Col>
-                          <Col sm="3">
-                            {
-                              moment(mensagem.createdAt).format('DD/MM/YY') + ' | ' +
-                              moment(mensagem.createdAt).format('HH:MM')
-                            }
-                          </Col>
+                        <Col
+                          sm="4"
+                          className="No-Wrap-Ellipsis"
+                          onClick={() => this.props.openShowMessage({ message_id })}
+                        >
+                          {mensagem.remetente.name}
+                        </Col>
+                        <Col
+                          sm="3"
+                          className="No-Wrap-Ellipsis"
+                          onClick={() => this.props.openShowMessage({ message_id })}
+                        >
+                          {mensagem.assunto}
+                        </Col>
+                        <Col
+                          sm="3"
+                          onClick={() => this.props.openShowMessage({ message_id })}
+                        >
+                          {
+                            moment(mensagem.createdAt).format('DD/MM/YY') + ' | ' +
+                            moment(mensagem.createdAt).format('HH:MM')
+                          }
+                        </Col>
                         <Col sm="2">
                           <Row>
                             <Col sm="5"></Col>
@@ -231,4 +249,4 @@ const mapStateToProps = ({ auth }) => {
   return { user }
 }
 
-export default connect(mapStateToProps, {})(MessagesArchived)
+export default connect(mapStateToProps, { openShowMessage })(MessagesArchived)

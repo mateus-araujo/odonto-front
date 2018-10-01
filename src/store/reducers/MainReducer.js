@@ -1,5 +1,6 @@
 import {
   OPEN_CREATE_MESSAGE,
+  OPEN_SHOW_MESSAGE,
   OPEN_MESSAGES_INBOX,
   OPEN_MESSAGES_SENT,
   OPEN_MESSAGES_ARCHIVED,
@@ -35,6 +36,8 @@ const MainReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case OPEN_CREATE_MESSAGE:
       return { ...INITIAL_STATE, title: 'Escrever mensagem' }
+    case OPEN_SHOW_MESSAGE:
+      return { ...INITIAL_STATE, title: 'Mensagem' }
     case OPEN_MESSAGES_INBOX:
       return { ...INITIAL_STATE, messagesInbox: true, title: 'Caixa de entrada' }
     case OPEN_MESSAGES_SENT:

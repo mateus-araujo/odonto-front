@@ -14,6 +14,7 @@ export const USER_CLEAN = 'user_clean'
 export const LOGOUT_USER = 'logout_user'
 
 export const OPEN_CREATE_MESSAGE = 'open_create_message'
+export const OPEN_SHOW_MESSAGE = 'open_show_message'
 export const OPEN_MESSAGES_INBOX = 'open_messages_inbox'
 export const OPEN_MESSAGES_SENT = 'open_messages_sent'
 export const OPEN_MESSAGES_ARCHIVED = 'open_messages_archived'

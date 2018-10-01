@@ -16,6 +16,16 @@
   height: 480px;
 }
 
+.Message-Text {
+  background: #CCCCCC;
+  width: 90%;
+  height: 150px;
+  border-style: double;
+  border-color: #666;
+  border-width: 2px;
+  border-radius: 3px;
+}
+
 .Message-Item {
   margin: 0.5%;
   padding-top: 0.5%;

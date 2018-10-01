@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 
 import CreateMessage from './CreateMessage'
+import ShowMessage from './ShowMessage'
 import MessagesInbox from './MessagesInbox'
 import MessagesSent from './MessagesSent'
 import MessagesArchived from './MessagesArchived'
@@ -26,6 +27,7 @@ class Main extends Component {
       <div>
         <Switch>
           <Route path="/messages/create" component={() => <CreateMessage />} />
+          <Route path="/message/:message_id" component={() => <ShowMessage />} />
           <Route exact path="/" component={() => <MessagesInbox />} />
           <Route path="/messages/sent" component={() => <MessagesSent />} />
           <Route path="/messages/archived" component={() => <MessagesArchived />} />

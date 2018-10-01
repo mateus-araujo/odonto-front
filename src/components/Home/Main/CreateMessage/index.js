@@ -195,36 +195,34 @@ class CreateMessage extends Component {
 
     this.state.selectedFuncionarios.forEach((key, value) => {
       if (key === true) {
-        value = parseInt(value)
+        value = parseInt(value, 10)
         if (!destinatarios.includes(value)) {
           destinatarios.push(value)
 
-          let usuario
+          // eslint-disable-next-line
           this.state.funcionarios.map(funcionario => {
-            if (funcionario.usuario.id == value)
-              usuario = funcionario.usuario
+            if (funcionario.usuario.id === value)
+              contatos = contatos + funcionario.usuario.name + ' (' + funcionario.usuario.email + '); '
           })
-
-          contatos = contatos + usuario.name + ' (' + usuario.email + '); '
         }
       }
     })
 
     this.state.selectedGrupos.forEach((key, value) => {
-      if (key === true)
+      if (key === true) {
+        value = parseInt(value, 10)
+        // eslint-disable-next-line
         this.state.grupos[value - 1].integrantes.map(integrante => {
           if (!destinatarios.includes(integrante.id)) {
             destinatarios.push(integrante.id)
-
-            let usuario
+            // eslint-disable-next-line
             this.state.funcionarios.map(funcionario => {
-              if (funcionario.usuario.id == integrante.id)
-                usuario = funcionario.usuario
+              if (funcionario.usuario.id === integrante.id)
+                contatos = contatos + funcionario.usuario.name + ' (' + funcionario.usuario.email + '); '
             })
-
-            contatos = contatos + usuario.name + ' (' + usuario.email + '); '
           }
         })
+      }
     })
 
     this.setState({ modalContatos: !this.state.modalContatos, contatos, destinatarios })
@@ -443,31 +441,31 @@ class CreateMessage extends Component {
           modalTitle="Destinatários"
           primaryTitle="Ok"
         >
-        {this.state.destinatarios.length > 0 ?
-          <Table size="sm" striped bordered responsive>
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Cargo</th>
-              </tr>
-            </thead>
-            <tbody className="Scrollable-Modal">
-              {this.state.funcionarios.map(funcionario =>
-                this.state.destinatarios.includes(funcionario.usuario.id) ?
-                  <tr key={funcionario.id}>
-                    <td>{funcionario.usuario.name}</td>
-                    <td>{funcionario.usuario.email}</td>
-                    <td>
-                      {funcionario.cargos.map(cargo => <Fragment key={cargo.id}>{cargo.nome}</Fragment>)}
-                    </td>
-                  </tr>
-                  : null
-              )
-              }
-            </tbody>
-          </Table>
-          : <h5>Você não selecionou nenhum contato ou grupo</h5>
+          {this.state.destinatarios.length > 0 ?
+            <Table size="sm" striped bordered responsive>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Cargo</th>
+                </tr>
+              </thead>
+              <tbody className="Scrollable-Modal">
+                {this.state.funcionarios.map(funcionario =>
+                  this.state.destinatarios.includes(funcionario.usuario.id) ?
+                    <tr key={funcionario.id}>
+                      <td>{funcionario.usuario.name}</td>
+                      <td>{funcionario.usuario.email}</td>
+                      <td>
+                        {funcionario.cargos.map(cargo => <Fragment key={cargo.id}>{cargo.nome}</Fragment>)}
+                      </td>
+                    </tr>
+                    : null
+                )
+                }
+              </tbody>
+            </Table>
+            : <h5>Você não selecionou nenhum contato ou grupo</h5>
           }
         </CommonModal>
 

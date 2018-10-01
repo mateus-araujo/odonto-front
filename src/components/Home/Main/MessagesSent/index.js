@@ -5,6 +5,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import { connect } from 'react-redux'
 
+import { openShowMessage } from '../../../../store/actions'
 import api from '../../../../services/api'
 import CommonModal from '../../../CommonModal'
 import Loader from '../../../Loader'
@@ -43,10 +44,10 @@ class MessagesSent extends Component {
             return undefined
         })
 
-        mensagens = mensagens.filter(mensagem => 
+        mensagens = mensagens.filter(mensagem =>
           mensagem !== undefined ?
             true
-          : false
+            : false
         )
 
         this.setState({ mensagens })
@@ -153,9 +154,15 @@ class MessagesSent extends Component {
                   {this.state.mensagens.map(mensagem => {
                     const length = mensagem.destinatarios.length
 
+                    const message_id = mensagem.id
+
                     return (
                       <Row key={mensagem.id} className="Message-Item">
-                        <Col sm="4" className="No-Wrap-Ellipsis">
+                        <Col
+                          sm="4"
+                          className="No-Wrap-Ellipsis"
+                          onClick={() => this.props.openShowMessage({ message_id })}
+                        >
                           {mensagem.destinatarios.map((destinatario, i) =>
                             <React.Fragment key={destinatario.id}>
                               {i === length - 1 ?
@@ -166,8 +173,19 @@ class MessagesSent extends Component {
                             </React.Fragment>
                           )}
                         </Col>
-                        <Col sm="2" className="No-Wrap-Ellipsis">{mensagem.assunto}</Col>
-                        <Col sm="2">{moment(mensagem.createdAt).format('DD/MM/YY')}</Col>
+                        <Col
+                          sm="2"
+                          className="No-Wrap-Ellipsis"
+                          onClick={() => this.props.openShowMessage({ message_id })}
+                        >
+                          {mensagem.assunto}
+                        </Col>
+                        <Col
+                          sm="2"
+                          onClick={() => this.props.openShowMessage({ message_id })}
+                        >
+                          {moment(mensagem.createdAt).format('DD/MM/YY')}
+                        </Col>
                         <Col sm="2" style={{ paddingLeft: 50 }}>
                           {mensagem.status.length > 0 ?
                             <Button
@@ -310,4 +328,4 @@ const mapStateToProps = ({ auth }) => {
   return { user }
 }
 
-export default connect(mapStateToProps, {})(MessagesSent)
+export default connect(mapStateToProps, { openShowMessage })(MessagesSent)
