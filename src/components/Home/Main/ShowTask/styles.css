@@ -1,0 +1,13 @@
+.Container {
+  margin-bottom: 5px;
+  padding: 0%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  border-style: double;
+  border-color: #666;
+  border-width: 2px;
+  border-radius: 10px;
+  font-size: 14px;
+  width: 270px;
+  align-items: center;
+}

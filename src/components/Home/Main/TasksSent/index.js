@@ -1,25 +1,113 @@
 import React, { Component } from 'react'
 import { Button, ButtonGroup, Col, Row } from 'reactstrap'
 import { FaFileArchive, FaTrashAlt, FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
-import CommonModal from '../../../CommonModal'
-// import classNames from 'classnames/bind';
-// import { Link, withRouter } from 'react-router-dom'
-// import { connect } from 'react-redux'
+import _ from 'lodash'
+import moment from 'moment'
+import { connect } from 'react-redux'
 
-// import './styles.css'
+import { openShowTask } from '../../../../store/actions'
+import api from '../../../../services/api'
+import CommonModal from '../../../CommonModal'
+import Loader from '../../../Loader'
 
 class TasksSent extends Component {
   state = {
-    modal: false,
-    list: [
-      { id: '1', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos e aaaaaaaaaaaaaaaaaaaa', data: '12 de Junho', hora: '21:21', status: 'Pendente', vizualizado: true },
-      { id: '2', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00', status: 'Confirmar', vizualizado: false },
-      { id: '3', remetente: 'Mariah Maclachian', assunto: 'Cursos', data: '09 de Junho', hora: '17:00', status: 'Executando', vizualizado: false },
-      { id: '4', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', status: 'Concluído', vizualizado: true },
-      { id: '5', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', status: 'Concluído', vizualizado: true },
-    ],
+    tarefas: [],
+    loading: true,
+    loadingStatus: false,
+    loadingModal: false,
+    message: '',
+    idTarefa: '',
+    modalError: false,
     modalDelete: false,
     modalArchive: false,
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.componentDidMount = _.debounce(this.componentDidMount, 300)
+  }
+
+  async getTarefas() {
+    this.setState({ loading: true })
+
+    await api.get(`/tarefas/enviadas/${this.props.user.id}`)
+      .then(response => {
+        const { tarefas } = response.data
+
+        this.setState({ tarefas })
+      })
+      .catch(({ response }) => {
+        console.log(response)
+      })
+
+    this.setState({ loading: false })
+  }
+
+  async changeStatus(status, tarefaId) {
+    this.setState({ loadingStatus: true })
+
+    await api.put(`/tarefas/${tarefaId}`, {
+      status,
+      motivo: ''
+    })
+      .then(() => this.getTarefas())
+      .catch(({ response }) => {
+        console.log(response)
+      })
+
+    this.setState({ loadingStatus: false })
+  }
+
+  async deleteTarefa() {
+    this.setState({ loadingModal: true })
+
+    const { idTarefa } = this.state
+
+    await api.put(`/tarefas/apagar/${idTarefa}/${this.props.user.id}/2`)
+      .then(() => {
+        this.setState({ modalDelete: false, idTarefa: '' })
+        this.getTarefas()
+      })
+      .catch(({ response }) => {
+        console.log(response)
+
+        const { error } = response.data
+
+        this.setState({ modalError: true, message: error })
+      })
+
+    this.setState({ loadingModal: false })
+  }
+
+  async archiveTarefa() {
+    this.setState({ loadingModal: true })
+
+    const { idTarefa } = this.state
+
+    await api.put(`/tarefas/arquivar/${idTarefa}/${this.props.user.id}`)
+      .then(() => {
+        this.setState({ modalArchive: false, idTarefa: '' })
+        this.getTarefas()
+      })
+      .catch(({ response }) => {
+        console.log(response)
+
+        const { error } = response.data
+
+        this.setState({ modalError: true, message: error })
+      })
+
+    this.setState({ loadingModal: false })
+  }
+
+  componentDidMount() {
+    this.getTarefas()
+  }
+
+  toggleModalError() {
+    this.setState({ modalError: false, modalDelete: false })
   }
 
   toggleModalDelete() {
@@ -30,149 +118,241 @@ class TasksSent extends Component {
     this.setState({ modalArchive: !this.state.modalArchive })
   }
 
-  renderStatusButton(task) {
-    const { status } = task
+  renderStatusButton(tarefa) {
+    const { status, id } = tarefa
 
-    if (status === "Pendente")
+    if (status === "waiting")
       return (
         <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="info" disabled>
           Pendente
         </Button>
       )
-    else if (status === "Confirmar")
+    else if (status === "doing")
+      return (
+        <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="primary" disabled>
+          Executando
+        </Button>
+      )
+    else if (status === "verifying")
       return (
         <div style={{ margin: 5, inlineSize: 110, paddingLeft: 30 }}>
           <Row style={{ paddingLeft: 10 }} >Confirmar</Row>
           <Row>
-            <ButtonGroup size="sm">
-              <Button size="sm" color="primary">Sim</Button>
-              <Button size="sm" color="secondary">Não</Button>
-            </ButtonGroup>
+            {this.state.loadingStatus ?
+              <div className="Loading">
+                <Loader />
+              </div>
+              :
+              <ButtonGroup size="sm">
+                <Button size="sm" color="primary"
+                  onClick={() => this.changeStatus('completed', id)}
+                >
+                  Sim
+                      </Button>
+                <Button size="sm" color="secondary"
+                  onClick={() => this.changeStatus('not_completed', id)}
+                >
+                  Não
+                      </Button>
+              </ButtonGroup>
+            }
           </Row>
         </div>
       )
-    else if (status === "Executando")
+    else if (status === "completed")
       return (
-        <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="warning" disabled>
-          Executando
+        <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="info" disabled>
+          Concluída
         </Button>
       )
-    else if (status === "Concluído")
+    else if (status === "not_completed")
       return (
         <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="secondary" disabled>
-          Concluído
+          Não concluída
+        </Button>
+      )
+    else if (status === "cancelled")
+      return (
+        <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="danger" disabled>
+          Cancelada
         </Button>
       )
   }
 
   render() {
-    const { list } = this.state
     return (
       <div>
-        <div className="List">
-          <Row className="Labels">
-            <Col sm="2">Remetente</Col>
-            <Col sm="3">Assunto</Col>
-            <Col sm={{ size: '2', offset: '5' }}>Opções</Col>
-          </Row>
-
-          <div className="Scrollable">
-            {list.map(task => {
-              return (
-                <Row key={task.id} className="Task-Item">
-                  <Col sm="2" className="No-Wrap-Ellipsis">{task.remetente}</Col>
-                  <Col className="No-Wrap-Ellipsis">{task.assunto}</Col>
-                  <Col sm="2" className="No-Wrap-Ellipsis" style={{ paddingLeft: 30 }}>{task.data}</Col>
-                  <Col sm="6" style={{ paddingLeft: 20 }}>
-                    <Row>
-                      {task.status === "Confirmar" ?
-                        <Col sm="1" style={{ padding: 10, paddingTop: 20 }}>
-                          {task.vizualizado ?
-                            <FaCheckCircle color="green" />
-                            : <FaTimesCircle color="gray" />
-                          }
-                        </Col>
-                        :
-                        <Col sm="1" style={{ padding: 10 }}>
-                          {task.vizualizado ?
-                            <FaCheckCircle color="green" />
-                            : <FaTimesCircle color="gray" />
-                          }
-                        </Col>
-                      }
-
-                      {task.status === "Confirmar" ?
-                        <Col sm="3">
-                          <Button style={{ margin: 5, marginTop: 20 }} size="sm" color="info">
-                            Ver tarefa
-                          </Button>
-                        </Col>
-                        :
-                        <Col sm="3">
-                          <Button style={{ margin: 5 }} size="sm" color="info">
-                            Ver tarefa
-                        </Button>
-                        </Col>
-                      }
-
-                      <Col>
-                        {this.renderStatusButton(task)}
-                      </Col>
-
-
-                      {task.status === "Confirmar" ?
-                        <Col sm="1" style={{ padding: 10, paddingTop: 20 }} onClick={this.toggleModalDelete.bind(this)}>
-                          <FaTrashAlt color="red" />
-                        </Col>
-                        :
-                        <Col sm="1" style={{ padding: 10 }} onClick={this.toggleModalDelete.bind(this)}>
-                          <FaTrashAlt color="red" />
-                        </Col>
-                      }
-
-                      {task.status === "Confirmar" ?
-                        <Col sm="1" style={{ padding: 10, marginRight: 15, paddingTop: 20 }} onClick={this.toggleModalArchive.bind(this)}>
-                          <FaFileArchive color="green" />
-                        </Col>
-                        :
-                        <Col sm="1" style={{ padding: 10, marginRight: 15 }} onClick={this.toggleModalArchive.bind(this)}>
-                          <FaFileArchive color="green" />
-                        </Col>
-                      }
-                    </Row>
-                  </Col>
-                </Row>
-              )
-            }
-            )}
+        {this.state.loading ?
+          <div className="Loading">
+            <Loader />
           </div>
-        </div>
+          :
+          this.state.tarefas.length ?
+            <div className="List">
+              <Row className="Labels">
+                <Col sm="3">Destinatário</Col>
+                <Col sm="3">Assunto</Col>
+                <Col sm={{ size: '2', offset: '1' }}>Visualização</Col>
+                <Col sm="1">Status</Col>
+                <Col sm="2">Opções</Col>
+              </Row>
 
-        <CommonModal
-          isOpen={this.state.modalDelete}
-          toggle={this.toggleModalDelete.bind(this)}
-          centered
-          message="Deseja mesmo remover esta tarefa?"
-          modalTitle="Remover tarefa"
-          primaryTitle="Sim"
-          secondaryTitle="Cancelar"
-          toggleSecondary={this.toggleModalDelete.bind(this)}
-        />
+              <div className="Scrollable">
+                {this.state.tarefas.map(tarefa => {
+
+                  const task_id = tarefa.id
+
+                  return (
+                    <Row key={tarefa.id} className="Task-Item">
+                      <Col sm="3" className="No-Wrap-Ellipsis"
+                        onClick={() => this.props.openShowTask({ task_id })}
+                      >
+                        {tarefa.destinatario.name}
+                      </Col>
+                      <Col className="No-Wrap-Ellipsis"
+                        onClick={() => this.props.openShowTask({ task_id })}
+                      >
+                        {tarefa.assunto}
+                      </Col>
+                      <Col sm="2" className="No-Wrap-Ellipsis" style={{ paddingLeft: 30 }}
+                        onClick={() => this.props.openShowTask({ task_id })}
+                      >
+                        {moment(tarefa.createdAt).format('DD/MM/YYYY')}
+                      </Col>
+                      <Col sm="4" style={{ paddingLeft: 20 }}>
+                        <Row>
+                          {tarefa.status === "verifying" ?
+                            <Col sm="1" style={{ padding: 10, paddingTop: 20 }}>
+                              {tarefa.visualizada ?
+                                <FaCheckCircle color="green" />
+                                : <FaTimesCircle color="gray" />
+                              }
+                            </Col>
+                            :
+                            <Col sm="1" style={{ padding: 10 }}>
+                              {tarefa.visualizada ?
+                                <FaCheckCircle color="green" />
+                                : <FaTimesCircle color="gray" />
+                              }
+                            </Col>
+                          }
+
+                          <Col>
+                            {this.renderStatusButton(tarefa)}
+                          </Col>
+
+
+                          {tarefa.status === "verifying" ?
+                            <Col sm="1" style={{ padding: 10, paddingTop: 20 }}
+                              onClick={() => this.setState({
+                                modalDelete: !this.state.modalDelete,
+                                idTarefa: tarefa.id
+                              })}
+                            >
+                              <FaTrashAlt color="red" />
+                            </Col>
+                            :
+                            <Col sm="1" style={{ padding: 10 }}
+                              onClick={() => this.setState({
+                                modalDelete: !this.state.modalDelete,
+                                idTarefa: tarefa.id
+                              })}
+                            >
+                              <FaTrashAlt color="red" />
+                            </Col>
+                          }
+
+                          {tarefa.status === "verifying" ?
+                            <Col sm="1" style={{ padding: 10, marginRight: 15, paddingTop: 20 }}
+                              onClick={() => this.setState({
+                                modalArchive: !this.state.modalArchive,
+                                idTarefa: tarefa.id
+                              })}
+                            >
+                              <FaFileArchive color="green" />
+                            </Col>
+                            :
+                            <Col sm="1" style={{ padding: 10, marginRight: 15 }}
+                              onClick={() => this.setState({
+                                modalArchive: !this.state.modalArchive,
+                                idTarefa: tarefa.id
+                              })}
+                            >
+                              <FaFileArchive color="green" />
+                            </Col>
+                          }
+                        </Row>
+                      </Col>
+                    </Row>
+                  )
+                }
+                )}
+              </div>
+            </div>
+            : <h3 style={{ margin: 10 }}>Não há nenhuma tarefa enviada por você</h3>
+        }
 
         <CommonModal
           isOpen={this.state.modalArchive}
           toggle={this.toggleModalArchive.bind(this)}
+          togglePrimary={this.archiveTarefa.bind(this)}
+          toggleSecondary={() => this.setState({ modalArchive: false })}
           centered
-          message="Deseja mesmo arquivar esta tarefa?"
           modalTitle="Arquivar tarefa"
           primaryTitle="Sim"
-          secondaryTitle="Cancelar"
-          toggleSecondary={this.toggleModalArchive.bind(this)}
+          secondaryTitle="Não"
+        >
+          <div>
+            Deseja mesmo arquivar essa tarefa?
+
+            {this.state.loadingModal ?
+              <div className="Loading">
+                <Loader />
+              </div>
+              : null
+            }
+          </div>
+        </CommonModal>
+
+        <CommonModal
+          isOpen={this.state.modalDelete}
+          toggle={this.toggleModalDelete.bind(this)}
+          togglePrimary={this.deleteTarefa.bind(this)}
+          toggleSecondary={() => this.setState({ modalDelete: false })}
+          centered
+          modalTitle="Remover tarefa"
+          primaryTitle="Sim"
+          secondaryTitle="Não"
+        >
+          <div>
+            Deseja mesmo excluir essa tarefa?
+
+            {this.state.loadingModal ?
+              <div className="Loading">
+                <Loader />
+              </div>
+              : null
+            }
+          </div>
+        </CommonModal>
+
+        <CommonModal
+          isOpen={this.state.modalError}
+          toggle={this.toggleModalError.bind(this)}
+          centered
+          message={this.state.message}
+          modalTitle="Erro ao remover tarefa"
+          primaryTitle="Ok"
         />
       </div>
     )
   }
 }
 
-// export default withRouter(connect(mapStateToProps, {})(MessagesList))
-export default TasksSent
+const mapStateToProps = ({ auth }) => {
+  const { user } = auth
+
+  return { user }
+}
+
+export default connect(mapStateToProps, { openShowTask })(TasksSent)

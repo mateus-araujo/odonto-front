@@ -151,13 +151,13 @@ class TasksInbox extends Component {
       )
     else if (tarefa.status === "completed")
       return (
-        <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="secondary" disabled>
+        <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="info" disabled>
           Concluída
         </Button>
       )
     else if (tarefa.status === "not_completed")
       return (
-        <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="danger" disabled>
+        <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="secondary" disabled>
           Não concluída
         </Button>
       )
@@ -182,7 +182,8 @@ class TasksInbox extends Component {
               <Row className="Labels">
                 <Col sm="2">Remetente</Col>
                 <Col sm="3">Assunto</Col>
-                <Col sm={{ size: '2', offset: '5' }}>Opções</Col>
+                <Col sm={{ size: '2', offset: '3' }}>Status</Col>
+                <Col sm="2">Opções</Col>
               </Row>
 
               <div className="Scrollable">
@@ -242,7 +243,7 @@ class TasksInbox extends Component {
                 )}
               </div>
             </div>
-            : <h3 style={{ margin: 10 }}>Não há nenhuma mensagem na caixa de entrada</h3>
+            : <h3 style={{ margin: 10 }}>Não há nenhuma tarefa na caixa de entrada</h3>
         }
 
         <CommonModal
@@ -294,7 +295,7 @@ class TasksInbox extends Component {
           toggle={this.toggleModalError.bind(this)}
           centered
           message={this.state.message}
-          modalTitle="Erro ao remover mensagem"
+          modalTitle="Erro ao remover tarefa"
           primaryTitle="Ok"
         />
       </div>
