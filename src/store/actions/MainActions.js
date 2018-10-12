@@ -6,6 +6,7 @@ import {
   OPEN_MESSAGES_SENT,
   OPEN_MESSAGES_ARCHIVED,
   
+  OPEN_SHOW_TASK,
   OPEN_TASKS_INBOX,
   OPEN_TASKS_SENT,
   OPEN_TASKS_ARCHIVED,
@@ -58,6 +59,16 @@ export const openMessagesArchived = () => {
     dispatch({ type: OPEN_MESSAGES_ARCHIVED })
 
     dispatch(push('/messages/archived'))
+  }
+}
+
+/* TASKS */
+
+export const openShowTask = ({ task_id }) => {
+  return (dispatch) => {
+    dispatch({ type: OPEN_SHOW_TASK })
+
+    dispatch(push(`/task/${task_id}`))
   }
 }
 

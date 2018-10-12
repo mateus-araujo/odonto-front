@@ -4,6 +4,8 @@ import {
   OPEN_MESSAGES_INBOX,
   OPEN_MESSAGES_SENT,
   OPEN_MESSAGES_ARCHIVED,
+
+  OPEN_SHOW_TASK,
   OPEN_TASKS_INBOX,
   OPEN_TASKS_SENT,
   OPEN_TASKS_ARCHIVED,
@@ -45,6 +47,8 @@ const MainReducer = (state = INITIAL_STATE, action) => {
     case OPEN_MESSAGES_ARCHIVED:
       return { ...INITIAL_STATE, messagesArchived: true, title: 'Mensagens arquivadas' }
 
+    case OPEN_SHOW_TASK:
+      return { ...INITIAL_STATE, title: 'Tarefa' }
     case OPEN_TASKS_INBOX:
       return { ...INITIAL_STATE, tasksInbox: true, title: 'Tarefas - Caixa de entrada' }
     case OPEN_TASKS_SENT:

@@ -229,7 +229,7 @@ class CreateMessage extends Component {
   }
 
   toggleModalMessage() {
-    this.setState({ modalMessage: !this.state.modalMessage })
+    this.setState(this.baseState)
   }
 
   toggleModalDestinatarios() {

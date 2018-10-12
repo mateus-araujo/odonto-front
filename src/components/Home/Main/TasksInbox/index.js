@@ -1,25 +1,115 @@
 import React, { Component } from 'react'
 import { Button, Col, Row } from 'reactstrap'
 import { FaFileArchive, FaTrashAlt } from 'react-icons/fa'
-import CommonModal from '../../../CommonModal'
-// import classNames from 'classnames/bind';
-// import { Link, withRouter } from 'react-router-dom'
-// import { connect } from 'react-redux'
+import _ from 'lodash'
+import classNames from 'classnames/bind'
+import moment from 'moment'
+import { connect } from 'react-redux'
 
-// import './styles.css'
+
+import { openShowTask } from '../../../../store/actions'
+import api from '../../../../services/api'
+import CommonModal from '../../../CommonModal'
+import Loader from '../../../Loader'
 
 class TasksInbox extends Component {
   state = {
-    modal: false,
-    list: [
-      { id: '1', remetente: 'Giovane dos Santos', assunto: 'Entregas dos documentos e aaaaaaaaaaaaaaaaaaaa', data: '12 de Junho', hora: '21:21', status: 'Finalizar', open: true },
-      { id: '2', remetente: 'Marco Botton', assunto: 'Semana IV', data: '11 de Junho', hora: '16:00', status: 'Executar', open: true },
-      { id: '3', remetente: 'Mariah Maclachian', assunto: 'Cursos', data: '09 de Junho', hora: '17:00', status: 'Aguardando...', open: false },
-      { id: '4', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', status: 'Concluído', open: false },
-      { id: '5', remetente: 'Valerie Liberty', assunto: 'Realização de tarefas', data: '05 de Junho', hora: '22:00', status: 'Não concluído', open: false },
-    ],
+    tarefas: [],
+    loading: true,
+    loadingStatus: false,
+    loadingModal: false,
+    message: '',
+    idTarefa: '',
+    modalError: false,
     modalDelete: false,
     modalArchive: false,
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.componentDidMount = _.debounce(this.componentDidMount, 300)
+  }
+
+  async getTarefas() {
+    this.setState({ loading: true })
+
+    await api.get(`/tarefas/entrada/${this.props.user.id}`)
+      .then(response => {
+        const { tarefas } = response.data
+
+        this.setState({ tarefas })
+      })
+      .catch(({ response }) => {
+        console.log(response)
+      })
+
+    this.setState({ loading: false })
+  }
+
+  async changeStatus(status, tarefaId) {
+    this.setState({ loadingStatus: true })
+
+    await api.put(`/tarefas/${tarefaId}`, {
+      status,
+      motivo: ''
+    })
+      .then(() => this.getTarefas())
+      .catch(({ response }) => {
+        console.log(response)
+      })
+
+    this.setState({ loadingStatus: false })
+  }
+
+  async deleteTarefa() {
+    this.setState({ loadingModal: true })
+
+    const { idTarefa } = this.state
+
+    await api.put(`/tarefas/apagar/${idTarefa}/${this.props.user.id}/1`)
+      .then(() => {
+        this.setState({ modalDelete: false, idTarefa: '' })
+        this.getTarefas()
+      })
+      .catch(({ response }) => {
+        console.log(response)
+
+        const { error } = response.data
+
+        this.setState({ modalError: true, message: error })
+      })
+
+    this.setState({ loadingModal: false })
+  }
+
+  async archiveTarefa() {
+    this.setState({ loadingModal: true })
+
+    const { idTarefa } = this.state
+
+    await api.put(`/tarefas/arquivar/${idTarefa}/${this.props.user.id}`)
+      .then(() => {
+        this.setState({ modalArchive: false, idTarefa: '' })
+        this.getTarefas()
+      })
+      .catch(({ response }) => {
+        console.log(response)
+
+        const { error } = response.data
+
+        this.setState({ modalError: true, message: error })
+      })
+
+    this.setState({ loadingModal: false })
+  }
+
+  componentDidMount() {
+    this.getTarefas()
+  }
+
+  toggleModalError() {
+    this.setState({ modalError: false, modalDelete: false })
   }
 
   toggleModalDelete() {
@@ -30,110 +120,192 @@ class TasksInbox extends Component {
     this.setState({ modalArchive: !this.state.modalArchive })
   }
 
-  renderStatusButton(task) {
-    if (task.status === "Finalizar")
+  renderStatusButton(tarefa) {
+    if (tarefa.status === "waiting")
       return (
-        <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="success">
-          Finalizar
+        <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="primary"
+          onClick={() => this.changeStatus('doing', tarefa.id)}
+        >
+          {this.state.loadingStatus ?
+            <Loader color="#FFF" />
+            : 'Executar'
+          }
         </Button>
       )
-    else if (task.status === "Executar")
+    else if (tarefa.status === "doing")
       return (
-        <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="primary">
-          Executar
+        <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="success"
+          onClick={() => this.changeStatus('verifying', tarefa.id)}
+        >
+          {this.state.loadingStatus ?
+            <Loader color="#FFF" />
+            : 'Finalizar'
+          }
         </Button>
       )
-    else if (task.status === "Aguardando...")
+    else if (tarefa.status === "verifying")
       return (
         <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="warning" disabled>
           Aguardando...
         </Button>
       )
-    else if (task.status === "Concluído")
+    else if (tarefa.status === "completed")
       return (
         <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="secondary" disabled>
-          Concluído
+          Concluída
         </Button>
       )
-    else if (task.status === "Não concluído")
+    else if (tarefa.status === "not_completed")
       return (
         <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="danger" disabled>
-          Não concluído
+          Não concluída
+        </Button>
+      )
+    else if (tarefa.status === "cancelled")
+      return (
+        <Button style={{ margin: 5, inlineSize: 110 }} size="sm" color="danger" disabled>
+          Cancelada
         </Button>
       )
   }
 
   render() {
-    const { list } = this.state
     return (
       <div>
-        <div className="List">
-          <Row className="Labels">
-            <Col sm="2">Remetente</Col>
-            <Col sm="3">Assunto</Col>
-            <Col sm={{ size: '2', offset: '5' }}>Opções</Col>
-          </Row>
+        {this.state.loading ?
+          <div className="Loading">
+            <Loader />
+          </div>
+          :
+          this.state.tarefas.length ?
+            <div className="List">
+              <Row className="Labels">
+                <Col sm="2">Remetente</Col>
+                <Col sm="3">Assunto</Col>
+                <Col sm={{ size: '2', offset: '5' }}>Opções</Col>
+              </Row>
 
-          <div className="Scrollable">
-            {list.map(task => {
-              return (
-                <Row key={task.id} className="Task-Item">
-                  <Col sm="2" className="No-Wrap-Ellipsis">{task.remetente}</Col>
-                  <Col className="No-Wrap-Ellipsis">{task.assunto}</Col>
-                  <Col sm="2" className="No-Wrap-Ellipsis" style={{ paddingLeft: 30 }}>{task.data}</Col>
-                  <Col sm="6" style={{ paddingLeft: 20 }}>
-                    <Row>
-                      <Col sm="3">
-                        <Button style={{ margin: 5 }} size="sm" color="info">
-                          Ver tarefa
-                        </Button>
+              <div className="Scrollable">
+                {this.state.tarefas.map(tarefa => {
+                  const className = classNames({
+                    'Task-Item': true,
+                    'Task-Item-NotRead': !tarefa.visualizada
+                  })
+
+                  const task_id = tarefa.id
+
+                  return (
+                    <Row key={tarefa.id} className={className}>
+                      <Col sm="2" className="No-Wrap-Ellipsis"
+                        onClick={() => this.props.openShowTask({ task_id })}
+                      >
+                        {tarefa.remetente.name}
                       </Col>
-
-                      <Col>
-                        {this.renderStatusButton(task)}
+                      <Col className="No-Wrap-Ellipsis"
+                        onClick={() => this.props.openShowTask({ task_id })}
+                      >
+                        {tarefa.assunto}
                       </Col>
-
-                      <Col sm="1" style={{ padding: 10 }} onClick={this.toggleModalDelete.bind(this)}>
-                        <FaTrashAlt color="red" />
+                      <Col sm="2" className="No-Wrap-Ellipsis" style={{ paddingLeft: 30 }}
+                        onClick={() => this.props.openShowTask({ task_id })}
+                      >
+                        {moment(tarefa.createdAt).format('DD/MM/YYYY')}
                       </Col>
+                      <Col sm="4" style={{ paddingLeft: 20 }}>
+                        <Row>
+                          <Col>
+                            {this.renderStatusButton(tarefa)}
+                          </Col>
 
-                      <Col sm="1" style={{ padding: 10, marginRight: 15 }} onClick={this.toggleModalArchive.bind(this)}>
-                        <FaFileArchive color="green" />
+                          <Col sm="1" style={{ padding: 10 }}
+                            onClick={() => this.setState({
+                              modalDelete: !this.state.modalDelete,
+                              idTarefa: tarefa.id
+                            })}
+                          >
+                            <FaTrashAlt color="red" />
+                          </Col>
+
+                          <Col sm="1" style={{ padding: 10, marginRight: 15 }}
+                            onClick={() => this.setState({
+                              modalArchive: !this.state.modalArchive,
+                              idTarefa: tarefa.id
+                            })}
+                          >
+                            <FaFileArchive color="green" />
+                          </Col>
+                        </Row>
                       </Col>
                     </Row>
-                  </Col>
-                </Row>
-              )
-            }
-            )}
-          </div>
-        </div>
-
-        <CommonModal
-          isOpen={this.state.modalDelete}
-          toggle={this.toggleModalDelete.bind(this)}
-          centered
-          message="Deseja mesmo remover esta tarefa?"
-          modalTitle="Remover tarefa"
-          primaryTitle="Sim"
-          secondaryTitle="Cancelar"
-          toggleSecondary={this.toggleModalDelete.bind(this)}
-        />
+                  )
+                }
+                )}
+              </div>
+            </div>
+            : <h3 style={{ margin: 10 }}>Não há nenhuma mensagem na caixa de entrada</h3>
+        }
 
         <CommonModal
           isOpen={this.state.modalArchive}
           toggle={this.toggleModalArchive.bind(this)}
+          togglePrimary={this.archiveTarefa.bind(this)}
+          toggleSecondary={() => this.setState({ modalArchive: false })}
           centered
-          message="Deseja mesmo arquivar esta tarefa?"
           modalTitle="Arquivar tarefa"
           primaryTitle="Sim"
-          secondaryTitle="Cancelar"
-          toggleSecondary={this.toggleModalArchive.bind(this)}
+          secondaryTitle="Não"
+        >
+          <div>
+            Deseja mesmo arquivar essa tarefa?
+
+            {this.state.loadingModal ?
+              <div className="Loading">
+                <Loader />
+              </div>
+              : null
+            }
+          </div>
+        </CommonModal>
+
+        <CommonModal
+          isOpen={this.state.modalDelete}
+          toggle={this.toggleModalDelete.bind(this)}
+          togglePrimary={this.deleteTarefa.bind(this)}
+          toggleSecondary={() => this.setState({ modalDelete: false })}
+          centered
+          modalTitle="Remover tarefa"
+          primaryTitle="Sim"
+          secondaryTitle="Não"
+        >
+          <div>
+            Deseja mesmo excluir essa tarefa?
+
+            {this.state.loadingModal ?
+              <div className="Loading">
+                <Loader />
+              </div>
+              : null
+            }
+          </div>
+        </CommonModal>
+
+        <CommonModal
+          isOpen={this.state.modalError}
+          toggle={this.toggleModalError.bind(this)}
+          centered
+          message={this.state.message}
+          modalTitle="Erro ao remover mensagem"
+          primaryTitle="Ok"
         />
       </div>
     )
   }
 }
 
-// export default withRouter(connect(mapStateToProps, {})(MessagesList))
-export default TasksInbox
+const mapStateToProps = ({ auth }) => {
+  const { user } = auth
+
+  return { user }
+}
+
+export default connect(mapStateToProps, { openShowTask })(TasksInbox)

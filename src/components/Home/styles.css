@@ -46,6 +46,16 @@
   cursor: pointer;
 }
 
+.Task-Text {
+  background: #CCCCCC;
+  width: 90%;
+  height: 150px;
+  border-style: double;
+  border-color: #666;
+  border-width: 2px;
+  border-radius: 3px;
+}
+
 .Task-Item {
   margin: 0.5%;
   border-style: double;
@@ -54,6 +64,10 @@
   border-radius: 3px;
   font-size: 11pt;
   align-items: center;
+}
+
+.Task-Item-NotRead {
+  font-weight: bold;
 }
 
 .Task-Item:hover {
