@@ -295,7 +295,7 @@ class TasksInbox extends Component {
           toggle={this.toggleModalError.bind(this)}
           centered
           message={this.state.message}
-          modalTitle="Erro ao remover tarefa"
+          modalTitle="Erro na operação"
           primaryTitle="Ok"
         />
       </div>

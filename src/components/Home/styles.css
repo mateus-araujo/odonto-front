@@ -58,6 +58,7 @@
 
 .Task-Item {
   margin: 0.5%;
+  min-height: 50px;
   border-style: double;
   border-color: #ccc;
   border-width: 2px;

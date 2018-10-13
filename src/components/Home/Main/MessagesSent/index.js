@@ -312,7 +312,7 @@ class MessagesSent extends Component {
               toggle={this.toggleModalError.bind(this)}
               centered
               message={this.state.message}
-              modalTitle="Erro ao remover mensagem"
+              modalTitle="Erro na operação"
               primaryTitle="Ok"
             />
           </div>

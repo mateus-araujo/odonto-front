@@ -148,12 +148,12 @@ class TasksSent extends Component {
                   onClick={() => this.changeStatus('completed', id)}
                 >
                   Sim
-                      </Button>
+                </Button>
                 <Button size="sm" color="secondary"
                   onClick={() => this.changeStatus('not_completed', id)}
                 >
                   Não
-                      </Button>
+                </Button>
               </ButtonGroup>
             }
           </Row>
@@ -341,7 +341,7 @@ class TasksSent extends Component {
           toggle={this.toggleModalError.bind(this)}
           centered
           message={this.state.message}
-          modalTitle="Erro ao remover tarefa"
+          modalTitle="Erro na operação"
           primaryTitle="Ok"
         />
       </div>
