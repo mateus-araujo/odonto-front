@@ -19,6 +19,7 @@ export const OPEN_MESSAGES_INBOX = 'open_messages_inbox'
 export const OPEN_MESSAGES_SENT = 'open_messages_sent'
 export const OPEN_MESSAGES_ARCHIVED = 'open_messages_archived'
 
+export const OPEN_CREATE_TASK = 'open_create_task'
 export const OPEN_SHOW_TASK = 'open_show_task'
 export const OPEN_TASKS_INBOX = 'open_tasks_inbox'
 export const OPEN_TASKS_SENT = 'open_tasks_sent'

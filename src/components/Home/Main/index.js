@@ -7,6 +7,7 @@ import MessagesInbox from './MessagesInbox'
 import MessagesSent from './MessagesSent'
 import MessagesArchived from './MessagesArchived'
 
+import CreateTask from './CreateTask'
 import ShowTask from './ShowTask'
 import TasksInbox from './TasksInbox'
 import TasksSent from './TasksSent'
@@ -33,6 +34,7 @@ class Main extends Component {
           <Route path="/messages/sent" component={() => <MessagesSent />} />
           <Route path="/messages/archived" component={() => <MessagesArchived />} />
 
+          <Route path="/tasks/create" component={() => <CreateTask />} />
           <Route path="/task/:task_id" component={() => <ShowTask />} />
           <Route exact path="/tasks" component={() => <TasksInbox />} />
           <Route path="/tasks/sent" component={() => <TasksSent />} />

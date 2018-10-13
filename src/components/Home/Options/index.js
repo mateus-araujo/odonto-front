@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import classNames from 'classnames/bind';
 import {
-  openCreateMessage,
+  openCreateMessage, openCreateTask,
   openMessagesInbox, openMessagesSent, openMessagesArchived,
   openTasksInbox, openTasksSent, openTasksArchived,
   openTrainings
@@ -74,6 +74,15 @@ class Options extends Component {
           block
         >
           Escrever mensagem
+        </Button>
+
+        <Button
+          onClick={this.props.openCreateTask.bind(this)}
+          color="info"
+          size="sm"
+          block
+        >
+          Criar tarefa
         </Button>
 
         <div className="Option">
@@ -154,7 +163,7 @@ const mapStateToProps = ({ main }) => {
 }
 
 export default withRouter(connect(mapStateToProps, {
-  openCreateMessage,
+  openCreateMessage, openCreateTask,
   openMessagesInbox, openMessagesSent, openMessagesArchived,
   openTasksInbox, openTasksSent, openTasksArchived, openTrainings
 })(Options))
