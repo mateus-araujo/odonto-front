@@ -109,7 +109,7 @@ class TasksInbox extends Component {
   }
 
   toggleModalError() {
-    this.setState({ modalError: false, modalDelete: false })
+    this.setState({ modalError: false, modalArchive: false, modalDelete: false })
   }
 
   toggleModalDelete() {

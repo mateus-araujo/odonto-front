@@ -22,6 +22,7 @@ class CreateMessage extends Component {
     modalMessage: '',
     loading: false,
     loadingTable: false,
+    loadingModal: false,
     busca: '',
     grupos: [],
     selectedGrupos: new Map(),
@@ -189,18 +190,22 @@ class CreateMessage extends Component {
     this.setState(prevState => ({ selectedFuncionarios: prevState.selectedFuncionarios.set(funcionario, selected) }))
   }
 
-  toggleModalContatos() {
+  async toggleModalContatos() {
+    this.setState({ loadingModal: true })
+
+    const { funcionarios, grupos, selectedFuncionarios, selectedGrupos } = this.state
+
     let destinatarios = []
     let contatos = ''
 
-    this.state.selectedFuncionarios.forEach((key, value) => {
+    selectedFuncionarios.forEach((key, value) => {
       if (key === true) {
-        value = parseInt(value, 10)
+        value = Number(value)
         if (!destinatarios.includes(value)) {
           destinatarios.push(value)
 
           // eslint-disable-next-line
-          this.state.funcionarios.map(funcionario => {
+          funcionarios.map(funcionario => {
             if (funcionario.usuario.id === value)
               contatos = contatos + funcionario.usuario.name + ' (' + funcionario.usuario.email + '); '
           })
@@ -208,24 +213,27 @@ class CreateMessage extends Component {
       }
     })
 
-    this.state.selectedGrupos.forEach((key, value) => {
+    selectedGrupos.forEach((key, value) => {
       if (key === true) {
-        value = parseInt(value, 10)
+        value = Number(value)
         // eslint-disable-next-line
-        this.state.grupos[value - 1].integrantes.map(integrante => {
+        grupos[value - 1].integrantes.map(integrante => {
           if (!destinatarios.includes(integrante.id)) {
             destinatarios.push(integrante.id)
-            // eslint-disable-next-line
-            this.state.funcionarios.map(funcionario => {
-              if (funcionario.usuario.id === integrante.id)
-                contatos = contatos + funcionario.usuario.name + ' (' + funcionario.usuario.email + '); '
-            })
+            contatos = contatos + integrante.name + ' (' + integrante.email + '); '
           }
         })
       }
     })
 
-    this.setState({ modalContatos: !this.state.modalContatos, contatos, destinatarios })
+    await this.getFuncionarios()
+
+    this.setState({
+      modalContatos: false,
+      loadingModal: false,
+      contatos,
+      destinatarios
+    })
   }
 
   toggleModalMessage() {
@@ -249,7 +257,7 @@ class CreateMessage extends Component {
           <FormGroup row>
             <Label size="sm" sm="1">Para</Label>
             <Button
-              onClick={this.toggleModalContatos.bind(this)}
+              onClick={() => this.setState({ modalContatos: true })}
               size="sm"
               color="link"
             >
@@ -431,6 +439,15 @@ class CreateMessage extends Component {
                   </tbody>
                 </Table>
                 : <h4 style={{ margin: 10, height: 150 }}>Não foi encontrado nenhum contato</h4>
+            }
+          </FormGroup>
+
+          <FormGroup>
+            {this.state.loadingModal ?
+              <div className="Loading">
+                <Loader />
+              </div>
+              : null
             }
           </FormGroup>
         </CommonModal>

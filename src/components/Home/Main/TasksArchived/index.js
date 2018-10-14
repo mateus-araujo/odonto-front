@@ -91,7 +91,7 @@ class TasksArchived extends Component {
   }
 
   toggleModalError() {
-    this.setState({ modalError: !this.state.modalError })
+    this.setState({ modalError: false, modalDelete: false, modalRestore: false, })
   }
 
   toggleModalDelete() {

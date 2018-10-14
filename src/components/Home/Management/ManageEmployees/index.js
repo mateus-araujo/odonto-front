@@ -22,6 +22,7 @@ class ManageEmployees extends Component {
     funcionarios: [],
     message: '',
     loading: true,
+    loadingModal: false,
     modalDelete: false,
     modalEdit: false,
     modalError: false,
@@ -144,7 +145,7 @@ class ManageEmployees extends Component {
     const error = this.validate()
 
     if (!error) {
-      this.setState({ loading: true })
+      this.setState({ loadingModal: true })
 
       const { name, cpf, email, data_nascimento, selectedCargo, clinica, acesso_sistema, idFuncionario } = this.state
       const cargos = []
@@ -171,12 +172,12 @@ class ManageEmployees extends Component {
           this.setState({ modalError: true, message: error })
         })
 
-      this.setState({ loading: false })
+      this.setState({ loadingModal: false })
     }
   }
 
   async deleteFuncionario() {
-    this.setState({ loading: true })
+    this.setState({ loadingModal: true })
 
     const { idFuncionario } = this.state
 
@@ -193,7 +194,7 @@ class ManageEmployees extends Component {
         this.setState({ modalError: true, message: error })
       })
 
-    this.setState({ loading: false })
+    this.setState({ loadingModal: false })
   }
 
   async getFuncionarios() {
@@ -233,7 +234,7 @@ class ManageEmployees extends Component {
   }
 
   toggleModalError() {
-    this.setState({ modalError: false })
+    this.setState({ modalError: false, modalDelete: false })
   }
 
   toggleModalSuccess() {
@@ -260,7 +261,7 @@ class ManageEmployees extends Component {
             <Loader />
           </div>
           :
-          <div>
+          <div style={{ fontSize: 14 }}>
             {this.state.funcionarios.length ?
               <Table size="sm" striped bordered responsive>
                 <thead>
@@ -348,7 +349,7 @@ class ManageEmployees extends Component {
           <div>
             Deseja mesmo excluir o funcionário?
 
-            {this.state.loading ?
+            {this.state.loadingModal ?
               <div className="Loading">
                 <Loader />
               </div>
@@ -493,7 +494,7 @@ class ManageEmployees extends Component {
                 </FormGroup>
 
                 <FormGroup>
-                  {this.state.loading ?
+                  {this.state.loadingModal ?
                     <div className="Loading">
                       <Loader />
                     </div>

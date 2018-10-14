@@ -191,7 +191,7 @@ class ShowTask extends Component {
 
             <p>O que é para ser feito?</p>
             <div className="Task-Text">
-              <p>
+              <p style={{ margin: 10 }}>
                 {this.state.texto}
               </p>
             </div>

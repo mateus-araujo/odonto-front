@@ -15,6 +15,7 @@ class ManageRoles extends Component {
     cargos: [],
     message: '',
     loading: true,
+    loadingModal: false,
     modalDelete: false,
     modalEdit: false,
     modalError: false,
@@ -64,7 +65,7 @@ class ManageRoles extends Component {
     const error = this.validate()
 
     if (!error) {
-      this.setState({ loading: true })
+      this.setState({ loadingModal: true })
 
       const { nome, salario, descricao, idCargo } = this.state
 
@@ -85,12 +86,12 @@ class ManageRoles extends Component {
           this.setState({ modalError: true, message: error })
         })
 
-      this.setState({ loading: false })
+      this.setState({ loadingModal: false })
     }
   }
 
   async deleteCargo() {
-    this.setState({ loading: true })
+    this.setState({ loadingModal: true })
 
     const { idCargo } = this.state
 
@@ -107,7 +108,7 @@ class ManageRoles extends Component {
         this.setState({ modalError: true, message: error })
       })
 
-    this.setState({ loading: false })
+    this.setState({ loadingModal: false })
   }
 
   async updateCargos() {
@@ -138,7 +139,7 @@ class ManageRoles extends Component {
   }
 
   toggleModalError() {
-    this.setState({ modalError: false })
+    this.setState({ modalError: false, modalDelete: false })
   }
 
   toggleModalSuccess() {
@@ -157,7 +158,7 @@ class ManageRoles extends Component {
             <Loader />
           </div>
           :
-          <div>
+          <div style={{ fontSize: 14 }}>
             {this.state.cargos.length ?
               <Table size="sm" striped bordered responsive>
                 <thead>
@@ -220,7 +221,7 @@ class ManageRoles extends Component {
           <div>
             Deseja mesmo excluir o cargo?
         
-            {this.state.loading ?
+            {this.state.loadingModal ?
               <div className="Loading">
                 <Loader />
               </div>
@@ -301,7 +302,7 @@ class ManageRoles extends Component {
             </FormGroup>
 
             <FormGroup>
-              {this.state.loading ?
+              {this.state.loadingModal ?
                 <div className="Loading">
                   <Loader />
                 </div>

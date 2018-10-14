@@ -23,6 +23,7 @@ class ManageGroups extends Component {
     integrantes: [],
     integrantesError: '',
     loading: true,
+    loadingModal: true,
     message: '',
     error: '',
     modalDelete: false,
@@ -57,7 +58,7 @@ class ManageGroups extends Component {
     const error = this.validate()
 
     if (!error) {
-      this.setState({ loading: true })
+      this.setState({ loadingModal: true })
 
       const { titulo, fundadorId, idGrupo } = this.state
 
@@ -81,13 +82,13 @@ class ManageGroups extends Component {
           this.setState({ modalError: true, message: error })
         })
         .finally(() => {
-          this.setState({ loading: false })
+          this.setState({ loadingModal: false })
         })
     }
   }
 
   async deleteGrupo() {
-    this.setState({ loading: true })
+    this.setState({ loadingModal: true })
 
     const { idGrupo } = this.state
 
@@ -104,7 +105,7 @@ class ManageGroups extends Component {
         this.setState({ modalError: true, message: error })
       })
       .finally(() => {
-        this.setState({ loading: false })
+        this.setState({ loadingModal: false })
       })
   }
 
@@ -177,7 +178,7 @@ class ManageGroups extends Component {
             <Loader />
           </div>
           :
-          <div>
+          <div style={{ fontSize: 14 }}>
             {this.state.grupos.length ?
               <Table size="sm" striped bordered responsive>
                 <thead>
@@ -190,35 +191,44 @@ class ManageGroups extends Component {
                 </thead>
 
                 <tbody className="Scrollable-Table">
-                  {this.state.grupos.map(grupo =>
-                    <tr key={grupo.id}>
-                      <td>{grupo.titulo}</td>
-                      <td>
-                        {grupo.integrantes.map(integrante =>
-                          <React.Fragment>
-                            {integrante.name}{' / '}
-                          </React.Fragment>
-                        )}
-                      </td>
-                      <td className="Col-Icon">
-                        <FaPencilAlt
-                          style={{ cursor: 'pointer' }}
-                          onClick={() => this.setState({
-                            modalEdit: true,
-                            idGrupo: grupo.id,
-                            ...grupo
-                          })}
-                          color="orange"
-                        />
-                      </td>
-                      <td className="Col-Icon">
-                        <FaTrashAlt
-                          style={{ cursor: 'pointer' }}
-                          onClick={() => this.setState({ modalDelete: true, idGrupo: grupo.id })}
-                          color="red"
-                        />
-                      </td>
-                    </tr>
+                  {this.state.grupos.map(grupo => {
+                    const integrantesLength = grupo.integrantes.length
+
+                    return (
+                      <tr key={grupo.id}>
+                        <td>{grupo.titulo}</td>
+                        <td>
+                          {grupo.integrantes.map((integrante, i) =>
+                            <React.Fragment key={integrante.id}>
+                              {i === integrantesLength - 1 ?
+                                integrante.name
+                                :
+                                integrante.name + ' / '
+                              }
+                            </React.Fragment>
+                          )}
+                        </td>
+                        <td className="Col-Icon">
+                          <FaPencilAlt
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => this.setState({
+                              modalEdit: true,
+                              idGrupo: grupo.id,
+                              ...grupo
+                            })}
+                            color="orange"
+                          />
+                        </td>
+                        <td className="Col-Icon">
+                          <FaTrashAlt
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => this.setState({ modalDelete: true, idGrupo: grupo.id })}
+                            color="red"
+                          />
+                        </td>
+                      </tr>
+                    )
+                  }
                   )}
                 </tbody>
               </Table>
@@ -259,7 +269,7 @@ class ManageGroups extends Component {
           <div>
             Deseja mesmo excluir o grupo?
 
-            {this.state.loading ?
+            {this.state.loadingModal ?
               <div className="Loading">
                 <Loader />
               </div>
@@ -312,7 +322,7 @@ class ManageGroups extends Component {
               </FormGroup>
 
               <FormGroup>
-                {this.state.loading ?
+                {this.state.loadingModal ?
                   <div className="Loading">
                     <Loader />
                   </div>

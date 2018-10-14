@@ -96,7 +96,7 @@ class MessagesInbox extends Component {
   }
 
   toggleModalError() {
-    this.setState({ modalError: !this.state.modalError })
+    this.setState({ modalError: false, modalArchive: false, modalDelete: false })
   }
 
   toggleModalArchive() {

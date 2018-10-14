@@ -98,7 +98,7 @@ class MessagesArchived extends Component {
   }
 
   toggleModalError() {
-    this.setState({ modalError: !this.state.modalDelete })
+    this.setState({ modalError: false, modalRestore: false, modalDelete: false })
   }
 
   toggleModalRestore() {
