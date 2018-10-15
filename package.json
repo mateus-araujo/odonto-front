@@ -32,8 +32,8 @@
   },
   "scripts": {
     "start_dev": "react-scripts start",
-    "start": "node server.js",
-    "heroku-postbuild": "npm run build",
+    "start": "serve -s build",
+    "heroku-postbuild": "npm run build && npm install -g serve",
     "server": "cd ../odonto-back && npm start",
     "docker": "docker start mysql-container",
     "build": "react-scripts build",
