@@ -322,6 +322,7 @@ class ManageRoles extends Component {
                   <DropdownMenu>
                     {this.state.permissoes.map(permissao =>
                       <DropdownItem
+                        key={permissao}
                         onClick={() => this.setState({ permissao })}
                       >
                         {permissao}
