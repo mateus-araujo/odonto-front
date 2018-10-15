@@ -1,5 +1,6 @@
 import { push } from 'connected-react-router'
-import axios from 'axios'
+
+import api from '../../services/api'
 import {
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
@@ -19,10 +20,6 @@ import {
 
   OPEN_MESSAGES_INBOX
 } from './types'
-
-const api = axios.create({
-  baseURL: 'http://localhost:3333',
-})
 
 export const emailChanged = (text) => {
   return {
