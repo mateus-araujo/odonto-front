@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Col, Form, FormFeedback, FormGroup, Label, Input, Table } from 'reactstrap'
+import {
+  Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem,
+  Form, FormFeedback, FormGroup, Label, Input, Table
+} from 'reactstrap'
 import { FaTrashAlt, FaPencilAlt, FaPlusCircle } from 'react-icons/fa'
 import _ from 'lodash'
 import validator from 'validator'
@@ -26,7 +29,10 @@ class ManageRoles extends Component {
     salario: '',
     salarioError: '',
     descricao: '',
-    descricaoError: ''
+    descricaoError: '',
+    permissoes: ['Administrador', 'RH', 'Gerente', 'Usuário padrão'],
+    permissao: '',
+    dropdown: false
   }
 
   constructor(props) {
@@ -67,12 +73,13 @@ class ManageRoles extends Component {
     if (!error) {
       this.setState({ loadingModal: true })
 
-      const { nome, salario, descricao, idCargo } = this.state
+      const { nome, salario, descricao, permissao, idCargo } = this.state
 
       await api.put(`/cargos/${idCargo}`, {
         nome,
         salario,
-        descricao
+        descricao,
+        permissao
       })
         .then(() => {
           this.setState({ modalSuccess: true, message: "Cargo editado com sucesso" })
@@ -128,6 +135,10 @@ class ManageRoles extends Component {
       })
 
     this.setState({ loading: false })
+  }
+
+  toggleDropdown() {
+    this.setState({ dropdown: !this.state.dropdown })
   }
 
   toggleModalEdit() {
@@ -220,7 +231,7 @@ class ManageRoles extends Component {
         >
           <div>
             Deseja mesmo excluir o cargo?
-        
+
             {this.state.loadingModal ?
               <div className="Loading">
                 <Loader />
@@ -298,6 +309,26 @@ class ManageRoles extends Component {
                   value={this.state.descricao}
                 />
                 <FormFeedback>{this.state.descricaoError}</FormFeedback>
+              </Col>
+            </FormGroup>
+
+            <FormGroup row>
+              <Label sm="2" size="sm">Permissão</Label>
+              <Col sm="6">
+                <Dropdown isOpen={this.state.dropdown} toggle={this.toggleDropdown.bind(this)} size="sm">
+                  <DropdownToggle caret style={{ inlineSize: 150 }}>
+                    {this.state.permissao}
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    {this.state.permissoes.map(permissao =>
+                      <DropdownItem
+                        onClick={() => this.setState({ permissao })}
+                      >
+                        {permissao}
+                      </DropdownItem>
+                    )}
+                  </DropdownMenu>
+                </Dropdown>
               </Col>
             </FormGroup>
 

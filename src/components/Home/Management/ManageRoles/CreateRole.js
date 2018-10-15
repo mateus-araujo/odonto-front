@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Col, Button, Form, FormFeedback, FormGroup, Label, Input } from 'reactstrap'
+import {
+  Col, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem,
+  Form, FormFeedback, FormGroup, Label, Input
+} from 'reactstrap'
 import validator from 'validator'
 
 import CommonModal from '../../../CommonModal'
@@ -7,11 +10,6 @@ import Loader from '../../../Loader'
 import api from '../../../../services/api'
 
 class CreateRole extends Component {
-  constructor(props) {
-    super(props)
-    this.baseState = this.state
-  }
-
   state = {
     nome: '',
     nomeError: '',
@@ -19,13 +17,27 @@ class CreateRole extends Component {
     salarioError: '',
     descricao: '',
     descricaoError: '',
+    permissoes: ['Administrador', 'RH', 'Gerente', 'Usuário padrão'],
+    permissao: '',
+    dropdown: false,
     loading: false,
     message: '',
     modal: false
   }
 
+  constructor(props) {
+    super(props)
+
+    this.state.permissao = this.state.permissoes[0]
+    this.baseState = this.state
+  }
+
   toggleModal() {
     this.setState(this.baseState)
+  }
+
+  toggleDropdown() {
+    this.setState({ dropdown: !this.state.dropdown })
   }
 
   validate = () => {
@@ -60,12 +72,13 @@ class CreateRole extends Component {
     if (!error) {
       this.setState({ loading: true })
 
-      const { nome, salario, descricao } = this.state
+      const { nome, salario, descricao, permissao } = this.state
 
       await api.post('/cargos', {
         nome,
         salario,
-        descricao
+        descricao,
+        permissao
       })
         .then(() => {
           this.setState({ modal: true, message: "Cargo inserido com sucesso" })
@@ -126,6 +139,26 @@ class CreateRole extends Component {
                 value={this.state.descricao}
               />
               <FormFeedback>{this.state.descricaoError}</FormFeedback>
+            </Col>
+          </FormGroup>
+
+          <FormGroup row>
+            <Label sm="1" size="sm">Permissão</Label>
+            <Col sm="6">
+              <Dropdown isOpen={this.state.dropdown} toggle={this.toggleDropdown.bind(this)} size="sm">
+                <DropdownToggle caret style={{ inlineSize: 150 }}>
+                  {this.state.permissao}
+                </DropdownToggle>
+                <DropdownMenu>
+                  {this.state.permissoes.map(permissao =>
+                    <DropdownItem
+                      onClick={() => this.setState({ permissao })}
+                    >
+                      {permissao}
+                    </DropdownItem>
+                  )}
+                </DropdownMenu>
+              </Dropdown>
             </Col>
           </FormGroup>
 
