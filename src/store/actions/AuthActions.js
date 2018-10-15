@@ -84,9 +84,9 @@ export const forgotPassword = ({ email }) => {
 
         if (error === 'User not found')
           error = 'Usuário não encontrado'
-        else if (error === 'Cannot send forgot password email')
+        if (error === 'Cannot send forgot password email')
           error = 'Não foi possível enviar o email, tente novamente mais tarde'
-        else
+        if (error === 'Error on forgot password, try again')
           error = 'Erro no servidor'
 
         forgotPasswordFail(dispatch, error)
@@ -120,12 +120,12 @@ export const resetPassword = ({ email, password, r_password, token }) => {
         let { error } = response.data
 
         if (error === 'User not found')
+          error = 'Usuário não encontrado'
+        if (error === 'Token invalid')
           error = 'Endereço inválido'
-        else if (error === 'Token invalid')
-          error = 'Endereço inválido'
-        else if (error === 'Token expired, generate a new one')
-          error = 'Sessão expirada, favor requisitar a repuração de senha novamente'
-        else
+        if (error === 'Token expired, generate a new one')
+          error = 'Sessão expirada, favor requisitar a recuperação de senha novamente'
+        if (error === 'Cannot reset password, try again')
           error = 'Erro no servidor'
 
         forgotPasswordFail(dispatch, error)

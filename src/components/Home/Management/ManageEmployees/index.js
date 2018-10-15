@@ -181,7 +181,7 @@ class ManageEmployees extends Component {
 
     const { idFuncionario } = this.state
 
-    await api.delete(`/funcionarios/${idFuncionario}`)
+    await api.put(`/funcionarios/apagar/${idFuncionario}`)
       .then(() => {
         this.setState({ modalDelete: false })
         this.getFuncionarios()
