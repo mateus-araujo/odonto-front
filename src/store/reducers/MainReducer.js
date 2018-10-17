@@ -10,7 +10,9 @@ import {
   OPEN_TASKS_INBOX,
   OPEN_TASKS_SENT,
   OPEN_TASKS_ARCHIVED,
+
   OPEN_TRAININGS,
+  OPEN_SHOW_TRAINING_VIDEO,
 
   OPEN_MANAGE_TRAININGS,
   OPEN_MANAGE_GROUPS,
@@ -58,8 +60,11 @@ const MainReducer = (state = INITIAL_STATE, action) => {
       return { ...INITIAL_STATE, tasksSent: true, title: 'Tarefas - Enviadas' }
     case OPEN_TASKS_ARCHIVED:
       return { ...INITIAL_STATE, tasksArchived: true, title: 'Tarefas - Arquivadas' }
+
     case OPEN_TRAININGS:
       return { ...INITIAL_STATE, trainings: true, title: 'Treinamentos' }
+    case OPEN_SHOW_TRAINING_VIDEO:
+      return { ...INITIAL_STATE, title: 'Treinamento - Assistir aula' }
 
     case OPEN_MANAGE_TRAININGS:
       return { ...INITIAL_STATE, title: 'Gerenciar treinamentos' }

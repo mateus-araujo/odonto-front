@@ -11,7 +11,9 @@ import {
   OPEN_TASKS_INBOX,
   OPEN_TASKS_SENT,
   OPEN_TASKS_ARCHIVED,
+
   OPEN_TRAININGS,
+  OPEN_SHOW_TRAINING_VIDEO,
 
   OPEN_MANAGE_TRAININGS,
   OPEN_MANAGE_GROUPS,
@@ -105,11 +107,21 @@ export const openTasksArchived = () => {
   }
 }
 
+/* TRAININGS  */
+
 export const openTrainings = () => {
   return (dispatch) => {
     dispatch({ type: OPEN_TRAININGS })
 
     dispatch(push('/trainings'))
+  }
+}
+
+export const openShowTrainingVideo = ({ training_id }) => {
+  return (dispatch) => {
+    dispatch({ type: OPEN_SHOW_TRAINING_VIDEO })
+
+    dispatch(push(`/training/${training_id}`))
   }
 }
 

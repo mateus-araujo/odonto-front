@@ -12,7 +12,9 @@ import ShowTask from './ShowTask'
 import TasksInbox from './TasksInbox'
 import TasksSent from './TasksSent'
 import TasksArchived from './TasksArchived'
+
 import Trainings from './Trainings'
+import ShowVideo from './Trainings/ShowVideo'
 
 import ManageTrainings from '../Management/ManageTrainings'
 import ManageGroups from '../Management/ManageGroups'
@@ -41,6 +43,7 @@ class Main extends Component {
           <Route path="/tasks/archived" component={() => <TasksArchived />} />
 
           <Route path="/trainings" component={() => <Trainings />} />
+          <Route path="/training/:training_id" component={() => <ShowVideo />} />
 
           <Route path="/management/trainings" component={() => <ManageTrainings />} />
 

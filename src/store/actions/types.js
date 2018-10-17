@@ -24,7 +24,9 @@ export const OPEN_SHOW_TASK = 'open_show_task'
 export const OPEN_TASKS_INBOX = 'open_tasks_inbox'
 export const OPEN_TASKS_SENT = 'open_tasks_sent'
 export const OPEN_TASKS_ARCHIVED = 'open_tasks_archived'
+
 export const OPEN_TRAININGS = 'open_trainings'
+export const OPEN_SHOW_TRAINING_VIDEO = 'open_show_training_video'
 
 export const OPEN_MANAGE_TRAININGS = 'open_manage_trainings'
 export const OPEN_MANAGE_GROUPS = 'open_manage_groups'

@@ -1,62 +1,126 @@
 import React, { Component } from 'react'
 import { Button, Table } from 'reactstrap'
-// import { FaFileArchive } from 'react-icons/fa'
-// import classNames from 'classnames/bind';
-// import { Link, withRouter } from 'react-router-dom'
-// import { connect } from 'react-redux'
+import _ from 'lodash'
+import { connect } from 'react-redux'
 
-// import './styles.css'
+import { openShowTrainingVideo } from '../../../../store/actions'
+import api from '../../../../services/api'
+import Loader from '../../../Loader'
 
 class Trainings extends Component {
   state = {
-    list: [
-      { id: '1', titulo: 'Título do treinamento 1', prazo: '12/ago/2018', nota_situacao: null, open: true },
-      { id: '2', titulo: 'Título do treinamento 2', prazo: '12/ago/2018', nota_situacao: '9.0', open: false },
-      { id: '3', titulo: 'Título do treinamento 3', prazo: '12/ago/2018', nota_situacao: '8.0', open: false },
-      { id: '4', titulo: 'Título do treinamento 4', prazo: '12/ago/2018', nota_situacao: 'Reprovado', open: false },
-      { id: '5', titulo: 'Título do treinamento 5', prazo: '12/ago/2018', nota_situacao: '7.5', open: false },
-    ]
+    treinamentos: [],
+    loading: true
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.componentDidMount = _.debounce(this.componentDidMount, 300)
+  }
+
+  async getTreinamentos() {
+    this.setState({ loading: true })
+
+    await api.get(`/treinamentos/user/${this.props.user.id}`)
+      .then(response => {
+        const { treinamentos } = response.data
+
+        this.setState({ treinamentos })
+      })
+      .catch(({ response }) => {
+        console.log(response)
+      })
+
+    this.setState({ loading: false })
+  }
+
+  async changeStatus(treinamento_id) {
+    await api.put(`/treinamentos/${treinamento_id}`, {
+      status: "Aguardando notas"
+    })
+  }
+
+  componentDidMount() {
+    this.getTreinamentos()
   }
 
   render() {
-    // const { list } = this.state
     return (
-      <div className="List">
-        <Table size="sm" striped bordered responsive>
-          <thead>
-            <tr>
-              <th>Treinamentos</th>
-              <th className="Col-Deadline">Prazo</th>
-              <th className="Col-Button"></th>
-              <th className="Col-Button"></th>
-              <th className="Col-Note">Nota/Situação</th>
-            </tr>
-          </thead>
-          <tbody className="Scrollable-Table">
-            {this.state.list.map(training =>
-              <tr key={training.id}>
-                <td>{training.titulo}</td>
-                <td className="Col-Deadline">{training.prazo}</td>
-                <td className="Col-Button">
-                  <Button size="sm" color="info" disabled={!training.open}>Assistir aula</Button>
-                </td>
-                <td className="Col-Button">
-                  <Button size="sm" color="success" disabled={!training.open}>Fazer a prova</Button>
-                </td>
-                <td className="Col-Note">
-                  {
-                    training.nota_situacao ?
-                      training.nota_situacao
-                      : '-'
-                  }</td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
+      <div>
+        {this.state.loading ?
+          <div className="Loading">
+            <Loader />
+          </div>
+          :
+          this.state.treinamentos.length ?
+            <div style={{ fontSize: 14 }}>
+              <Table size="sm" striped bordered responsive>
+                <thead>
+                  <tr>
+                    <th>Treinamentos</th>
+                    <th className="Col-Deadline">Prazo</th>
+                    <th className="Col-Button"></th>
+                    <th className="Col-Button"></th>
+                    <th className="Col-Note">Nota/Situação</th>
+                  </tr>
+                </thead>
+                <tbody className="Scrollable-Table">
+                  {this.state.treinamentos.map(treinamento => {
+                    const training_id = treinamento.id
+
+                    console.log(treinamento.prova)
+
+                    return (
+                      <tr key={treinamento.id}>
+                        <td>{treinamento.titulo}</td>
+                        <td className="Col-Deadline">{treinamento.prazo}</td>
+                        <td className="Col-Button">
+                          <Button
+                            size="sm" color="info"
+                            disabled={treinamento.status === 'Encerrado'}
+                            onClick={() => this.props.openShowTrainingVideo({ training_id })}
+                          >
+                            Assistir aula
+                        </Button>
+                        </td>
+                        <td className="Col-Button">
+                          <Button size="sm" color="success" disabled={treinamento.status === 'Encerrado'}
+                            onClick={() => {
+                              window.open(treinamento.prova.formulario, '_blank')
+
+                              if (treinamento.status === "Não iniciado" || treinamento.status === "Executando")
+                                this.changeStatus(treinamento.id)
+                            }}
+                          >
+                            Fazer a prova
+                          </Button>
+                        </td>
+                        <td className="Col-Note">
+                          {
+                            treinamento.status === 'Encerrado' ?
+                              treinamento.prova.notas[0].nota.toFixed(1)
+                              : '-'
+                          }
+                        </td>
+                      </tr>
+                    )
+                  }
+                  )}
+                </tbody>
+              </Table>
+            </div>
+            : <h3 style={{ margin: 10 }}>Não há nenhum treinamento vinculado a você</h3>
+        }
       </div>
     )
   }
 }
 
-// export default withRouter(connect(mapStateToProps, {})(MessagesList))
-export default Trainings
+const mapStateToProps = ({ auth }) => {
+  const { user } = auth
+
+  return { user }
+}
+
+export default connect(mapStateToProps, { openShowTrainingVideo })(Trainings)
