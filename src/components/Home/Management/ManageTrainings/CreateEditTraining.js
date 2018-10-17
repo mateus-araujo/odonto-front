@@ -1,22 +1,29 @@
 import _ from 'lodash'
 import React, { Component, Fragment } from 'react'
 import { Button, Col, Form, FormFeedback, FormGroup, Input, InputGroup, InputGroupAddon, Label, Table } from 'reactstrap'
+import InputMask from 'react-input-mask'
+import classNames from 'classnames/bind'
 import validator from 'validator'
+import moment from 'moment'
 import { connect } from 'react-redux'
 
 import api from '../../../../services/api'
 import Loader from '../../../Loader'
 import CommonModal from '../../../CommonModal'
 
-class CreateMessage extends Component {
+class CreateEditTraining extends Component {
   state = {
     contatos: '',
     destinatarios: [],
     destinatariosError: '',
-    assunto: '',
-    assuntoError: '',
-    texto: '',
-    textoError: '',
+    titulo: '',
+    tituloError: '',
+    url: '',
+    urlError: '',
+    formulario: '',
+    formularioError: '',
+    prazo: '',
+    prazoError: '',
     modalContatos: '',
     modalDestinatarios: '',
     modalMessage: '',
@@ -42,20 +49,37 @@ class CreateMessage extends Component {
   validate = () => {
     let isError = false
 
-    if (validator.isEmpty(this.state.assunto)) {
+    if (validator.isEmpty(this.state.titulo)) {
       isError = true
-      this.setState({ assuntoError: "Assunto da mensagem não pode estar vazio" })
+      this.setState({ tituloError: "Titulo do treinamento não pode estar vazio" })
     }
 
-    if (validator.isEmpty(this.state.texto)) {
+    if (validator.isEmpty(this.state.url)) {
       isError = true
-      this.setState({ textoError: "Conteúdo da mensagem não pode estar vazio" })
+      this.setState({ urlError: "Endereço não pode estar vazio" })
+    }
+
+    if (validator.isEmpty(this.state.formulario)) {
+      isError = true
+      this.setState({ formularioError: "Endereço não pode estar vazio" })
+    }
+
+    const prazo = moment(this.state.prazo, 'DD/MM/YYYY').format('MM/DD/YYYY')
+
+    if (!validator.isAfter(prazo)) {
+      isError = true
+      this.setState({ prazoError: "A data precisa ser posterior a atual" })
+
+      if (!validator.toDate(prazo))
+        this.setState({ prazoError: "Prazo do treinamento inválido" })
+      if (validator.isEmpty(this.state.prazo))
+        this.setState({ prazoError: "Prazo do treinamento não pode estar vazio" })
     }
 
     return isError
   }
 
-  async createMessage() {
+  async createTreinamento() {
     const error = this.validate()
 
     if (!this.state.destinatarios.length)
@@ -66,16 +90,18 @@ class CreateMessage extends Component {
     if (!error && this.state.destinatarios.length > 0) {
       this.setState({ loading: true })
 
-      const { assunto, texto, destinatarios } = this.state
+      const { titulo, url, formulario, prazo, destinatarios } = this.state
 
-      await api.post(`/mensagens`, {
-        assunto,
+      await api.post(`/treinamentos`, {
+        titulo,
+        url,
+        formulario,
+        prazo,
         remetenteId,
-        texto,
         destinatarios
       })
         .then(() => {
-          this.setState({ modalMessage: true, message: "Mensagem enviada" })
+          this.setState({ modalMessage: true, message: "Treinamento cadastrado" })
         })
         .catch(({ response }) => {
           console.log(response)
@@ -250,12 +276,18 @@ class CreateMessage extends Component {
   }
 
   render() {
+    const FormControlPrazo = classNames({
+      'form-control': true,
+      'form-control-sm': true,
+      'is-invalid': this.state.prazoError
+    })
+
     console.log(this.state.destinatarios)
     return (
       <div>
         <Form>
           <FormGroup row>
-            <Label size="sm" sm="1">Para</Label>
+            <Label size="sm" sm="3" style={{ marginRight: -40 }}>Para</Label>
             <Button
               onClick={() => this.setState({ modalContatos: true })}
               size="sm"
@@ -266,7 +298,7 @@ class CreateMessage extends Component {
           </FormGroup>
 
           <FormGroup row>
-            <Col sm="1"></Col>
+            <Col sm="3" style={{ marginRight: -40 }}></Col>
             <Col onClick={() => this.toggleModalDestinatarios()}>
               <Input
                 invalid={this.state.destinatariosError}
@@ -280,32 +312,60 @@ class CreateMessage extends Component {
           </FormGroup>
 
           <FormGroup row>
-            <Label size="sm" sm="1">Assunto</Label>
+            <Label size="sm" sm="3" style={{ marginRight: -40 }}>Titulo do treinamento</Label>
             <Col>
               <Input
-                invalid={this.state.assuntoError}
+                invalid={this.state.tituloError}
                 bsSize="sm"
-                placeholder="Digite o assunto"
-                onChange={e => this.setState({ assunto: e.target.value })}
-                value={this.state.assunto}
+                placeholder="Digite o titulo"
+                onChange={e => this.setState({ titulo: e.target.value, tituloError: '' })}
+                value={this.state.titulo}
               />
-              <FormFeedback>{this.state.assuntoError}</FormFeedback>
+              <FormFeedback>{this.state.tituloError}</FormFeedback>
             </Col>
           </FormGroup>
 
           <FormGroup row>
-            <Col sm="1"></Col>
+            <Label size="sm" sm="3" style={{ marginRight: -40 }}>Url do YouTube</Label>
             <Col>
               <Input
-                invalid={this.state.textoError}
+                invalid={this.state.urlError}
                 bsSize="sm"
-                style={{ height: 150, minHeight: 100, maxHeight: 250 }}
-                type="textarea"
-                placeholder="Digite a mensagem"
-                onChange={e => this.setState({ texto: e.target.value })}
-                value={this.state.texto}
+                placeholder="Copie e cole o endereço"
+                onChange={e => this.setState({ url: e.target.value, urlError: '' })}
+                value={this.state.url}
               />
-              <FormFeedback>{this.state.textoError}</FormFeedback>
+              <FormFeedback>{this.state.urlError}</FormFeedback>
+            </Col>
+          </FormGroup>
+
+          <FormGroup row>
+            <Label size="sm" sm="3" style={{ marginRight: -40 }}>Link para o formulário</Label>
+            <Col>
+              <Input
+                invalid={this.state.formularioError}
+                bsSize="sm"
+                placeholder="Copie e cole o endereço"
+                onChange={e => this.setState({ formulario: e.target.value, formularioError: '' })}
+                value={this.state.formulario}
+              />
+              <FormFeedback>{this.state.formularioError}</FormFeedback>
+            </Col>
+          </FormGroup>
+
+          <FormGroup row>
+            <Label size="sm" sm="3" style={{ marginRight: -40 }}>Prazo</Label>
+            <Col sm="5">
+              <InputMask
+                className={FormControlPrazo}
+                mask="99/99/9999"
+                placeholder="Digite prazo de conclusão"
+                onChange={e => this.setState({ prazo: e.target.value, prazoError: '' })}
+                value={this.state.prazo}
+              />
+              <div class="invalid-feedback">
+                {this.state.prazoError}
+              </div>
             </Col>
           </FormGroup>
 
@@ -313,14 +373,14 @@ class CreateMessage extends Component {
             <Col sm="10"></Col>
             <Col sm="2">
               <Button
-                onClick={this.createMessage.bind(this)}
+                onClick={this.createTreinamento.bind(this)}
                 size="sm"
                 color="primary"
                 style={{ inlineSize: 100 }}
               >
                 {this.state.loading ?
                   <Loader color="#FFF" />
-                  : 'Enviar'
+                  : 'Adicionar'
                 }
               </Button>
             </Col>
@@ -492,7 +552,7 @@ class CreateMessage extends Component {
           toggle={this.toggleModalMessage.bind(this)}
           centered
           message={this.state.message}
-          modalTitle="Enviar mensagem"
+          modalTitle="Adicionar treinamento"
           primaryTitle="Ok"
         />
       </div>
@@ -506,4 +566,4 @@ const mapStateToProps = ({ auth }) => {
   return { user }
 }
 
-export default connect(mapStateToProps, {})(CreateMessage)
+export default connect(mapStateToProps, {})(CreateEditTraining)

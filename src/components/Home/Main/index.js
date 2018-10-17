@@ -22,8 +22,9 @@ import ManageEmployees from '../Management/ManageEmployees'
 import ManageRoles from '../Management/ManageRoles'
 
 import CreateRole from '../Management/ManageRoles/CreateRole'
-import CreateEmployee from '../Management/ManageEmployees/CreateEmployee';
-import CreateGroup from '../Management/ManageGroups/CreateGroup';
+import CreateEmployee from '../Management/ManageEmployees/CreateEmployee'
+import CreateGroup from '../Management/ManageGroups/CreateGroup'
+import CreateEditTraining from '../Management/ManageTrainings/CreateEditTraining'
 
 class Main extends Component {
   render() {
@@ -45,7 +46,8 @@ class Main extends Component {
           <Route path="/trainings" component={() => <Trainings />} />
           <Route path="/training/:training_id" component={() => <ShowVideo />} />
 
-          <Route path="/management/trainings" component={() => <ManageTrainings />} />
+          <Route exact path="/management/trainings" component={() => <ManageTrainings />} />
+          <Route path="/management/trainings/create" component={() => <CreateEditTraining />} />
 
           <Route exact path="/management/groups" component={() => <ManageGroups />} />
           <Route path="/management/groups/create" component={() => <CreateGroup />} />

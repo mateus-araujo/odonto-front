@@ -351,7 +351,7 @@ class CreateTask extends Component {
           toggle={this.toggleModalMessage.bind(this)}
           centered
           message={this.state.message}
-          modalTitle="Enviar mensagem"
+          modalTitle="Enviar tarefa"
           primaryTitle="Ok"
         />
       </div>

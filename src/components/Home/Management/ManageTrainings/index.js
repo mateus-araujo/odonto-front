@@ -1,16 +1,21 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import { Table } from 'reactstrap'
-import { FaEdit, FaEye, FaPencilAlt } from 'react-icons/fa'
+import { FaEdit, FaEye, FaPencilAlt, FaPlusCircle, FaTrashAlt } from 'react-icons/fa'
+import { connect } from 'react-redux'
 
+import { openCreateTraining } from '../../../../store/actions'
 import api from '../../../../services/api'
+import CommonModal from '../../../CommonModal'
 import Loader from '../../../Loader'
 
 class ManageTrainings extends Component {
   state = {
     treinamentos: [],
     idTreinamento: '',
-    loading: true
+    message: '',
+    loading: true,
+    loadingModal: false
   }
 
   constructor(props) {
@@ -35,8 +40,38 @@ class ManageTrainings extends Component {
     this.setState({ loading: false })
   }
 
+  async deleteTreinamento() {
+    this.setState({ loadingModal: true })
+
+    const { idTreinamento } = this.state
+
+    await api.delete(`/treinamentos/${idTreinamento}`)
+      .then(() => {
+        this.setState({ modalDelete: false })
+        this.getTreinamentos()
+      })
+      .catch(({ response }) => {
+        console.log(response)
+
+        const { error } = response.data
+
+        this.setState({ modalError: true, message: error })
+      })
+      .finally(() => {
+        this.setState({ loadingModal: false })
+      })
+  }
+
   componentDidMount() {
     this.getTreinamentos()
+  }
+
+  toggleModalDelete() {
+    this.setState({ modalDelete: false })
+  }
+
+  toggleModalError() {
+    this.setState({ modalError: false })
   }
 
   render() {
@@ -56,7 +91,8 @@ class ManageTrainings extends Component {
                     <th>Usuários</th>
                     <th className="Col-Deadline">Prazo</th>
                     <th>Status</th>
-                    <th className="Col-Deadline"></th>
+                    <th className="Col-Icon"></th>
+                    <th className="Col-Icon"></th>
                   </tr>
                 </thead>
                 <tbody className="Scrollable-Table">
@@ -79,7 +115,7 @@ class ManageTrainings extends Component {
                         </td>
                         <td className="Col-Deadline">{treinamento.prazo}</td>
                         <td>{treinamento.status}</td>
-                        <td className="Col-Deadline">
+                        <td className="Col-Icon">
                           {treinamento.status === "Não iniciado" || treinamento.status === "Executando" ?
                             <FaPencilAlt
                               style={{ cursor: 'pointer' }}
@@ -111,6 +147,13 @@ class ManageTrainings extends Component {
                               />
                           }
                         </td>
+                        <td className="Col-Icon">
+                          <FaTrashAlt
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => this.setState({ modalDelete: true, idTreinamento: treinamento.id })}
+                            color="red"
+                          />
+                        </td>
                       </tr>
                     )
                   }
@@ -118,11 +161,50 @@ class ManageTrainings extends Component {
                 </tbody>
               </Table>
             </div>
-            : <h3 style={{ margin: 10 }}>Não há nenhum treinamento vinculado a você</h3>
+            : <h3 style={{ margin: 10 }}>Não há nenhum treinamento cadastrado</h3>
         }
+
+        {!this.state.loading ?
+          <div className="Create-Button" onClick={() => this.props.openCreateTraining()}>
+            Cadastrar{' '}
+            <FaPlusCircle color="green" size="1.8em" />
+          </div>
+          : null
+        }
+
+        <CommonModal
+          isOpen={this.state.modalDelete}
+          toggle={this.toggleModalDelete.bind(this)}
+          togglePrimary={this.deleteTreinamento.bind(this)}
+          toggleSecondary={() => this.setState({ modalDelete: false })}
+          centered
+          modalTitle="Remover treinamento"
+          primaryTitle="Sim"
+          secondaryTitle="Não"
+        >
+          <div>
+            Deseja mesmo excluir o treinamento?
+
+            {this.state.loadingModal ?
+              <div className="Loading">
+                <Loader />
+              </div>
+              : null
+            }
+          </div>
+        </CommonModal>
+
+        <CommonModal
+          isOpen={this.state.modalError}
+          toggle={this.toggleModalError.bind(this)}
+          centered
+          message={this.state.message}
+          modalTitle="Erro ao remover treinamento"
+          primaryTitle="Ok"
+        />
       </div>
     )
   }
 }
 
-export default ManageTrainings
+export default connect(null, { openCreateTraining })(ManageTrainings)
