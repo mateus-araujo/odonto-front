@@ -4,7 +4,7 @@ import { Table } from 'reactstrap'
 import { FaEdit, FaEye, FaPencilAlt, FaPlusCircle, FaTrashAlt } from 'react-icons/fa'
 import { connect } from 'react-redux'
 
-import { openCreateTraining } from '../../../../store/actions'
+import { openCreateTraining, openEditTraining } from '../../../../store/actions'
 import api from '../../../../services/api'
 import CommonModal from '../../../CommonModal'
 import Loader from '../../../Loader'
@@ -99,6 +99,8 @@ class ManageTrainings extends Component {
                   {this.state.treinamentos.map(treinamento => {
                     const destinatariosLength = treinamento.destinatarios.length
 
+                    const training_id = treinamento.id
+
                     return (
                       <tr key={treinamento.id}>
                         <td>{treinamento.titulo}</td>
@@ -120,10 +122,7 @@ class ManageTrainings extends Component {
                             <FaPencilAlt
                               style={{ cursor: 'pointer' }}
                               size="1.4em"
-                              onClick={() => this.setState({
-                                idTreinamento: treinamento.id,
-                                ...treinamento
-                              })}
+                              onClick={() => this.props.openEditTraining({ training_id })}
                               color="orange"
                             />
                             : treinamento.status === "Aguardando notas" ?
@@ -207,4 +206,4 @@ class ManageTrainings extends Component {
   }
 }
 
-export default connect(null, { openCreateTraining })(ManageTrainings)
+export default connect(null, { openCreateTraining, openEditTraining })(ManageTrainings)

@@ -23,7 +23,8 @@ import {
   OPEN_CREATE_ROLE,
   OPEN_CREATE_EMPLOYEE,
   OPEN_CREATE_GROUP,
-  OPEN_CREATE_TRAINING
+  OPEN_CREATE_TRAINING,
+  OPEN_EDIT_TRAINING
 } from './types'
 
 export const openCreateMessage = () => {
@@ -191,6 +192,14 @@ export const openCreateTraining = () => {
     dispatch({ type: OPEN_CREATE_TRAINING })
 
     dispatch(push('/management/trainings/create'))
+  }
+}
+
+export const openEditTraining = ({ training_id }) => {
+  return (dispatch) => {
+    dispatch({ type: OPEN_EDIT_TRAINING })
+
+    dispatch(push(`/management/trainings/edit/${training_id}`))
   }
 }
 

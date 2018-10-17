@@ -37,5 +37,6 @@ export const OPEN_CREATE_ROLE = 'open_create_role'
 export const OPEN_CREATE_EMPLOYEE = 'open_create_employee'
 export const OPEN_CREATE_GROUP = 'open_create_group'
 export const OPEN_CREATE_TRAINING = 'open_create_training'
+export const OPEN_EDIT_TRAINING = 'open_edit_training'
 
 export const MAIN_CLEAN = 'main_clean'

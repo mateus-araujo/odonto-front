@@ -48,6 +48,7 @@ class Main extends Component {
 
           <Route exact path="/management/trainings" component={() => <ManageTrainings />} />
           <Route path="/management/trainings/create" component={() => <CreateEditTraining />} />
+          <Route path="/management/trainings/edit/:training_id" component={() => <CreateEditTraining />} />
 
           <Route exact path="/management/groups" component={() => <ManageGroups />} />
           <Route path="/management/groups/create" component={() => <CreateGroup />} />

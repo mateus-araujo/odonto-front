@@ -23,6 +23,7 @@ import {
   OPEN_CREATE_EMPLOYEE,
   OPEN_CREATE_GROUP,
   OPEN_CREATE_TRAINING,
+  OPEN_EDIT_TRAINING,
 
   MAIN_CLEAN
 } from '../actions/types'
@@ -84,6 +85,8 @@ const MainReducer = (state = INITIAL_STATE, action) => {
       return { ...INITIAL_STATE, title: 'Adicionar grupo' }
     case OPEN_CREATE_TRAINING:
       return { ...INITIAL_STATE, title: 'Adicionar treinamento' }
+    case OPEN_EDIT_TRAINING:
+      return { ...INITIAL_STATE, title: 'Editar treinamento' }
     case MAIN_CLEAN:
       return { ...INITIAL_STATE }
     default:

@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import React, { Component, Fragment } from 'react'
 import { Button, Col, Form, FormFeedback, FormGroup, Input, InputGroup, InputGroupAddon, Label, Table } from 'reactstrap'
+import { withRouter } from 'react-router-dom'
 import InputMask from 'react-input-mask'
 import classNames from 'classnames/bind'
 import validator from 'validator'
@@ -24,10 +25,12 @@ class CreateEditTraining extends Component {
     formularioError: '',
     prazo: '',
     prazoError: '',
-    modalContatos: '',
-    modalDestinatarios: '',
-    modalMessage: '',
-    loading: false,
+    modalContatos: false,
+    modalDestinatarios: false,
+    modalMessage: false,
+    modalEdit: false,
+    loading: true,
+    loadingButton: false,
     loadingTable: false,
     loadingModal: false,
     busca: '',
@@ -88,7 +91,7 @@ class CreateEditTraining extends Component {
     let remetenteId = this.props.user.id
 
     if (!error && this.state.destinatarios.length > 0) {
-      this.setState({ loading: true })
+      this.setState({ loadingButton: true })
 
       const { titulo, url, formulario, prazo, destinatarios } = this.state
 
@@ -111,9 +114,77 @@ class CreateEditTraining extends Component {
           this.setState({ modalMessage: true, message: error })
         })
         .finally(() => {
-          this.setState({ loading: false })
+          this.setState({ loadingButton: false })
         })
     }
+  }
+
+  async editTreinamento() {
+    const error = this.validate()
+
+    if (!this.state.destinatarios.length)
+      this.setState({ destinatariosError: "Selecione os contatos acima" })
+
+    if (!error && this.state.destinatarios.length > 0) {
+      this.setState({ loadingButton: true })
+
+      const { titulo, url, formulario, prazo, destinatarios } = this.state
+      const { training_id } = this.props.match.params
+
+      await api.put(`/treinamentos/edit/${training_id}`, {
+        titulo,
+        url,
+        formulario,
+        prazo,
+        destinatarios
+      })
+        .then(() => {
+          this.setState({ modalEdit: true, message: "Treinamento editado" })
+        })
+        .catch(({ response }) => {
+          console.log(response)
+
+          const { error } = response.data
+
+          this.setState({ modalEdit: true, message: error })
+        })
+        .finally(() => {
+          this.setState({ loadingButton: false })
+        })
+    }
+  }
+
+  async getTreinamento(training_id) {
+    this.setState({ loading: true })
+
+    await api.get(`/treinamentos/${training_id}`)
+      .then(response => {
+        let { titulo, url, prazo, destinatarios } = response.data.treinamento
+        const { formulario } = response.data.treinamento.prova
+
+        let destinatarios_aux = destinatarios
+        destinatarios = []
+        let contatos = ''
+
+        // eslint-disable-next-line
+        destinatarios_aux.map(destinatario => {
+          destinatarios.push(destinatario.id)
+          contatos = contatos + destinatario.name + ' (' + destinatario.email + '); '
+        })
+
+        console.log(destinatarios)
+
+        this.setState({
+          titulo, url, prazo,
+          formulario, destinatarios, contatos
+        })
+      })
+      .catch(({ response }) => {
+        console.log(response)
+      })
+      .finally(() => {
+        this.setState({ loading: false })
+      })
   }
 
   async getGrupos() {
@@ -266,6 +337,11 @@ class CreateEditTraining extends Component {
     this.setState(this.baseState)
   }
 
+  toggleModalEdit() {
+    this.setState({ modalEdit: false })
+    this.props.history.goBack()
+  }
+
   toggleModalDestinatarios() {
     this.setState({ modalDestinatarios: !this.state.modalDestinatarios })
   }
@@ -273,6 +349,13 @@ class CreateEditTraining extends Component {
   componentDidMount() {
     this.getGrupos()
     this.getFuncionarios()
+
+    const { training_id } = this.props.match.params
+
+    if (training_id !== undefined)
+      this.getTreinamento(training_id)
+
+    this.setState({ loading: false })
   }
 
   render() {
@@ -282,110 +365,129 @@ class CreateEditTraining extends Component {
       'is-invalid': this.state.prazoError
     })
 
-    console.log(this.state.destinatarios)
     return (
       <div>
-        <Form>
-          <FormGroup row>
-            <Label size="sm" sm="3" style={{ marginRight: -40 }}>Para</Label>
-            <Button
-              onClick={() => this.setState({ modalContatos: true })}
-              size="sm"
-              color="link"
-            >
-              Selecionar/remover contatos
-            </Button>
-          </FormGroup>
-
-          <FormGroup row>
-            <Col sm="3" style={{ marginRight: -40 }}></Col>
-            <Col onClick={() => this.toggleModalDestinatarios()}>
-              <Input
-                invalid={this.state.destinatariosError}
-                bsSize="sm"
-                placeholder="Contatos"
-                disabled
-                value={this.state.contatos}
-              />
-              <FormFeedback>{this.state.destinatariosError}</FormFeedback>
-            </Col>
-          </FormGroup>
-
-          <FormGroup row>
-            <Label size="sm" sm="3" style={{ marginRight: -40 }}>Titulo do treinamento</Label>
-            <Col>
-              <Input
-                invalid={this.state.tituloError}
-                bsSize="sm"
-                placeholder="Digite o titulo"
-                onChange={e => this.setState({ titulo: e.target.value, tituloError: '' })}
-                value={this.state.titulo}
-              />
-              <FormFeedback>{this.state.tituloError}</FormFeedback>
-            </Col>
-          </FormGroup>
-
-          <FormGroup row>
-            <Label size="sm" sm="3" style={{ marginRight: -40 }}>Url do YouTube</Label>
-            <Col>
-              <Input
-                invalid={this.state.urlError}
-                bsSize="sm"
-                placeholder="Copie e cole o endereço"
-                onChange={e => this.setState({ url: e.target.value, urlError: '' })}
-                value={this.state.url}
-              />
-              <FormFeedback>{this.state.urlError}</FormFeedback>
-            </Col>
-          </FormGroup>
-
-          <FormGroup row>
-            <Label size="sm" sm="3" style={{ marginRight: -40 }}>Link para o formulário</Label>
-            <Col>
-              <Input
-                invalid={this.state.formularioError}
-                bsSize="sm"
-                placeholder="Copie e cole o endereço"
-                onChange={e => this.setState({ formulario: e.target.value, formularioError: '' })}
-                value={this.state.formulario}
-              />
-              <FormFeedback>{this.state.formularioError}</FormFeedback>
-            </Col>
-          </FormGroup>
-
-          <FormGroup row>
-            <Label size="sm" sm="3" style={{ marginRight: -40 }}>Prazo</Label>
-            <Col sm="5">
-              <InputMask
-                className={FormControlPrazo}
-                mask="99/99/9999"
-                placeholder="Digite prazo de conclusão"
-                onChange={e => this.setState({ prazo: e.target.value, prazoError: '' })}
-                value={this.state.prazo}
-              />
-              <div class="invalid-feedback">
-                {this.state.prazoError}
-              </div>
-            </Col>
-          </FormGroup>
-
-          <FormGroup row>
-            <Col sm="10"></Col>
-            <Col sm="2">
+        {this.state.loading ?
+          <div className="Loading">
+            <Loader />
+          </div>
+          :
+          <Form>
+            <FormGroup row>
+              <Label size="sm" sm="3" style={{ marginRight: -40 }}>Para</Label>
               <Button
-                onClick={this.createTreinamento.bind(this)}
+                onClick={() => this.setState({ modalContatos: true })}
                 size="sm"
-                color="primary"
-                style={{ inlineSize: 100 }}
+                color="link"
               >
-                {this.state.loading ?
-                  <Loader color="#FFF" />
-                  : 'Adicionar'
+                Selecionar/remover contatos
+            </Button>
+            </FormGroup>
+
+            <FormGroup row>
+              <Col sm="3" style={{ marginRight: -40 }}></Col>
+              <Col onClick={() => this.toggleModalDestinatarios()}>
+                <Input
+                  invalid={this.state.destinatariosError}
+                  bsSize="sm"
+                  placeholder="Contatos"
+                  disabled
+                  value={this.state.contatos}
+                />
+                <FormFeedback>{this.state.destinatariosError}</FormFeedback>
+              </Col>
+            </FormGroup>
+
+            <FormGroup row>
+              <Label size="sm" sm="3" style={{ marginRight: -40 }}>Titulo do treinamento</Label>
+              <Col>
+                <Input
+                  invalid={this.state.tituloError}
+                  bsSize="sm"
+                  placeholder="Digite o titulo"
+                  onChange={e => this.setState({ titulo: e.target.value, tituloError: '' })}
+                  value={this.state.titulo}
+                />
+                <FormFeedback>{this.state.tituloError}</FormFeedback>
+              </Col>
+            </FormGroup>
+
+            <FormGroup row>
+              <Label size="sm" sm="3" style={{ marginRight: -40 }}>Url do YouTube</Label>
+              <Col>
+                <Input
+                  invalid={this.state.urlError}
+                  bsSize="sm"
+                  placeholder="Copie e cole o endereço"
+                  onChange={e => this.setState({ url: e.target.value, urlError: '' })}
+                  value={this.state.url}
+                />
+                <FormFeedback>{this.state.urlError}</FormFeedback>
+              </Col>
+            </FormGroup>
+
+            <FormGroup row>
+              <Label size="sm" sm="3" style={{ marginRight: -40 }}>Link para o formulário</Label>
+              <Col>
+                <Input
+                  invalid={this.state.formularioError}
+                  bsSize="sm"
+                  placeholder="Copie e cole o endereço"
+                  onChange={e => this.setState({ formulario: e.target.value, formularioError: '' })}
+                  value={this.state.formulario}
+                />
+                <FormFeedback>{this.state.formularioError}</FormFeedback>
+              </Col>
+            </FormGroup>
+
+            <FormGroup row>
+              <Label size="sm" sm="3" style={{ marginRight: -40 }}>Prazo</Label>
+              <Col sm="5">
+                <InputMask
+                  className={FormControlPrazo}
+                  mask="99/99/9999"
+                  placeholder="Digite prazo de conclusão"
+                  onChange={e => this.setState({ prazo: e.target.value, prazoError: '' })}
+                  value={this.state.prazo}
+                />
+                <div class="invalid-feedback">
+                  {this.state.prazoError}
+                </div>
+              </Col>
+            </FormGroup>
+
+            <FormGroup row>
+              <Col sm="10"></Col>
+              <Col sm="2">
+                {this.props.match.params.training_id !== undefined ?
+                  <Button
+                    onClick={this.editTreinamento.bind(this)}
+                    size="sm"
+                    color="primary"
+                    style={{ inlineSize: 100 }}
+                  >
+                    {this.state.loadingButton ?
+                      <Loader color="#FFF" />
+                      : 'Salvar'
+                    }
+                  </Button>
+                  :
+                  <Button
+                    onClick={this.createTreinamento.bind(this)}
+                    size="sm"
+                    color="primary"
+                    style={{ inlineSize: 100 }}
+                  >
+                    {this.state.loadingButton ?
+                      <Loader color="#FFF" />
+                      : 'Adicionar'
+                    }
+                  </Button>
                 }
-              </Button>
-            </Col>
-          </FormGroup>
-        </Form>
+              </Col>
+            </FormGroup>
+          </Form>
+        }
 
         <CommonModal
           isOpen={this.state.modalContatos}
@@ -555,6 +657,15 @@ class CreateEditTraining extends Component {
           modalTitle="Adicionar treinamento"
           primaryTitle="Ok"
         />
+
+        <CommonModal
+          isOpen={this.state.modalEdit}
+          toggle={this.toggleModalEdit.bind(this)}
+          centered
+          message={this.state.message}
+          modalTitle="Editar treinamento"
+          primaryTitle="Ok"
+        />
       </div>
     )
   }
@@ -566,4 +677,4 @@ const mapStateToProps = ({ auth }) => {
   return { user }
 }
 
-export default connect(mapStateToProps, {})(CreateEditTraining)
+export default withRouter(connect(mapStateToProps, {})(CreateEditTraining))
