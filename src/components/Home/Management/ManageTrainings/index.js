@@ -4,7 +4,7 @@ import { Table } from 'reactstrap'
 import { FaEdit, FaEye, FaPencilAlt, FaPlusCircle, FaTrashAlt } from 'react-icons/fa'
 import { connect } from 'react-redux'
 
-import { openCreateTraining, openEditTraining } from '../../../../store/actions'
+import { openCreateTraining, openEditTraining, openSetNotesTraining } from '../../../../store/actions'
 import api from '../../../../services/api'
 import CommonModal from '../../../CommonModal'
 import Loader from '../../../Loader'
@@ -12,10 +12,12 @@ import Loader from '../../../Loader'
 class ManageTrainings extends Component {
   state = {
     treinamentos: [],
+    notas: [],
     idTreinamento: '',
     message: '',
     loading: true,
-    loadingModal: false
+    loadingModal: false,
+    modalNotas: false
   }
 
   constructor(props) {
@@ -64,6 +66,10 @@ class ManageTrainings extends Component {
 
   componentDidMount() {
     this.getTreinamentos()
+  }
+
+  toggleModalNotas() {
+    this.setState({ modalNotas: false })
   }
 
   toggleModalDelete() {
@@ -129,10 +135,7 @@ class ManageTrainings extends Component {
                               <FaEdit
                                 style={{ cursor: 'pointer' }}
                                 size="1.6em"
-                                onClick={() => this.setState({
-                                  idTreinamento: treinamento.id,
-                                  ...treinamento
-                                })}
+                                onClick={() => this.props.openSetNotesTraining({ training_id })}
                                 color="#17A2B8"
                               />
                               : <FaEye
@@ -140,7 +143,8 @@ class ManageTrainings extends Component {
                                 size="1.7em"
                                 onClick={() => this.setState({
                                   idTreinamento: treinamento.id,
-                                  ...treinamento
+                                  notas: treinamento.prova.notas,
+                                  modalNotas: true
                                 })}
                                 color="green"
                               />
@@ -170,6 +174,38 @@ class ManageTrainings extends Component {
           </div>
           : null
         }
+
+        <CommonModal
+          isOpen={this.state.modalNotas}
+          toggle={this.toggleModalNotas.bind(this)}
+          modalTitle="Notas"
+          primaryTitle="Ok"
+          style={{ maxWidth: '40%' }}
+        >
+          {this.state.notas.length > 0 ?
+            <Table size="sm" striped bordered responsive>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Nota</th>
+                </tr>
+              </thead>
+              <tbody className="Scrollable-Modal">
+                {this.state.notas.map(item =>
+                  <tr key={item.id}>
+                    <td>{item.usuario.name}</td>
+                    <td>{item.usuario.email}</td>
+                    <td>
+                      {item.nota.toFixed(1)}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
+            : <h5>Não foi carregada nenhuma nota</h5>
+          }
+        </CommonModal>
 
         <CommonModal
           isOpen={this.state.modalDelete}
@@ -206,4 +242,4 @@ class ManageTrainings extends Component {
   }
 }
 
-export default connect(null, { openCreateTraining, openEditTraining })(ManageTrainings)
+export default connect(null, { openCreateTraining, openEditTraining, openSetNotesTraining })(ManageTrainings)

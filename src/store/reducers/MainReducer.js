@@ -24,6 +24,7 @@ import {
   OPEN_CREATE_GROUP,
   OPEN_CREATE_TRAINING,
   OPEN_EDIT_TRAINING,
+  OPEN_SET_NOTES_TRAINING,
 
   MAIN_CLEAN
 } from '../actions/types'
@@ -87,6 +88,8 @@ const MainReducer = (state = INITIAL_STATE, action) => {
       return { ...INITIAL_STATE, title: 'Adicionar treinamento' }
     case OPEN_EDIT_TRAINING:
       return { ...INITIAL_STATE, title: 'Editar treinamento' }
+    case OPEN_SET_NOTES_TRAINING:
+      return { ...INITIAL_STATE, title: 'Cadastrar notas' }
     case MAIN_CLEAN:
       return { ...INITIAL_STATE }
     default:

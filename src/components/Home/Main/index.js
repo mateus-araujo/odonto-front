@@ -25,6 +25,7 @@ import CreateRole from '../Management/ManageRoles/CreateRole'
 import CreateEmployee from '../Management/ManageEmployees/CreateEmployee'
 import CreateGroup from '../Management/ManageGroups/CreateGroup'
 import CreateEditTraining from '../Management/ManageTrainings/CreateEditTraining'
+import SetNotas from '../Management/ManageTrainings/SetNotas'
 
 class Main extends Component {
   render() {
@@ -49,6 +50,7 @@ class Main extends Component {
           <Route exact path="/management/trainings" component={() => <ManageTrainings />} />
           <Route path="/management/trainings/create" component={() => <CreateEditTraining />} />
           <Route path="/management/trainings/edit/:training_id" component={() => <CreateEditTraining />} />
+          <Route path="/management/trainings/setnotes/:training_id" component={() => <SetNotas />} />
 
           <Route exact path="/management/groups" component={() => <ManageGroups />} />
           <Route path="/management/groups/create" component={() => <CreateGroup />} />

@@ -335,6 +335,7 @@ class CreateEditTraining extends Component {
 
   toggleModalMessage() {
     this.setState(this.baseState)
+    this.setState({ loading: false })
   }
 
   toggleModalEdit() {

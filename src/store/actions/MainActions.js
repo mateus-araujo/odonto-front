@@ -24,7 +24,8 @@ import {
   OPEN_CREATE_EMPLOYEE,
   OPEN_CREATE_GROUP,
   OPEN_CREATE_TRAINING,
-  OPEN_EDIT_TRAINING
+  OPEN_EDIT_TRAINING,
+  OPEN_SET_NOTES_TRAINING
 } from './types'
 
 export const openCreateMessage = () => {
@@ -203,3 +204,10 @@ export const openEditTraining = ({ training_id }) => {
   }
 }
 
+export const openSetNotesTraining = ({ training_id }) => {
+  return (dispatch) => {
+    dispatch({ type: OPEN_SET_NOTES_TRAINING })
+
+    dispatch(push(`/management/trainings/setnotes/${training_id}`))
+  }
+}
