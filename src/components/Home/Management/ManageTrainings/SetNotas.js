@@ -159,7 +159,9 @@ class SetNotas extends Component {
           secondaryTitle="Cancelar"
         >
           <div>
-            Deseja salvar as notas agora?
+            Deseja salvar as notas agora? Ao salvar as notas, 
+            o status do treinamento mudará para "Encerrado" 
+            e só será possível visualizar as notas.
 
             {this.state.loadingModal ?
               <div className="Loading">
